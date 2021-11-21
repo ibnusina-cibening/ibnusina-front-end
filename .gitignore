@@ -1,0 +1,17 @@
+*.iml
+.idea
+node_modules
+.serverless
+# Ignore node_modules
+**/node_modules
+
+# Ignore any zip files
+*.zip
+
+.package-lock
+.env
+firebase.*
+firebase.json
+* text=auto
+jspm_packages
+**/.env
