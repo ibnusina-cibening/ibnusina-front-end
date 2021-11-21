@@ -3,16 +3,17 @@ import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
-import Date from '../components/date'
+// import Date from '../components/date'
 import { GetStaticProps } from 'next'
+import postlist from '../lib/postList';
 
 export default function Home({
   allPostsData
 }: {
   allPostsData: {
-    date: string
+    createdAt: string
     title: string
-    id: string
+    slug: string
   }[]
 }) {
   return (
@@ -30,14 +31,14 @@ export default function Home({
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
+          {allPostsData.map(({ slug, createdAt, title }) => (
+            <li className={utilStyles.listItem} key={slug}>
+              <Link href={`/posts/${slug}`}>
                 <a>{title}</a>
               </Link>
               <br />
               <small className={utilStyles.lightText}>
-                <Date dateString={date} />
+                <FormateDate dateString={createdAt}/>
               </small>
             </li>
           ))}
@@ -47,8 +48,17 @@ export default function Home({
   )
 }
 
+function FormateDate({ dateString }: { dateString: string }){
+  const dd= new Date(+dateString);
+  return <div>{dd.toDateString()}</div>
+}
+
 export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData()
+  const posts = await postlist();
+  postlist().catch(error => error.message);
+  // console.log(posts.data.loadPosts);
+  // const allPostsData = getSortedPostsData()
+  const allPostsData = posts.data.loadPosts.postResult;
   return {
     props: {
       allPostsData
