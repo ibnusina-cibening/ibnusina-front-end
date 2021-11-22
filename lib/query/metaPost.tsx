@@ -1,6 +1,6 @@
 const getMetaPost = `
-query getMetaPostCount ($slug:String!){
-    getMetaPostCount(slug:$slug){
+query getMetaPostCount ($postId:ID!){
+    getMetaPostCount(postId:$postId){
       id
       commentCount
       viewCount

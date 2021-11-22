@@ -4,6 +4,7 @@ Referensi:
 - [react context: state management](https://www.netlify.com/blog/2020/12/01/using-react-context-for-state-management-in-next.js/)
 - [NEXTJS RENDERING](https://theodorusclarence.com/blog/nextjs-fetch-method)
 - [SWR TYPESCRIPT](https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr)
+- [APOLLO CLIENT VS SWR](https://dev.to/aryanjnyc/i-migrated-away-from-apollo-client-to-vercel-swr-and-prisma-graphql-request-and-you-can-too-245b)
 
 untuk menampilkan data posting gunakan metode berikut: 
 - [ISR](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration)
@@ -13,7 +14,7 @@ untuk menampilkan data posting gunakan metode berikut:
 Menampilkan bloglist atau single blog: 
 - [SWRCONFIG](https://swr.vercel.app/docs/with-nextjs)
 - [PREFETCH](https://nextjs.org/docs/api-reference/next/router#routerprefetch)
-
+- [SWR-FETCH-METAPOST](https://github.com/praveenweb/swr-graphql/blob/master/pages/index.js)
 SECURITY
 - [NEXT-AUTH](https://next-auth.js.org/)
 

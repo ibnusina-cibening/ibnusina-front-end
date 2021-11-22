@@ -14,6 +14,7 @@ export default function Post({
   postData
 }: {
   postData: {
+    id: string
     title: string
     createdAt: string
     content: string
@@ -21,20 +22,21 @@ export default function Post({
   }
 }) {
   // console.log(postData);
-  console.log(postData);
-  const varSlug = {slug: postData.slug};
+  // console.log(postData.id);
+  const id = postData?.id; 
+  // const varSlug = {"postId": id};
   return (
     <Layout>
       <Head>
-        <title>{postData.title}</title>
+        <title>{postData?.title}</title>
       </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <h1 className={utilStyles.headingXl}>{postData?.title}</h1>
         <div className={utilStyles.lightText}>
-          <div>{postData.createdAt}</div>
+          <div>{postData?.createdAt}</div>
         </div>
-        <div>{postData.content}</div>
-        <SWRrequest query={queryMetaPost.metaPost} variable={varSlug} />
+        <div>{postData?.content}</div>
+        <SWRrequest postId={id} />
       </article>
     </Layout>
   )
