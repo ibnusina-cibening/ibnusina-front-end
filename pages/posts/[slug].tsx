@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await allPostId();
   return {
     paths,
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
@@ -50,6 +50,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       postData
-    }
+    },
+    revalidate: 10
   }
 }

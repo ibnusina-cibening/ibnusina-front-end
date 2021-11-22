@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+// import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
 // import Date from '../components/date'
 import { GetStaticProps } from 'next'
@@ -38,7 +38,7 @@ export default function Home({
               </Link>
               <br />
               <small className={utilStyles.lightText}>
-                <FormateDate dateString={createdAt}/>
+                <FormatDate dateString={createdAt}/>
               </small>
             </li>
           ))}
@@ -48,7 +48,7 @@ export default function Home({
   )
 }
 
-function FormateDate({ dateString }: { dateString: string }){
+function FormatDate({ dateString }: { dateString: string }){
   const dd= new Date(+dateString);
   return <div>{dd.toDateString()}</div>
 }
@@ -56,12 +56,11 @@ function FormateDate({ dateString }: { dateString: string }){
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await postlist();
   postlist().catch(error => error.message);
-  // console.log(posts.data.loadPosts);
-  // const allPostsData = getSortedPostsData()
   const allPostsData = posts.data.loadPosts.postResult;
   return {
     props: {
       allPostsData
-    }
+    },
+    revalidate: 10
   }
 }
