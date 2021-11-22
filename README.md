@@ -2,7 +2,8 @@ Referensi:
 - [async fetch](https://dmitripavlutin.com/javascript-fetch-async-await/)
 - [pagination, infinite scroll](https://stackoverflow.com/questions/63230019/how-to-create-load-more-bottom-in-nextjs-for-get-rest-of-data-next-js-paginati)
 - [react context: state management](https://www.netlify.com/blog/2020/12/01/using-react-context-for-state-management-in-next.js/)
-
+- [NEXTJS RENDERING](https://theodorusclarence.com/blog/nextjs-fetch-method)
+- [SWR TYPESCRIPT](https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr)
 
 untuk menampilkan data posting gunakan metode berikut: 
 - [ISR](https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration)

@@ -6,6 +6,7 @@ import Link from 'next/link'
 // import Date from '../components/date'
 import { GetStaticProps } from 'next'
 import postlist from '../lib/postList';
+// import postData from '../lib/allPostId'
 
 export default function Home({
   allPostsData
@@ -14,6 +15,14 @@ export default function Home({
     createdAt: string
     title: string
     slug: string
+    author: {
+      callName: string
+    }
+    meta: {
+      viewCount: number
+      commentCount: number
+      shareCount: number
+    }
   }[]
 }) {
   return (
@@ -22,24 +31,29 @@ export default function Home({
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>[Your Self Introduction]</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this in{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
+        <p>Pondok Pesantren Ibnu Sina</p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ slug, createdAt, title }) => (
+          {allPostsData.map(({ slug, createdAt, title, author, meta }) => (
+
             <li className={utilStyles.listItem} key={slug}>
               <Link href={`/posts/${slug}`}>
                 <a>{title}</a>
               </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <FormatDate dateString={createdAt}/>
-              </small>
+              <div>
+                <small>{'penulis: '}{author.callName}</small>
+                <small className={utilStyles.lightText}>
+                  <FormatDate dateString={createdAt} />
+                </small>
+                <small>
+                  {'view: '}{meta?.viewCount ?? 0}
+                  {' share: '}{meta?.shareCount ?? 0}
+                  {' comment: '}{meta?.commentCount ?? 0}
+                </small>
+              </div>
+              {'--------------------------------------------'}
             </li>
           ))}
         </ul>
@@ -48,8 +62,8 @@ export default function Home({
   )
 }
 
-function FormatDate({ dateString }: { dateString: string }){
-  const dd= new Date(+dateString);
+function FormatDate({ dateString }: { dateString: string }) {
+  const dd = new Date(+dateString);
   return <div>{dd.toDateString()}</div>
 }
 

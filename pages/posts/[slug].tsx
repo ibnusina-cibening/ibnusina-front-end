@@ -5,8 +5,10 @@ import Head from 'next/head'
 import utilStyles from '../../styles/utils.module.css'
 import { GetStaticProps, GetStaticPaths } from 'next';
 // import postlist from '../../lib/postList';
-import allPostId from '../../lib/allPostId'
-import postContent from '../../lib/postContent'
+import allPostId from '../../lib/allPostId';
+import postContent from '../../lib/postContent';
+import queryMetaPost from '../../lib/query';
+import SWRrequest from '../../lib/SWR';
 
 export default function Post({
   postData
@@ -15,9 +17,12 @@ export default function Post({
     title: string
     createdAt: string
     content: string
+    slug: string
   }
 }) {
   // console.log(postData);
+  console.log(postData);
+  const varSlug = {slug: postData.slug};
   return (
     <Layout>
       <Head>
@@ -29,6 +34,7 @@ export default function Post({
           <div>{postData.createdAt}</div>
         </div>
         <div>{postData.content}</div>
+        <SWRrequest query={queryMetaPost.metaPost} variable={varSlug} />
       </article>
     </Layout>
   )

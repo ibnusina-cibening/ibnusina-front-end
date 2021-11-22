@@ -1,7 +1,7 @@
 import myquery from './query';
 
 export default async function postData() {
-  const query = myquery.postList
+  const query = myquery.postList;
   const headers = myquery.headers;
   const url = myquery.url;
   const getData = {
