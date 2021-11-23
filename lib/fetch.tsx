@@ -13,3 +13,22 @@ export default async function <JSON = any>(
 }
 
 
+// const fetcher = queryBody => (url) =>
+//     fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(queryBody)
+//     }).then(async (res) => {
+//         try {
+//             const response = await res.json();
+//             console.log(response);
+//             return response;
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     });
+
+//     export default fetcher;

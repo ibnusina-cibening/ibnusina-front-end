@@ -1,7 +1,12 @@
 import useSWR from "swr";
-// import metaPost from "../lib/query";
-import fetch from "../lib/fetch";
-const query = `
+import { request, gql } from 'graphql-request'
+// /* eslint-disable import/first */
+// require('dotenv').config();
+// import dotenv from 'dotenv'
+// import * as dotenv from 'dotenv';
+// dotenv.config();
+
+const query = gql`
 query getMetaPostCount ($postId:ID!){
   getMetaPostCount(postId:$postId){
     id
@@ -23,31 +28,27 @@ query getMetaPostCount ($postId:ID!){
 }
 `;
 
+async function fetcher(postId) {
+  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  // console.log(url);
+  const res = request(url, query, { postId });
+  const d = await res;
+  return d;
+}
+
 const SWRRequest = ({ postId }: { postId: String }) => {
-  const url = "https://3t2zg4dxxl.execute-api.us-east-1.amazonaws.com/dev/graphql";
-  const params = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'authorization': 'Bearear token'
-    },
-    body: JSON.stringify({
-      query,
-      variables: { "postId": postId }
-    })
-  };
-  const { data, error} = useSWR([url, params], fetch);
-  // const d = JSON.stringify(data);
-  // console.log(data);
-  // const react = d?.getMetaPostCount;
-  // console.log(data);
-  console.log(data);
+  const { error, data } = useSWR<{
+    getMetaPostCount: {
+      viewCount: number
+    }
+  }>([postId], fetcher);
+  const react = data?.getMetaPostCount;
+
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
   return (
     <>
-      <small>{"react?.viewCount"}</small>
+      <small>{react?.viewCount}</small>
     </>
   )
 }

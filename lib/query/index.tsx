@@ -8,5 +8,5 @@ const headers = {
     'authorization': 'Bearear token'
   };
 
-const url = process.env.GRAPH_URL;
+const url = process.env.NEXT_PUBLIC_GRAPH_URL;
 export default {postList, postContent, metaPost, headers, url};
