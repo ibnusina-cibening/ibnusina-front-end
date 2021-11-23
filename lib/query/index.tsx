@@ -5,7 +5,7 @@ import metaPost from './metaPost';
 const headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'authorization': 'Bearear token',
+    'authorization': 'Bearear token'
   };
 
 const url = process.env.GRAPH_URL;

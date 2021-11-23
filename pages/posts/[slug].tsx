@@ -4,10 +4,8 @@ import Head from 'next/head'
 // import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
 import { GetStaticProps, GetStaticPaths } from 'next';
-// import postlist from '../../lib/postList';
 import allPostId from '../../lib/allPostId';
 import postContent from '../../lib/postContent';
-import queryMetaPost from '../../lib/query';
 import SWRrequest from '../../lib/SWR';
 
 export default function Post({
@@ -21,10 +19,7 @@ export default function Post({
     slug: string
   }
 }) {
-  // console.log(postData);
-  // console.log(postData.id);
   const id = postData?.id; 
-  // const varSlug = {"postId": id};
   return (
     <Layout>
       <Head>
@@ -52,7 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  postContent(params.slug as string).catch(error => error.message);
+  // postContent(params.slug as string).catch(error => error.message);
   const res = await postContent(params.slug as string);
   const postData = res.data.postBySlug;
   return {
