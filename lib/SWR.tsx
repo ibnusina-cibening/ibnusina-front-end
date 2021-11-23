@@ -1,10 +1,5 @@
 import useSWR from "swr";
 import { request, gql } from 'graphql-request'
-// /* eslint-disable import/first */
-// require('dotenv').config();
-// import dotenv from 'dotenv'
-// import * as dotenv from 'dotenv';
-// dotenv.config();
 
 const query = gql`
 query getMetaPostCount ($postId:ID!){
@@ -29,7 +24,7 @@ query getMetaPostCount ($postId:ID!){
 `;
 
 async function fetcher(postId) {
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
   // console.log(url);
   const res = request(url, query, { postId });
   const d = await res;
