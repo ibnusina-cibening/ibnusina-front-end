@@ -48,7 +48,7 @@ export default function Home({
                   <FormatDate dateString={createdAt} />
                 </small>
                 <small>
-                  {'view: '}{meta?.viewCount ?? 0}
+                  {'view: '}{meta?.viewCount>900? Math.round(meta?.viewCount/ 1000).toFixed(1)+" k":meta?.viewCount ?? 0}
                   {' share: '}{meta?.shareCount ?? 0}
                   {' comment: '}{meta?.commentCount ?? 0}
                 </small>
