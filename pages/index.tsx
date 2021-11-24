@@ -5,6 +5,7 @@ import FormatDate from '../lib/fromatDate';
 import Link from 'next/link'
 import { GetStaticProps } from 'next'
 import postlist from '../posts/postList';
+import convertToKilo from '../lib/convertToKilo';
 
 export default function Home({
   allPostsData
@@ -46,9 +47,9 @@ export default function Home({
                  <div>{FormatDate(createdAt)}</div>
                 </small>
                 <small>
-                  {'view: '}{meta?.viewCount>900? Math.round(meta?.viewCount/ 1000).toFixed(1)+" k":meta?.viewCount ?? 0}
-                  {' share: '}{meta?.shareCount ?? 0}
-                  {' comment: '}{meta?.commentCount ?? 0}
+                  {'view: '}{convertToKilo(meta?.viewCount)}
+                  {' share: '}{convertToKilo(meta?.shareCount)}
+                  {' comment: '}{convertToKilo(meta?.commentCount)}
                 </small>
               </div>
               {'--------------------------------------------'}
