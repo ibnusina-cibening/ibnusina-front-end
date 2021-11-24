@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { GraphQLClient, request } from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
 import { metaPost } from './query';
 import convertToKilo from '../lib/convertToKilo';
 
