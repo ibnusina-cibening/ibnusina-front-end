@@ -59,7 +59,6 @@ function ViewReaction({ postId }: { postId: String }) {
   if (isError) return <div>error</div>
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  // const includingYou = reaction.meLike?" termasuk kamu":null;
   const myReaction = reaction.meReaction;
   return <div>
     <span role="img" aria-label="excited">😍: {convertToKilo(mood?.EXCITED)}{myReaction === 'EXCITED' ? " Termasuk kamu" : null}</span>
@@ -68,7 +67,6 @@ function ViewReaction({ postId }: { postId: String }) {
     <span role="img" aria-label="smile">😀 : {convertToKilo(mood?.SMILE)} {myReaction === 'SMILE' ? " Termasuk kamu" : null}</span>
   </div>
 }
-
 // referensi emoticon in react: https://medium.com/@seanmcp/%EF%B8%8F-how-to-use-emojis-in-react-d23bbf608bf7
 function ViewLike({ postId }: { postId: String }) {
   const { metaPost, isLoading, isError } = useMetaPost(postId);
@@ -77,7 +75,6 @@ function ViewLike({ postId }: { postId: String }) {
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
   const includingYou = reaction.meLike ? " termasuk kamu" : null;
-  // const myReaction = reaction.meReaction;
   return <>
     <div>Suka: {convertToKilo(mood?.LIKE)} {includingYou}</div>
   </>
