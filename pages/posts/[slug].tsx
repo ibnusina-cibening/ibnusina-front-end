@@ -1,12 +1,10 @@
 import Layout from '../../components/layout'
-// import { getAllPostIds, getPostData } from '../../lib/posts'
 import Head from 'next/head'
-// import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
 import { GetStaticProps, GetStaticPaths } from 'next';
 import allPostId from '../../posts/allPostId';
 import postContent from '../../posts/postContent';
-import SWRrequest from '../../posts/SWR';
+import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
 
 export default function Post({
   postData
@@ -19,7 +17,7 @@ export default function Post({
     slug: string
   }
 }) {
-  const id = postData?.id; 
+  const id = postData?.id;
   return (
     <Layout>
       <Head>
@@ -31,7 +29,14 @@ export default function Post({
           <div>{postData?.createdAt}</div>
         </div>
         <div>{postData?.content}</div>
-        <SWRrequest postId={id} />
+        -------- statistik ------------
+        <ViewStats postId={id} />
+        --------- reaksi ---------------
+        <ViewReaction postId={id} />
+        ---------- suka ----------------
+        <ViewLike postId={id} />
+        ---------- tindakan -----------
+        komentar, bagikan, suka
       </article>
     </Layout>
   )
