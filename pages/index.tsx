@@ -1,12 +1,10 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-// import { getSortedPostsData } from '../lib/posts'
+import utilStyles from '../styles/utils.module.css';
+import FormatDate from '../lib/fromatDate';
 import Link from 'next/link'
-// import Date from '../components/date'
 import { GetStaticProps } from 'next'
-import postlist from '../lib/postList';
-// import postData from '../lib/allPostId'
+import postlist from '../posts/postList';
 
 export default function Home({
   allPostsData
@@ -45,7 +43,7 @@ export default function Home({
               <div>
                 <small>{'penulis: '}{author.callName}</small>
                 <small className={utilStyles.lightText}>
-                  <FormatDate dateString={createdAt} />
+                 <div>{FormatDate(createdAt)}</div>
                 </small>
                 <small>
                   {'view: '}{meta?.viewCount>900? Math.round(meta?.viewCount/ 1000).toFixed(1)+" k":meta?.viewCount ?? 0}
@@ -60,11 +58,6 @@ export default function Home({
       </section>
     </Layout>
   )
-}
-
-function FormatDate({ dateString }: { dateString: string }) {
-  const dd = new Date(+dateString);
-  return <div>{dd.toDateString()}</div>
 }
 
 export const getStaticProps: GetStaticProps = async () => {
