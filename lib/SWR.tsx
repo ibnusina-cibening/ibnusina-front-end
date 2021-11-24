@@ -1,32 +1,11 @@
 import useSWR from "swr";
-import { request, gql } from 'graphql-request'
-
-const query = gql`
-query getMetaPostCount ($postId:ID!){
-  getMetaPostCount(postId:$postId){
-    id
-    commentCount
-    viewCount
-    shareCount
-    reaction{
-      meLike
-      meReaction
-      mood{
-        LIKE
-        SMILE
-        SAD
-        EXCITED
-        PRAYING
-      }
-    }
-  }
-}
-`;
+import { request} from 'graphql-request'; 
+import {metaPost} from './query';
 
 async function fetcher(postId) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
   console.log('hi');
-  const res = request(url, query, { postId });
+  const res = request(url, metaPost, { postId });
   const d = await res;
   return d;
 }

@@ -9,4 +9,4 @@ const headers = {
   };
 
 const url = process.env.NEXT_PUBLIC_GRAPH_URL;
-export default {postList, postContent, metaPost, headers, url};
+export {postList, postContent, metaPost, headers, url};

@@ -1,10 +1,8 @@
-import myQuery from './query';
+import {postContent, headers, url} from './query';
 
-export default async function postContent(s:String) {
+export default async function contentPost(s:String) {
     const slug = s;
-    const query = myQuery.postContent;
-    const headers = myQuery.headers;
-    const url = myQuery.url;
+    const query = postContent;
     const getData = {
       method: 'POST',
       headers,

@@ -1,8 +1,6 @@
-import myquery from './query';
+import {postList, headers, url} from './query';
 export default async function postData() {
-    const query = myquery.postList;
-    const headers = myquery.headers
-    const url = myquery.url;
+    const query = postList;
     const getData = {
       method: 'POST',
       headers,
