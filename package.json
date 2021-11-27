@@ -9,7 +9,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "firebase": "^9.5.0",
     "graphql": "^15.7.2",
     "graphql-request": "^3.6.1",
     "next": "latest",
