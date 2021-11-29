@@ -7,13 +7,12 @@ export default function Comment({
   deleteComment,
   saveReplyToParent }) {
   const nestedComments = (comment.children || []).map(comment => {
-    return <div> ------ <Comment
+    return <Comment
       comment={comment}
       saveCommentEdited={saveCommentEdited}
       deleteComment={deleteComment}
       saveReplyToParent={saveReplyToParent}
     />
-    </div>
       ;
   });
   return (
@@ -83,7 +82,7 @@ function CommentList({
         value={localValue}
         onChange={onChange}
       />
-      {!editMode ? <span>
+      {!editMode && !replyThis && <span>
         <button type="button" name="edit"
           onClick={onSelectForm}
         >edit
@@ -98,8 +97,8 @@ function CommentList({
           }}
         >hapus</button>
       </span>
-        :
-
+      }
+      {editMode &&
         <span>
           <button type="button" name="simpan"
             onClick={() => {
@@ -119,7 +118,6 @@ function CommentList({
 
       }
       {
-
         replyThis && <Reply id={comment.id} saveReplyToParent={saveReply} />
       }
 
@@ -137,6 +135,7 @@ function Reply({ id, saveReplyToParent }) {
   }
   return (
     <>
+      <span>balas ke {id}</span>
       <textarea
         id={id}
         disabled={false}

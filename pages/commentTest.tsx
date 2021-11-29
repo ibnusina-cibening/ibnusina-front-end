@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from '../components/layout.module.css'
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
@@ -9,7 +9,6 @@ export default function Comment({ postId }: { postId: String }) {
     const [commentList, setCommentList] = useState([]);
     const [formValue, setFormValue] = useState('tulis komentar');
     const [showForm, setShowForm] = useState(false);
-    // const [index, setIndex] = useState(0);
 
     // membuat komentar root baru 
     const handleClick = (e) => {
