@@ -7,12 +7,14 @@ export default function Comment({
   deleteComment,
   saveReplyToParent }) {
   const nestedComments = (comment.children || []).map(comment => {
-    return <Comment
-      comment={comment}
-      saveCommentEdited={saveCommentEdited}
-      deleteComment={deleteComment}
-      saveReplyToParent={saveReplyToParent}
-    />
+    return <div className={utilStyles.comment2} key={comment.id}>
+      <Comment
+        comment={comment}
+        saveCommentEdited={saveCommentEdited}
+        deleteComment={deleteComment}
+        saveReplyToParent={saveReplyToParent}
+      />
+    </div>
       ;
   });
   return (
@@ -75,7 +77,7 @@ function CommentList({
   }
   return (
     <>
-      <span>{comment.id}</span>
+      <span key={comment.id}>{comment.id}</span>
       <textarea
         disabled={selectedForm === comment.id ? false : true}
         className={utilStyles.textarea}
@@ -104,7 +106,7 @@ function CommentList({
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
-              saveCommentEdited({ id: comment.id, localValue, child: comment.child });
+              saveCommentEdited({ id: comment.id, localValue, child: comment.child, parentId });
             }}
           >simpan</button>
           <button type="button" name="batal"
