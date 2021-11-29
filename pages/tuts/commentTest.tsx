@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../components/layout.module.css'
-import utilStyles from '../styles/utils.module.css';
+import styles from '../../components/layout.module.css';
+import utilStyles from '../../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
-import CommentList from '../components/commentList';
-import { CommentFormTop, ButtonComment } from '../components/commentElement';
+import CommentList from '../../components/commentList';
+import { CommentFormTop, ButtonComment } from '../../components/commentElement';
 
 export default function Comment({ postId }: { postId: String }) {
     const [commentList, setCommentList] = useState([]);
