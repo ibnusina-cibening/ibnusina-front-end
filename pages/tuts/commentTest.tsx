@@ -3,23 +3,35 @@ import styles from '../../components/layout.module.css';
 import utilStyles from '../../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
 import CommentList from '../../components/commentList';
-import { CommentFormTop, ButtonComment } from '../../components/commentElement';
+import { AddComment } from '../../components/commentElement';
+import { useSession, signOut, signIn } from 'next-auth/client';
+// import { signOut } from "next-auth/react";
 
 export default function Comment({ postId }: { postId: String }) {
     const [commentList, setCommentList] = useState([]);
+    const [session, loading] = useSession();
+
     const [formValue, setFormValue] = useState('tulis komentar');
     const [showForm, setShowForm] = useState(false);
 
     // membuat komentar root baru 
     const handleClick = (e) => {
         if (e.target.name === 'show') {
-            setShowForm(!showForm)
-            setFormValue('tulis komentar');
+            // if (typeof window !== 'undefined' && loading) null;
+            if(!session){
+                setShowForm(!showForm)
+                setFormValue('tulis komentar');
+            }
+            if (session) {
+                setShowForm(!showForm)
+                setFormValue('tulis komentar');
+            }
         }
         if (e.target.name === 'submit') {
             let n = Math.floor(Math.random() * Date.now());
             setCommentList([...commentList, ...[
-                { id: n.toString(), parentId: null, content: formValue, children: 0, child: 0 }]]);
+                { id: n.toString(), parentId: null, content: formValue, children: 0, child: 0 }
+            ]]);
             // setIndex(index + 1);
         }
 
@@ -52,27 +64,24 @@ export default function Comment({ postId }: { postId: String }) {
         setCommentList(newData);;
     }
     const commentData = arrayToTree(commentList, { dataField: null });
+    const isLoggedIn = session ? true: false; 
     return (
         <div className={styles.container}>
-            {showForm &&
-                <CommentFormTop
-                    formValue={formValue}
-                    onChange={onChange}
-                />
+            {
+                typeof window !== 'undefined' && loading && null
             }
-            {!showForm ?
-                <ButtonComment
-                    id={1}
-                    name="show"
-                    onClick={handleClick}
-                />
-                :
-                <ButtonComment
-                    id={2}
-                    name="submit"
-                    onClick={handleClick}
-                />
+            {
+                session ? <button onClick={() => signOut({redirect: false,  callbackUrl: 'http://localhost:3000'})}>Sign out</button>:
+                <button onClick={() => signIn()}>Sign in</button>
             }
+            
+            <AddComment
+                formValue={formValue}
+                showForm={showForm}
+                onChange={onChange}
+                handleClick={handleClick}
+                isLoggedIn = {isLoggedIn}
+            />
             <div>
                 <span>--------------------------------------</span>
                 {
@@ -91,3 +100,4 @@ export default function Comment({ postId }: { postId: String }) {
         </div>
     )
 }
+

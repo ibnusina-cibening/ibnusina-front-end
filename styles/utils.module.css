@@ -54,8 +54,7 @@
   padding: 10px;
   border-left: 6px solid #e4e4e1;
   background-color: #f5bf5c;
-  
-  outline : rgb(225, 235, 230);
+  outline-color : rgb(225, 235, 230);
   outline-style: solid;
 }
 .textarea {
@@ -66,9 +65,12 @@
 }
 .commentContainerChildren {
   background-color:rgba(231, 76, 60,0.9);
+  margin-top: 10px;
 	padding-left:35px;
-	padding-right:5px;
 	padding-top:10px;
-	padding-bottom:10px;
-  width: 100;
+	padding-bottom:1px;
+  width: 100; 
+  outline-color:rgb(230, 223, 223);
+  outline-style: solid;
+  outline-width: 2px;
 }

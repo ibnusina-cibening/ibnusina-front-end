@@ -2,7 +2,7 @@ import React from 'react';
 // import ReactDOM from 'react-dom';
 // import GoogleLogin from 'react-google-login';
 // or
-import { refreshTokenSetup } from '../lib/refreshToken';
+import { refreshTokenSetup } from '../../lib/refreshToken';
 import { GoogleLogin, GoogleLogout, useGoogleLogout, useGoogleLogin } from 'react-google-login';
 
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;

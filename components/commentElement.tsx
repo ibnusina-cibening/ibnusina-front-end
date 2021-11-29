@@ -23,7 +23,7 @@ export function ButtonComment({ id, onClick, name }) {
     )
 }
 
-export function CommentFormTop({ formValue, onChange }) {
+export function InputMain({ formValue, onChange }) {
     return (
         <div className={utilStyles.comment}>
             <textarea
@@ -32,5 +32,33 @@ export function CommentFormTop({ formValue, onChange }) {
                 onChange={onChange}
             />
         </div>
+    )
+}
+
+export function AddComment({ showForm, formValue, onChange, handleClick, isLoggedIn }) {
+    return (
+        <>
+            {isLoggedIn &&
+                <InputMain
+                    formValue={formValue}
+                    onChange={onChange}
+                />
+            }
+            {!showForm &&
+                <ButtonComment
+                    id={1}
+                    name="show"
+                    onClick={handleClick}
+                />
+            }
+
+            {isLoggedIn &&
+                <ButtonComment
+                    id={2}
+                    name="submit"
+                    onClick={handleClick}
+                />
+            }
+        </>
     )
 }
