@@ -12,13 +12,25 @@ export function InputComment({ disabled, localValue, onChange, id }) {
     )
 }
 
-export function ButtonComment ({id, onClick, name}) {
+export function ButtonComment({ id, onClick, name }) {
     return (
         <button
-            id ={id}
+            id={id}
             type="button"
             name={name}
             onClick={onClick}
         >{name}</button>
+    )
+}
+
+export function CommentFormTop({ formValue, onChange }) {
+    return (
+        <div className={utilStyles.comment}>
+            <textarea
+                className={utilStyles.textarea}
+                value={formValue}
+                onChange={onChange}
+            />
+        </div>
     )
 }

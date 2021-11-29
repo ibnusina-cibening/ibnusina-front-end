@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
-import { InputComment, ButtonComment } from '../components/comment';
+import { InputComment, ButtonComment } from './commentElement';
 
-export default function Comment({
+export default function CommentList({
   comment,
   saveCommentEdited,
   deleteComment,
   saveReplyToParent }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
-      <Comment
+      <CommentList
         comment={comment}
         saveCommentEdited={saveCommentEdited}
         deleteComment={deleteComment}

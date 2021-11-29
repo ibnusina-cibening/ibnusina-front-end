@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styles from '../components/layout.module.css'
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
-import CommentList from './CommentList';
-
+import CommentList from '../components/commentList';
+import { CommentFormTop, ButtonComment } from '../components/commentElement';
 
 export default function Comment({ postId }: { postId: String }) {
     const [commentList, setCommentList] = useState([]);
@@ -12,7 +12,7 @@ export default function Comment({ postId }: { postId: String }) {
 
     // membuat komentar root baru 
     const handleClick = (e) => {
-        if (e.target.name === 'add') {
+        if (e.target.name === 'show') {
             setShowForm(!showForm)
             setFormValue('tulis komentar');
         }
@@ -52,32 +52,31 @@ export default function Comment({ postId }: { postId: String }) {
         setCommentList(newData);;
     }
     const commentData = arrayToTree(commentList, { dataField: null });
-    // console.log(commentData);
     return (
         <div className={styles.container}>
-
             {showForm &&
-
-                <div className={utilStyles.comment}>
-                    <textarea
-                        className={utilStyles.textarea}
-                        value={formValue}
-                        onChange={onChange}
-                    />
-                </div>}
+                <CommentFormTop
+                    formValue={formValue}
+                    onChange={onChange}
+                />
+            }
             {!showForm ?
-                <button type="button" name="add" onClick={handleClick}>
-                    Tampilkan komentar
-                </button> :
-                <button type="button" name="submit" onClick={handleClick}>
-                    kirim
-                </button>
+                <ButtonComment
+                    id={1}
+                    name="show"
+                    onClick={handleClick}
+                />
+                :
+                <ButtonComment
+                    id={2}
+                    name="submit"
+                    onClick={handleClick}
+                />
             }
             <div>
                 <span>--------------------------------------</span>
                 {
                     commentData.map(c => {
-
                         return <div className={utilStyles.commentContainer} key={c.id}>
                             <CommentList
                                 comment={c}
@@ -85,7 +84,6 @@ export default function Comment({ postId }: { postId: String }) {
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                             />
-                            ------------------------------
                         </div>
                     })
                 }
