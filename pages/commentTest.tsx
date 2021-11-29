@@ -27,11 +27,10 @@ export default function Comment({ postId }: { postId: String }) {
     const onChange = (e) => {
         setFormValue(e.target.value);
     }
-    // hasil edit komentar root disimpan
-    const saveCommentEdited = ({ id, localValue, child }) => {
-        // console.log(id, localValue, child);
+    // hasil edit komentar disimpan
+    const saveCommentEdited = ({ id, localValue, child, parentId }) => {
         const updatedData = commentList.map(x => (x.id === id ?
-            { id, parentId: null, content: localValue, children: 0, child } : x));
+            { id, parentId, content: localValue, children: 0, child } : x));
         setCommentList(updatedData);
     }
     const saveReply = ({ id, parentId, content, parentChildNum, parentContent, parentIdOfParent }) => {
