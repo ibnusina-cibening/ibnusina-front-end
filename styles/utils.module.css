@@ -50,18 +50,21 @@
 .lightText {
   color: #666;
 }
-.comment {
+.commentContainer {
   padding: 10px;
-  border-left: 6px solid #cfd13e;
+  border-left: 6px solid #e4e4e1;
   background-color: #f5bf5c;
-  font: 1.4em/1.6em cursive;
-  color: #095484;
+  
+  outline : rgb(225, 235, 230);
+  outline-style: solid;
 }
 .textarea {
   width: 100%;
   height: 100%;
+  outline-color:rgb(10, 10, 10);
+  
 }
-.comment2 {
+.commentContainerChildren {
   background-color:rgba(231, 76, 60,0.9);
 	padding-left:35px;
 	padding-right:5px;

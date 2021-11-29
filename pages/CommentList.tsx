@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
+import { InputComment, ButtonComment } from '../components/comment';
 
 export default function Comment({
   comment,
@@ -7,7 +8,7 @@ export default function Comment({
   deleteComment,
   saveReplyToParent }) {
   const nestedComments = (comment.children || []).map(comment => {
-    return <div className={utilStyles.comment2} key={comment.id}>
+    return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <Comment
         comment={comment}
         saveCommentEdited={saveCommentEdited}
@@ -19,7 +20,7 @@ export default function Comment({
   });
   return (
     <div key={comment.id}>
-      <CommentList
+      <CommentItem
         comment={comment}
         saveCommentEdited={saveCommentEdited}
         deleteComment={deleteComment}
@@ -33,7 +34,7 @@ export default function Comment({
   );
 }
 
-function CommentList({
+function CommentItem({
   comment,
   deleteComment,
   saveCommentEdited,
@@ -78,44 +79,52 @@ function CommentList({
   return (
     <>
       <span key={comment.id}>{comment.id}</span>
-      <textarea
+      <InputComment
         disabled={selectedForm === comment.id ? false : true}
-        className={utilStyles.textarea}
-        value={localValue}
+        localValue={localValue}
         onChange={onChange}
+        id={comment.id}
       />
       {!editMode && !replyThis && <span>
-        <button type="button" name="edit"
+        <ButtonComment 
+          id={comment.id}
+          name="edit"
           onClick={onSelectForm}
-        >edit
-        </button>
-        <button type="button" name="balas"
+        />
+        <ButtonComment 
+          name="balas"
           id={comment.id}
           onClick={replyMode}
-        >balas</button>
-        <button type="button" name="hapus"
+        />
+        <ButtonComment 
+          id={comment.id}
+          name="hapus"
           onClick={() => {
             deleteComment({ id: comment.id });
           }}
-        >hapus</button>
+        />
       </span>
       }
       {editMode &&
         <span>
-          <button type="button" name="simpan"
+          <ButtonComment 
+            id ={comment.id}
+            name="simpan"
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
               saveCommentEdited({ id: comment.id, localValue, child: comment.child, parentId });
             }}
-          >simpan</button>
-          <button type="button" name="batal"
+          />
+          <ButtonComment 
+            id ={comment.id}
+            name="batal"
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
               setLocalValue(comment.content);
             }}
-          >batal</button>
+          />
         </span>
 
       }
@@ -138,24 +147,27 @@ function Reply({ id, saveReplyToParent }) {
   return (
     <>
       <span>balas ke {id}</span>
-      <textarea
+      <InputComment
         id={id}
         disabled={false}
-        className={utilStyles.textarea}
-        value={localValue}
+        localValue={localValue}
         onChange={onChange}
       />
       <span>
-        <button type="button" name="simpan"
+        <ButtonComment
+          id={id}
+          name="simpan"
           onClick={() => {
             saveReply({ id, localValue, name: 'simpan' });
           }}
-        >simpan</button>
-        <button type="button" name="batal"
+        />
+        <ButtonComment 
+          id = {id}
+          name="batal"
           onClick={() => {
             saveReply({ id, localValue, name: 'batal' });
           }}
-        >batal</button>
+        />
       </span>
     </>
 

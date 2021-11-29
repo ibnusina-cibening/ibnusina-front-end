@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../components/layout.module.css'
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
-import GetComment from './CommentNested';
+import CommentList from './CommentList';
 
 
 export default function Comment({ postId }: { postId: String }) {
@@ -78,15 +78,12 @@ export default function Comment({ postId }: { postId: String }) {
                 {
                     commentData.map(c => {
 
-                        return <div className={utilStyles.comment} key={c.id}>
-                            <GetComment
+                        return <div className={utilStyles.commentContainer} key={c.id}>
+                            <CommentList
                                 comment={c}
                                 saveCommentEdited={saveCommentEdited}
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
-                                // parentId={c.parentId}
-                                // parentContent={c.content}
-                                // child={c.child}
                             />
                             ------------------------------
                         </div>
