@@ -6,6 +6,12 @@ import CommentList from '../../components/commentList';
 import { AddComment } from '../../components/commentElement';
 import { Login } from '../../lib/login';
 
+const fetchSession = async () =>{
+    const response = await (await fetch('http://localhost:3000/api/session')).text();
+    const data = await response;
+    return data;
+}
+
 export default function Comment({ postId }: { postId: String }) {
     const [commentList, setCommentList] = useState([]);
     const [formValue, setFormValue] = useState('tulis komentar');
