@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
-import styles from '../../components/layout.module.css';
-import utilStyles from '../../styles/utils.module.css';
+import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
-import CommentList from '../../components/commentList';
-import { AddComment } from '../../components/commentElement';
-import { Login } from '../../lib/login';
+import CommentList from '../components/commentList';
+import { AddComment } from '../components/commentElement';
+import { Login } from '../lib/login';
 import { GraphQLClient } from 'graphql-request';
-import { getComment } from '../../posts/query';
+import { getComment } from './query';
 import useSWR from "swr";
 
 
-async function fetcher({postId, next, isParent, commentParentId}) {
-    console.log(postId, next);
-    const url = "http://localhost:4000/graphql";
-    // console.log(variables);
+async function fetcher(postId, next, isParent, commentParentId, limit) {
+    // console.log(postId, next, isParent, commentParentId);
+    console.log('hi dari komentar');
+    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     const headers = {
         Authorization: ''
     }
     const client = new GraphQLClient(url, { headers });
-    const res = client.request(getComment, {postId, next, isParent, commentParentId});
+    const res = await client.request(getComment, {postId, next, isParent, commentParentId, limit}, headers);
     const data = await res;
-    console.log(data);
     return data;
 }
 
-const useGetComment = ({postId, next, isParent, commentParentId}) => {
+export default function UseComment({ pId }: { pId: String }) {
+    const variables = { 
+        postId: "a77329b6-482d-4820-be00-1e7b7570ead7", 
+        next: null, 
+        isParent: true, 
+        commentParentId: "",
+        limit: 3
+    };
+    const {postId, next, isParent,  commentParentId, limit} = variables;
     const { error, data } = useSWR<{
         getCommentByPostId: {
             id: string
@@ -41,29 +47,25 @@ const useGetComment = ({postId, next, isParent, commentParentId}) => {
             numofchildren: number
             children: number
         }
-    }>([postId, next, isParent, commentParentId], fetcher, { revalidateOnFocus: false });
-    return {
-      comment: data,
-      isLoading: !error && !data,
-      isError: error
-    }
+    }>([postId, next, isParent, commentParentId, limit], fetcher, {revalidateOnFocus: false, revalidateOnMount: true});
+    if (!data) return <div>loading</div>
+    if (error) return <div>error</div>
+    return <Comment data={data.getCommentByPostId}/>
 }
 
-export default function Comment({ postId }: { postId: String }) {
-    const [commentList, setCommentList] = useState([]);
+function Comment({data}) {
+    const [commentList, setCommentList] = useState(data.results);
     const [formValue, setFormValue] = useState('tulis komentar');
     const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    // const variables = {postId: "a77329b6-482d-4820-be00-1e7b7570ead7", next: null, isParent:true, commentParentId:""};
-    // const { comment, isLoading, isError } = useGetComment({postId: "a77329b6-482d-4820-be00-1e7b7570ead7", next: null, isParent:true, commentParentId:""});
-    // console.log('hello', comment);
     // membuat komentar baru 
     const handleClick = (e) => {
         if (e.target.name === 'show') {
             setShowForm(!showForm)
             setFormValue('tulis komentar');
-            fetcher({postId: "a77329b6-482d-4820-be00-1e7b7570ead7", next: null, isParent:true, commentParentId:""});
+            // const dataList = fetcher(variables);
+            // console.log(dataList);
         }
         if (e.target.name === 'submit') {
             let n = Math.floor(Math.random() * Date.now());
@@ -106,7 +108,7 @@ export default function Comment({ postId }: { postId: String }) {
     }
     const commentData = arrayToTree(commentList, { dataField: "" });
     return (
-        <div className={styles.container}>
+        <div>
             <Login
                 getlogin={setLogin}
             />

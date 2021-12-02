@@ -27,7 +27,7 @@ export default function CommentList({
         saveReplyToParent={saveReplyToParent}
         parentContent={comment.content}
         parentId={comment.parentId}
-        child={comment.child}
+        numofchildren={comment.numofchildren}
       />
       {nestedComments}
     </div>
@@ -41,7 +41,7 @@ function CommentItem({
   saveReplyToParent,
   parentContent,
   parentId,
-  child }) {
+  numofchildren }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState();
   const [editMode, setEditMode] = useState(false);
@@ -70,7 +70,7 @@ function CommentItem({
         children: 0,
         parentIdOfParent: parentId,
         parentContent,
-        parentChildNum: child
+        parentChildNum: numofchildren
       }
       saveReplyToParent(reply);
     }
@@ -113,7 +113,7 @@ function CommentItem({
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
-              saveCommentEdited({ id: comment.id, localValue, child: comment.child, parentId });
+              saveCommentEdited({ id: comment.id, localValue, numofchildren: comment.numofchildren, parentId });
             }}
           />
           <ButtonComment 

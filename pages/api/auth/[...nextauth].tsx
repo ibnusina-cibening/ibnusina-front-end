@@ -26,9 +26,9 @@ export default NextAuth({
         return {
           id: fLogin?.myData.id,
           token: fLogin?.token,
-          name: profile.name,
+          name: fLogin?.myData.callName,
           email: profile.email,
-          image: profile.picture,
+          avatar: fLogin?.myData.avatar,
           role: fLogin?.myData.role
         }
       },
@@ -39,7 +39,7 @@ export default NextAuth({
       // HANYA BERJALAN SAAT EVENT LOGIN SAJA 
       const isAllowedToSignIn = true
       if (isAllowedToSignIn) {
-        console.log(user);
+        // console.log(user);
         return true
       } else {
         // Return false to display a default error message

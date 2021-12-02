@@ -5,6 +5,7 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import allPostId from '../../posts/allPostId';
 import postContent from '../../posts/postContent';
 import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
+import UseComment from '../../posts/useComment';
 
 export default function Post({
   postData
@@ -38,6 +39,7 @@ export default function Post({
         ---------- tindakan -----------
         komentar, bagikan, suka
       </article>
+      <UseComment pId={id}/>
     </Layout>
   )
 }
