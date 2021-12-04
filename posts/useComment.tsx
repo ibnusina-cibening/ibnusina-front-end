@@ -9,7 +9,6 @@ import { getComment, addComment } from './query';
 import useSWR, { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
 
-
 async function fetchComment(postId, next, isParent, commentParentId, limit) {
     console.log('hi dari fetchComent');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
@@ -36,17 +35,24 @@ async function addCommentToList({ postId, content, parentUserId, parentCommentId
 }
 
 function useComment(commentVariable) {
-
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { error, data } = useSWR<{
         getCommentByPostId: {
             nextTimeStamp: number,
-            results,
+            results:[],
         }
     }>([postId, next, isParent, commentParentId, limit], fetchComment, {
         revalidateOnFocus: false,
         revalidateOnMount: true
     });
+    // const addComment =(){
+    //     await mutate([postId, next, isParent, commentParentId, limit], async () => {
+    //         const { addComment: newComment } = await addCommentToList(newCommentToAdd);
+    //         const newArrayResults = [...comment.getCommentByPostId.results, newComment];
+    //         const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
+    //         return arr;
+    //     })
+    // }
     return {
         comment: data,
         isLoading: !error && !data,
@@ -63,19 +69,26 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         limit: 10
     };
     const { comment, isLoading, isError } = useComment(commentVariable);
+    const [isData, setIsData] = useState([]);
     const { mutate } = useSWRConfig();
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
     const addComment = async (newCommentToAdd) => {
-        const { postId, next, isParent, commentParentId, limit} = commentVariable;
-        await mutate([postId, next, isParent, commentParentId, limit], async ()=>{
+        const { postId, next, isParent, commentParentId, limit } = commentVariable;
+        await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
-            const newArray = [...comment.getCommentByPostId.results, newComment];
-            const arr = {... comment, results:newArray, nextTimeStamp:comment.getCommentByPostId.nextTimeStamp};
+            // const newArrayResults = [...comment.getCommentByPostId.results, newComment];
+            const newArrayResults = [newComment].concat(comment.getCommentByPostId.results);
+            const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
+            setIsData(newArrayResults);
             return arr;
-        })
+        }, false)
     }
-    const commentData = comment.getCommentByPostId.results ? arrayToTree(comment.getCommentByPostId.results, { dataField: "" }): [];
+    const res = comment.getCommentByPostId.results;
+    // console.log(isData);
+    const d = isData.length>0?isData:res;
+    const commentData = arrayToTree(d, { dataField: "" });
+    // const commentData = comment.getCommentByPostId.results ? arrayToTree(comment.getCommentByPostId.results, { dataField: "" }) : [];
     return <Comment data={commentData} pId={pId} addComment={addComment} />
 }
 function Comment({ data, pId, addComment }) {
@@ -96,7 +109,7 @@ function Comment({ data, pId, addComment }) {
                 content: formValue,
                 parentUserId: "",
                 parentCommentId: "",
-                token: session?session.token:null
+                token: session ? session.token : null
             }
             addComment(vr);
         }
@@ -130,7 +143,7 @@ function Comment({ data, pId, addComment }) {
         const removeChildren = commentList.filter(x => x.parentId !== id);
         // menghapus komentar root 
         const newData = removeChildren.filter(x => x.id !== id);
-        setCommentList(newData);;
+        setCommentList(newData);
     }
     return (
         <div>
