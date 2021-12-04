@@ -1,6 +1,5 @@
 import { gql } from 'graphql-request';
 
-
 const getComment = gql`
 query getCommentByPostId($postId:ID!, $next:Int, $isParent: Boolean!, $commentParentId: String, $limit:Int!){
   getCommentByPostId(postId:$postId, next: $next, isParent:$isParent, commentParentId:$commentParentId, limit:$limit) {

@@ -39,7 +39,7 @@ export default function Post({
         ---------- tindakan -----------
         komentar, bagikan, suka
       </article>
-      <UseComment pId={id}/>
+      <UseComment pId={id} />
     </Layout>
   )
 }

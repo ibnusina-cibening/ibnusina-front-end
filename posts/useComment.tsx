@@ -1,83 +1,109 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
 import CommentList from '../components/commentList';
 import { AddComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { GraphQLClient } from 'graphql-request';
-import { getComment } from './query';
-import useSWR from "swr";
+import { getComment, addComment } from './query';
+import useSWR, { useSWRConfig } from "swr";
+import { useSession } from "next-auth/react";
 
 
-async function fetcher(postId, next, isParent, commentParentId, limit) {
-    // console.log(postId, next, isParent, commentParentId);
-    console.log('hi dari komentar');
+async function fetchComment(postId, next, isParent, commentParentId, limit) {
+    console.log('hi dari fetchComent');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     const headers = {
         Authorization: ''
     }
     const client = new GraphQLClient(url, { headers });
-    const res = await client.request(getComment, {postId, next, isParent, commentParentId, limit}, headers);
+    const res = await client.request(getComment, { postId, next, isParent, commentParentId, limit }, headers);
     const data = await res;
     return data;
 }
 
-export default function UseComment({ pId }: { pId: String }) {
-    const variables = { 
-        postId: "a77329b6-482d-4820-be00-1e7b7570ead7", 
-        next: null, 
-        isParent: true, 
-        commentParentId: "",
-        limit: 3
-    };
-    const {postId, next, isParent,  commentParentId, limit} = variables;
-    const { error, data } = useSWR<{
-        getCommentByPostId: {
-            id: string
-            postId: string
-            content: string
-            createdAt: string
-            updatedAt: string
-            identity: {
-                avatar: string
-                callName: string
-            }
-            userId: string
-            parentId: string
-            numofchildren: number
-            children: number
-        }
-    }>([postId, next, isParent, commentParentId, limit], fetcher, {revalidateOnFocus: false, revalidateOnMount: true});
-    if (!data) return <div>loading</div>
-    if (error) return <div>error</div>
-    return <Comment data={data.getCommentByPostId}/>
+async function addCommentToList({ postId, content, parentUserId, parentCommentId, token }) {
+    console.log('hai dari addCommenttoList');
+    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    const headers = {
+        Authorization: token
+    }
+    const client = new GraphQLClient(url, { headers });
+    const res = await client.request(addComment, { postId, content, parentUserId, parentCommentId }, headers);
+    const data = await res;
+    // console.log(data);
+    return data;
 }
 
-function Comment({data}) {
-    const [commentList, setCommentList] = useState(data.results);
+function useComment(commentVariable) {
+
+    const { postId, next, isParent, commentParentId, limit } = commentVariable;
+    const { error, data } = useSWR<{
+        getCommentByPostId: {
+            nextTimeStamp: number,
+            results,
+        }
+    }>([postId, next, isParent, commentParentId, limit], fetchComment, {
+        revalidateOnFocus: false,
+        revalidateOnMount: true
+    });
+    return {
+        comment: data,
+        isLoading: !error && !data,
+        isError: error
+    }
+}
+
+export default function GetKomentar({ pId, }: { pId: string }) {
+    const commentVariable = {
+        postId: pId,
+        next: null,
+        isParent: true,
+        commentParentId: "",
+        limit: 10
+    };
+    const { comment, isLoading, isError } = useComment(commentVariable);
+    const { mutate } = useSWRConfig();
+    if (isLoading) return <div>loading</div>
+    if (isError) return <div>error</div>
+    const addComment = async (newCommentToAdd) => {
+        const { postId, next, isParent, commentParentId, limit} = commentVariable;
+        await mutate([postId, next, isParent, commentParentId, limit], async ()=>{
+            const { addComment: newComment } = await addCommentToList(newCommentToAdd);
+            const newArray = [...comment.getCommentByPostId.results, newComment];
+            const arr = {... comment, results:newArray, nextTimeStamp:comment.getCommentByPostId.nextTimeStamp};
+            return arr;
+        })
+    }
+    const commentData = comment.getCommentByPostId.results ? arrayToTree(comment.getCommentByPostId.results, { dataField: "" }): [];
+    return <Comment data={commentData} pId={pId} addComment={addComment} />
+}
+function Comment({ data, pId, addComment }) {
+    const dataList = data;
+    const [commentList, setCommentList] = useState(dataList);
     const [formValue, setFormValue] = useState('tulis komentar');
     const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-    // membuat komentar baru 
-    const handleClick = (e) => {
+    const { data: session, status } = useSession();
+    const handleClick = async (e) => {
         if (e.target.name === 'show') {
-            setShowForm(!showForm)
-            setFormValue('tulis komentar');
-            // const dataList = fetcher(variables);
-            // console.log(dataList);
+            await setShowForm(!showForm)
+            await setFormValue('tulis komentar');
         }
         if (e.target.name === 'submit') {
-            let n = Math.floor(Math.random() * Date.now());
-            setCommentList([...commentList, ...[
-                { id: n.toString(), parentId: "", content: formValue, children: null, numofchildren: 0 }
-            ]]);
+            const vr = {
+                postId: pId,
+                content: formValue,
+                parentUserId: "",
+                parentCommentId: "",
+                token: session?session.token:null
+            }
+            addComment(vr);
         }
     };
     const setLogin = (e) => {
         setIsLoggedIn(e);
         setShowForm(e);
-        // console.log('hello', e);
     }
     const onChange = (e) => {
         setFormValue(e.target.value);
@@ -106,7 +132,6 @@ function Comment({data}) {
         const newData = removeChildren.filter(x => x.id !== id);
         setCommentList(newData);;
     }
-    const commentData = arrayToTree(commentList, { dataField: "" });
     return (
         <div>
             <Login
@@ -122,7 +147,7 @@ function Comment({data}) {
             <div>
                 <span>--------------------------------------</span>
                 {
-                    commentData.map(c => {
+                    dataList.map(c => {
                         return <div className={utilStyles.commentContainer} key={c.id}>
                             <CommentList
                                 comment={c}
@@ -137,4 +162,3 @@ function Comment({data}) {
         </div>
     )
 }
-
