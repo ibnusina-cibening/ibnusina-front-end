@@ -40,7 +40,22 @@ function useComment(commentVariable) {
     const { error, data } = useSWR<{
         getCommentByPostId: {
             nextTimeStamp: number,
-            results: [], // di backend harus mereturn response berupa array, walaupun array kosong
+            results: [
+                {
+                    id: string,
+                    content: string,
+                    identity: {
+                        callName: string,
+                        avatar: string
+                    },
+                    numOfChildren: number,
+                    parentId: string
+                    createdAt: string,
+                    postId: string,
+                    userId: string
+                    children: number
+                }
+            ], // di backend harus mereturn response berupa array, walaupun array kosong
         }
     }>([postId, next, isParent, commentParentId, limit], fetchComment, {
         revalidateOnFocus: false,
@@ -63,39 +78,59 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     };
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
-    const [isData, setIsData] = useState([]);
+    const dataSet = !comment ? []: comment.getCommentByPostId.results;
+    const [isData, setIsData] = useState(dataSet);
     const { mutate } = useSWRConfig();
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
     const addComment = async (newCommentToAdd) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
-            const newArrayResults = [newComment].concat(comment.getCommentByPostId.results);
+            const newArrayResults = [newComment].concat(isData);
             const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
             setIsData(newArrayResults);
             return arr;
         }, false)
     }
     const addReply = async (newReplyAdded, vr2) => {
-        // console.log(newReplyAdded);
-        // console.log(vr2);
-        const { addComment: newReply } = await addCommentToList(newReplyAdded);
-        console.log(newReply);
-        // const updatedData = commentList.map(x => (x.id === parentId ?
-        //     {
-        //         id: parentId,
-        //         parentId: parentIdOfParent,
-        //         content: parentContent,
-        //         children: null,
-        //         numofchildren: parentChildNum + 1
-        //     } : x));
-        // setCommentList([...updatedData, ...[{ id, parentId, content, children: null, numofchildren: 0 }]]);
+        await mutate([postId, next, isParent, commentParentId, limit], async () => {
+            const {postId: postIdOfParent, 
+                // content: replyContent,  ini hanya digunakan untuk request saja
+                parentUserId, 
+                parentCommentId, 
+                parentIdentity,
+                parentCreatedAt} = newReplyAdded;
+            const { addComment: newReply } = await addCommentToList(newReplyAdded);
+            const { postId, userId, content, createdAt, id, identity, numofchildren, parentId } = newReply;
+            // numofchildren diambil dari data yang ada (cache atau state)
+            // let children = [];
+            const { parentIdOfParent, parentContent, parentChildNum } = vr2;
+            // mengupdate numofchildren pada parent comment 
+            const updatedData = isData.map(x => (x.id === parentId ?
+                {
+                    id: parentCommentId,
+                    parentId: parentIdOfParent,
+                    content: parentContent,
+                    createdAt: parentCreatedAt,
+                    postId: postIdOfParent,
+                    userId: parentUserId,
+                    identity: parentIdentity,
+                    children: null,
+                    numofchildren: parentChildNum + 1
+                } : x));
+            // const newArrayResults = [...updatedData, newReply];
+            const newArrayResults = [newReply].concat(updatedData);
+            const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
+            await setIsData(newArrayResults);
+            // console.log(newArrayResults);
+            return arr;
+        }, false)
 
     }
-    const res = !comment ? [] : comment.getCommentByPostId.results;
-    const d = isData.length > 0 ? isData : res;
-    const commentData = arrayToTree(d, { dataField: "" });
-    // const commentData = comment.getCommentByPostId.results ? arrayToTree(comment.getCommentByPostId.results, { dataField: "" }) : [];
+    // const res = comment?.getCommentByPostId?.results;
+    // const d = isData.length > 0 ? isData : res;
+    const commentData = arrayToTree(isData, { dataField: "" });
+    // console.log();
     return <Comment
         data={commentData}
         pId={pId}
@@ -139,25 +174,25 @@ function Comment({ data, pId, addComment, addReply }) {
             { id, parentId, content: localValue, children: null, numofchildren } : x));
         setCommentList(updatedData);
     }
-    const saveReply = ({ parentCommentId, parentUserId, replyContent, parentIdOfParent, parentContent, parentChildNum }) => {
-        // const updatedData = commentList.map(x => (x.id === parentId ?
-        //     {
-        //         id: parentId,
-        //         parentId: parentIdOfParent,
-        //         content: parentContent,
-        //         children: null,
-        //         numofchildren: parentChildNum + 1
-        //     } : x));
-        // setCommentList([...updatedData, ...[{ id, parentId, content, children: null, numofchildren: 0 }]]);
+    const saveReply = ({ parentCommentId, 
+            parentUserId, 
+            replyContent, 
+            parentIdOfParent, 
+            parentContent, 
+            parentChildNum,
+            parentIdentity,
+            parentCreatedAt }) => {
         const vr = {
             postId: pId,
             content: replyContent,
             parentUserId,
             parentCommentId,
+            parentIdentity,
+            parentCreatedAt,
             token: session ? session.token : null
         };
         const vr2 = { // untuk kebutuhan modifikasi cache
-            parentIdOfParent, parentContent, parentChildNum 
+            parentIdOfParent, parentContent, parentChildNum
         }
         addReply(vr, vr2);
     }

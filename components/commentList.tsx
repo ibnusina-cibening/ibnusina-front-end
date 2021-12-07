@@ -70,7 +70,9 @@ function CommentItem({
         replyContent: localValue,
         parentIdOfParent: comment.parentId,
         parentContent,
-        parentChildNum: comment.numofchildren
+        parentChildNum: comment.numofchildren,
+        parentCreatedAt: comment.createdAt, 
+        parentIdentity: comment.identity
       }
       saveReplyToParent(reply);
     }
