@@ -26,9 +26,9 @@ export default NextAuth({
         return {
           id: fLogin?.myData.id,
           token: fLogin?.token,
-          name: profile.name,
+          callName: fLogin?.myData.callName,
           email: profile.email,
-          image: profile.picture,
+          avatar: profile.picture,
           role: fLogin?.myData.role
         }
       },
@@ -39,7 +39,7 @@ export default NextAuth({
       // HANYA BERJALAN SAAT EVENT LOGIN SAJA 
       const isAllowedToSignIn = true
       if (isAllowedToSignIn) {
-        console.log(user);
+        // console.log(user);
         return true
       } else {
         // Return false to display a default error message
@@ -50,13 +50,40 @@ export default NextAuth({
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       // DIRENDER SETIAP KALI USER MEMBUKA HALAMAN (WINDOW ON FOCUS) atau berinterak
-      return token;
+      // PERLU DIKETAHUI, USER, ACCOUNT, PROFILE, HANYA TERBACA PADA SAAT EVENT SIGNIN();
+      const x = await user;
+      if (user) {
+        token.a = x && x?.token;
+        token.b = x && x?.id;
+        token.c = x && x?.callName;
+        token.d = x && x?.avatar;
+        token.e = x && x?.role;
+      }
+      return await token;
     },
     async session({ session, token, user }) {
-      // DIRENDER SETIAP KALI USER MEMBUKA HALAMAN (WINDOW ON FOCUS) atau berinteraksi
-      // session.id = 'asdjflwkjeje';
+      if (token.a || token.b) {
+        session.token = await token?.a;
+        session.id = await token?.b;
+        session.callName = await token?.c;
+        session.avatar = await token?.d;
+        session.role = await token?.e;
+      }
       return session
     }
+  },
+  jwt: {
+    // A secret to use for key generation. Defaults to the top-level `session`.
+    secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
+    // The maximum age of the NextAuth.js issued JWT in seconds.
+    // Defaults to `session.maxAge`.
+    maxAge: 60 * 60 * 24 * 30,
+    // You can define your own encode/decode functions for signing and encryption
+    // if you want to override the default behaviour.
+    // async encode({ secret, token, maxAge }) {
+    //   // console.log(secret);
+    //   return token.toString();
+    // }
   },
   session: {
     // Choose how you want to save the user session.
@@ -66,7 +93,7 @@ export default NextAuth({
     // When using `"database"`, the session cookie will only contain a `sessionToken` value,
     // which is used to look up the session in the database.
     // strategy: "database",
-    strategy: "jwt",
+    // strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 30 * 24 * 60 * 60, // 30 days 
 
@@ -78,15 +105,3 @@ export default NextAuth({
   secret: "kKtIBqL3zsXOK2CBBfBvWFUcxc/CoFFmYpyvtDQJ3EM="
 }
 )
-
-// referensi:
-
-// tema login/logout: https://next-auth.js.org/configuration/pages
-// get token : https://blog.srij.dev/nextauth-google-access-token
-// TOKEN : https://stackoverflow.com/questions/69155653/how-to-get-current-provider-of-session-in-next-auth
-
-
-// custom session : https://github.com/nextauthjs/next-auth/discussions/859
-// typeORM adapter : https://typeorm.io/#/connection-options/postgres--cockroachdb-connection-options
-
-// https://github.com/nextauthjs/adapters/blob/canary/packages/typeorm-legacy/docs/tutorials/typeorm-custom-models.md
