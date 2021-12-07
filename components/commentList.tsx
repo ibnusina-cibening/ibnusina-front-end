@@ -64,13 +64,13 @@ function CommentItem({
       // mengirim data children sekaligus parent
       let n = Math.floor(Math.random() * Date.now());
       const reply = {
-        id: n.toString(),
-        parentId: id,
-        content: localValue,
-        children: 0,
-        parentIdOfParent: parentId,
+        // id: n.toString(),
+        parentCommentId: comment.id,
+        parentUserId: comment.userId,
+        replyContent: localValue,
+        parentIdOfParent: comment.parentId,
         parentContent,
-        parentChildNum: numofchildren
+        parentChildNum: comment.numofchildren
       }
       saveReplyToParent(reply);
     }
@@ -78,7 +78,7 @@ function CommentItem({
   }
   return (
     <>
-      <span key={comment.id}>{comment.id}</span>
+      <span key={comment.id}>{comment.identity.callName}</span>
       <InputComment
         disabled={selectedForm === comment.id ? false : true}
         localValue={localValue}
@@ -103,6 +103,7 @@ function CommentItem({
             deleteComment({ id: comment.id });
           }}
         />
+        {' tampilkan '+ comment.numofchildren + ' balasan lainnya'}
       </span>
       }
       {editMode &&
@@ -113,7 +114,12 @@ function CommentItem({
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
-              saveCommentEdited({ id: comment.id, localValue, numofchildren: comment.numofchildren, parentId });
+              saveCommentEdited({ 
+                id: comment.id, 
+                localValue, 
+                numofchildren: comment.numofchildren, 
+                parentId:comment.parentId 
+              });
             }}
           />
           <ButtonComment 
