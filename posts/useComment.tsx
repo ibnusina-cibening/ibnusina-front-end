@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
 import CommentList from '../components/commentList';
-import { AddComment } from '../components/commentElement';
+import { AddComment, ButtonComment} from '../components/commentElement';
 import { Login } from '../lib/login';
 import { GraphQLClient } from 'graphql-request';
 import { getComment, addComment } from './query';
@@ -78,11 +78,14 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     };
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
-    const dataSet = !comment ? []: comment.getCommentByPostId.results;
-    const [isData, setIsData] = useState(dataSet);
     const { mutate } = useSWRConfig();
+    const dataSet = !comment?.getCommentByPostId?.results ? []: comment.getCommentByPostId.results;
+    const [isData, setIsData] = useState(dataSet);
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
+    const showComment = async ()=>{
+        await setIsData(comment.getCommentByPostId.results);
+    }
     const addComment = async (newCommentToAdd) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
@@ -103,7 +106,6 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const { addComment: newReply } = await addCommentToList(newReplyAdded);
             const { postId, userId, content, createdAt, id, identity, numofchildren, parentId } = newReply;
             // numofchildren diambil dari data yang ada (cache atau state)
-            // let children = [];
             const { parentIdOfParent, parentContent, parentChildNum } = vr2;
             // mengupdate numofchildren pada parent comment 
             const updatedData = isData.map(x => (x.id === parentId ?
@@ -122,23 +124,20 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const newArrayResults = [newReply].concat(updatedData);
             const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
             await setIsData(newArrayResults);
-            // console.log(newArrayResults);
             return arr;
         }, false)
 
     }
-    // const res = comment?.getCommentByPostId?.results;
-    // const d = isData.length > 0 ? isData : res;
     const commentData = arrayToTree(isData, { dataField: "" });
-    // console.log();
     return <Comment
         data={commentData}
         pId={pId}
         addComment={addComment}
         addReply={addReply}
+        showComment = {showComment}
     />
 }
-function Comment({ data, pId, addComment, addReply }) {
+function Comment({ data, pId, addComment, addReply, showComment}) {
     const dataList = data;
     const [commentList, setCommentList] = useState(data);
     const [formValue, setFormValue] = useState('tulis komentar');
@@ -148,7 +147,8 @@ function Comment({ data, pId, addComment, addReply }) {
     const handleClick = async (e) => {
         if (e.target.name === 'show') {
             await setShowForm(!showForm)
-            await setFormValue('tulis komentar');
+            // await setFormValue('tulis komentar');
+            showComment();
         }
         if (e.target.name === 'submit') {
             const vr = {
@@ -205,19 +205,29 @@ function Comment({ data, pId, addComment, addReply }) {
     }
     return (
         <div>
-            <Login
+            {showForm && <Login
                 getlogin={setLogin}
-            />
-            <AddComment
+            />}
+             {!showForm &&
+                <ButtonComment
+                    id={1}
+                    name="show"
+                    onClick={handleClick}
+                />
+                
+            }
+            {
+                showForm &&
+                <AddComment
                 formValue={formValue}
-                showForm={showForm}
                 onChange={onChange}
                 handleClick={handleClick}
                 isLoggedIn={isLoggedIn}
             />
+            }
             <div>
                 <span>--------------------------------------</span>
-                {
+                {showForm &&
                     dataList.map(c => {
                         return <div className={utilStyles.commentContainer} key={c.id}>
                             <CommentList

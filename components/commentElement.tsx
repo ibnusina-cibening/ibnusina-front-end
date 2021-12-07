@@ -35,7 +35,7 @@ export function InputMain({ formValue, onChange }) {
     )
 }
 
-export function AddComment({ showForm, formValue, onChange, handleClick, isLoggedIn }) {
+export function AddComment({ formValue, onChange, handleClick, isLoggedIn }) {
     return (
         <>
             {isLoggedIn &&
@@ -44,14 +44,6 @@ export function AddComment({ showForm, formValue, onChange, handleClick, isLogge
                     onChange={onChange}
                 />
             }
-            {!showForm &&
-                <ButtonComment
-                    id={1}
-                    name="show"
-                    onClick={handleClick}
-                />
-            }
-
             {isLoggedIn &&
                 <ButtonComment
                     id={2}
