@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
 import { arrayToTree } from 'performant-array-to-tree';
 import CommentList from '../components/commentList';
-import { AddComment, ButtonComment} from '../components/commentElement';
+import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { GraphQLClient } from 'graphql-request';
 import { getComment, addComment } from './query';
@@ -79,23 +79,59 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
     const { mutate } = useSWRConfig();
-    const dataSet = !comment?.getCommentByPostId?.results ? []: comment.getCommentByPostId.results;
+    const dataSet = !comment?.getCommentByPostId?.results ? [] : comment.getCommentByPostId.results;
     const [isData, setIsData] = useState(dataSet);
     const [isNext, setIsNext] = useState(null);
+    const [shouldLoad, setShouldLoad] = useState('');
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
-    const showComment = async ()=>{
+    const showComment = async () => {
         await setIsData(comment.getCommentByPostId.results);
         setIsNext(comment.getCommentByPostId.nextTimeStamp);
     };
-    const showMore = async ()=>{
-        const varComment = {postId: pId, next:isNext, isParent:true, commentParentId:"", limit: 2};
-        const moreComment = await fetchComment(varComment.postId, 
-            varComment.next, varComment.isParent, varComment.commentParentId, varComment.limit);
-        const {nextTimeStamp, results} = moreComment.getCommentByPostId;
+    const showMore = async () => {
+        // const varComment = {postId: pId, next:isNext, isParent:true, commentParentId:"", limit: 2};
+        const moreComment = await fetchComment(postId, isNext, true, "", limit);
+        const { nextTimeStamp, results } = moreComment.getCommentByPostId;
         setIsData([...isData, ...results]);
         setIsNext(nextTimeStamp);
     };
+    const showMoreChildren = async ({ commentParentId: cpId, childShowLimit }) => {
+        const nextComment = isData.filter(d => d.parentId === cpId);
+        // jika di state tidak ada, kita akan cari di database;
+        if (!nextComment.length) {
+            const moreComment = await fetchComment(postId, null, false, cpId, childShowLimit + 1);
+            const { results } = moreComment.getCommentByPostId;
+            if (results.length > 0) {
+                // menyalin aray dari database dan membuang elemen terakhir; 
+                const copyResults = results.slice(0, -1); 
+                // console.log(copyResults, results);
+                // apakah masih ada children yang harus ditampilkan pada komentar ini? 
+                // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
+                results.length > childShowLimit ? setShouldLoad(cpId): setShouldLoad('');
+                const updateData = [...isData, ...copyResults];
+                setIsData(updateData);
+            }else{
+                setShouldLoad('');
+            }
+        } else if (nextComment.length){
+            const commentIndex = nextComment.length - 1;
+            const nextData = parseInt(nextComment[commentIndex].createdAt);
+            const moreComment = await fetchComment(postId, nextData, false, cpId, childShowLimit + 1);
+            const { results } = moreComment.getCommentByPostId;
+            if (results.length > 0) {
+                // menyalin aray dari database dan membuang elemen terakhir; 
+                const copyResults = results.slice(0, -1); 
+                // apakah masih ada children yang harus ditampilkan pada komentar ini? 
+                // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
+                results.length > childShowLimit ? setShouldLoad(cpId): setShouldLoad('');
+                const updateData = [...isData, ...copyResults];
+                setIsData(updateData);
+            }else{
+                setShouldLoad('');
+            }
+        }
+    }
     const addComment = async (newCommentToAdd) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
@@ -107,12 +143,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     };
     const addReply = async (newReplyAdded, vr2) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const {postId: postIdOfParent, 
+            const { postId: postIdOfParent,
                 // content: replyContent,  ini hanya digunakan untuk request saja
-                parentUserId, 
-                parentCommentId, 
+                parentUserId,
+                parentCommentId,
                 parentIdentity,
-                parentCreatedAt} = newReplyAdded;
+                parentCreatedAt } = newReplyAdded;
             const { addComment: newReply } = await addCommentToList(newReplyAdded);
             const { postId, userId, content, createdAt, id, identity, numofchildren, parentId } = newReply;
             // numofchildren diambil dari data yang ada (cache atau state)
@@ -138,25 +174,30 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         }, false)
 
     }
+    // console.log(shouldLoad);
     const commentData = arrayToTree(isData, { dataField: "" });
     return <Comment
         data={commentData}
         pId={pId}
         addComment={addComment}
         addReply={addReply}
-        showComment = {showComment}
+        showComment={showComment}
         showMore={showMore}
-        nextComment = {isNext}
+        showMoreChildren={showMoreChildren}
+        nextComment={isNext}
+        shouldLoad = {shouldLoad}
     />
 }
-function Comment({ 
-    data, 
-    pId, 
-    addComment, 
-    addReply, 
-    showComment, 
-    nextComment, 
-    showMore
+function Comment({
+    data,
+    pId,
+    addComment,
+    addReply,
+    showComment,
+    nextComment,
+    showMore,
+    showMoreChildren,
+    shouldLoad
 }) {
     const dataList = data;
     const [commentList, setCommentList] = useState(data);
@@ -170,7 +211,7 @@ function Comment({
             // await setFormValue('tulis komentar');
             showComment();
         }
-        if (e.target.name==='show more'){
+        if (e.target.name === 'show more') {
             // console.log(nextComment);
             showMore()
         }
@@ -185,9 +226,9 @@ function Comment({
             addComment(vr);
         }
     };
-    const showMoreChildren = (e)=>{
-        console.log(e);
-    }
+    // const showMoreChildren = (e)=>{
+    //     console.log(e);
+    // }
     const setLogin = (e) => {
         setIsLoggedIn(e);
         setShowForm(e);
@@ -201,14 +242,14 @@ function Comment({
             { id, parentId, content: localValue, children: null, numofchildren } : x));
         setCommentList(updatedData);
     };
-    const saveReply = ({ parentCommentId, 
-            parentUserId, 
-            replyContent, 
-            parentIdOfParent, 
-            parentContent, 
-            parentChildNum,
-            parentIdentity,
-            parentCreatedAt }) => {
+    const saveReply = ({ parentCommentId,
+        parentUserId,
+        replyContent,
+        parentIdOfParent,
+        parentContent,
+        parentChildNum,
+        parentIdentity,
+        parentCreatedAt }) => {
         const vr = {
             postId: pId,
             content: replyContent,
@@ -235,22 +276,22 @@ function Comment({
             {showForm && <Login
                 getlogin={setLogin}
             />}
-             {!showForm &&
+            {!showForm &&
                 <ButtonComment
                     id={1}
                     name="show"
                     onClick={handleClick}
                 />
-                
+
             }
             {
                 showForm &&
                 <AddComment
-                formValue={formValue}
-                onChange={onChange}
-                handleClick={handleClick}
-                isLoggedIn={isLoggedIn}
-            />
+                    formValue={formValue}
+                    onChange={onChange}
+                    handleClick={handleClick}
+                    isLoggedIn={isLoggedIn}
+                />
             }
             <div>
                 <span>--------------------------------------</span>
@@ -263,6 +304,7 @@ function Comment({
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                                 showMoreChildren={showMoreChildren}
+                                shouldLoad = {shouldLoad}
                             />
                         </div>
                     })

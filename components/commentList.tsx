@@ -7,7 +7,8 @@ export default function CommentList({
   saveCommentEdited,
   deleteComment,
   saveReplyToParent,
-  showMoreChildren }) {
+  showMoreChildren,
+  shouldLoad }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <CommentList
@@ -16,10 +17,13 @@ export default function CommentList({
         deleteComment={deleteComment}
         saveReplyToParent={saveReplyToParent}
         showMoreChildren={showMoreChildren}
+        shouldLoad={shouldLoad}
       />
     </div>
       ;
   });
+  // const [loadThis, setLoadThis] = useState(shouldLoad);
+  console.log(shouldLoad === comment.id);
   return (
     <div key={comment.id}>
       <CommentItem
@@ -33,6 +37,7 @@ export default function CommentList({
         showMoreChildren={showMoreChildren}
       />
       {nestedComments}
+      <div>tampilkan lebih banyak</div>
     </div>
   );
 }
@@ -80,14 +85,14 @@ function CommentItem({
         parentIdentity: comment.identity
       }
       saveReplyToParent(reply);
-      setCounter (counter+1);
+      setCounter(counter + 1);
     }
     setReplyThis(null);
   }
-  // const counter = thisCommentId;
+  const childShowLimit = 2;
   return (
     <>
-      <span key={comment.id}>{comment.identity.callName}</span>
+      <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span>
       <InputComment
         disabled={selectedForm === comment.id ? false : true}
         localValue={localValue}
@@ -112,10 +117,13 @@ function CommentItem({
             deleteComment({ id: comment.id });
           }}
         />
-        {comment.numofchildren-counter !== 0 && <span onClick={() => {
-          showMoreChildren({ id: 'hello' });
-        }}>{' tampilkan ' + (comment.numofchildren-counter) + ' balasan lainnya'}
-        </span>}
+        {comment.numofchildren - counter !== 0 &&
+          <span onClick={() => {
+            showMoreChildren({ commentParentId: comment.id, childShowLimit });
+            setCounter(numofchildren);
+          }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
+          </span>
+        }
       </span>
       }
       {editMode &&
@@ -143,18 +151,19 @@ function CommentItem({
               setLocalValue(comment.content);
             }}
           />
+
         </span>
 
       }
       {
-        replyThis && <Reply id={comment.id} saveReplyToParent={saveReply} />
+        replyThis && <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
       }
 
     </>
   )
 }
 
-function Reply({ id, saveReplyToParent }) {
+function Reply({ id, saveReplyToParent, name }) {
   const [localValue, setLocalValue] = useState('test reply');
   const saveReply = ({ id, localValue, name }) => {
     saveReplyToParent({ id, localValue, name });
@@ -164,7 +173,7 @@ function Reply({ id, saveReplyToParent }) {
   }
   return (
     <>
-      <span>balas ke {id}</span>
+      <span>balas ke {name}</span>
       <InputComment
         id={id}
         disabled={false}
