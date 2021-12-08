@@ -97,9 +97,11 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         setIsNext(nextTimeStamp);
     };
     const showMoreChildren = async ({ commentParentId: cpId, childShowLimit }) => {
-        const nextComment = isData.filter(d => d.parentId === cpId);
+        let thisChildren = isData.filter(d => d.parentId === cpId);
+        // let thisParent = isData.filter(d => d.id === cpId);
+        // const newData = isData.filter(d => d.id !== cpId);
         // jika di state tidak ada, kita akan cari di database;
-        if (!nextComment.length) {
+        if (!thisChildren.length) {
             const moreComment = await fetchComment(postId, null, false, cpId, childShowLimit + 1);
             const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
@@ -108,15 +110,25 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 // console.log(copyResults, results);
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                results.length > childShowLimit ? setShouldLoad(cpId): setShouldLoad('');
-                const updateData = [...isData, ...copyResults];
+                const newData = isData.map(x =>(x.id ===cpId? {
+                    id: x.id,
+                    parentId: x.parentId,
+                    content: x.content,
+                    createdAt: x.createdAt,
+                    postId: x.postId,
+                    userId: x.userId,
+                    identity: x.identity,
+                    children: null,
+                    numofchildren: x.numofchildren,
+                    loadMore: results.length > childShowLimit ? true: false
+                }: x))
+                const updateData = [...newData, ...copyResults];
+                // console.log(updateData);
                 setIsData(updateData);
-            }else{
-                setShouldLoad('');
             }
-        } else if (nextComment.length){
-            const commentIndex = nextComment.length - 1;
-            const nextData = parseInt(nextComment[commentIndex].createdAt);
+        } else if (thisChildren.length){
+            const commentIndex = thisChildren.length - 1;
+            const nextData = parseInt(thisChildren[commentIndex].createdAt);
             const moreComment = await fetchComment(postId, nextData, false, cpId, childShowLimit + 1);
             const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
@@ -124,11 +136,21 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 const copyResults = results.slice(0, -1); 
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                results.length > childShowLimit ? setShouldLoad(cpId): setShouldLoad('');
-                const updateData = [...isData, ...copyResults];
+                const newData = isData.map(x =>(x.id ===cpId? {
+                    id: x.id,
+                    parentId: x.parentId,
+                    content: x.content,
+                    createdAt: x.createdAt,
+                    postId: x.postId,
+                    userId: x.userId,
+                    identity: x.identity,
+                    children: null,
+                    numofchildren: x.numofchildren,
+                    loadMore: results.length > childShowLimit ? true: false
+                }: x))
+                const updateData = [...newData, ...copyResults];
+                // console.log(updateData);
                 setIsData(updateData);
-            }else{
-                setShouldLoad('');
             }
         }
     }
@@ -152,7 +174,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const { addComment: newReply } = await addCommentToList(newReplyAdded);
             const { postId, userId, content, createdAt, id, identity, numofchildren, parentId } = newReply;
             // numofchildren diambil dari data yang ada (cache atau state)
-            const { parentIdOfParent, parentContent, parentChildNum } = vr2;
+            const { parentIdOfParent, parentContent, parentChildNum, parentLoadMore } = vr2;
             // mengupdate numofchildren pada parent comment 
             const updatedData = isData.map(x => (x.id === parentId ?
                 {
@@ -164,7 +186,8 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     userId: parentUserId,
                     identity: parentIdentity,
                     children: null,
-                    numofchildren: parentChildNum + 1
+                    numofchildren: parentChildNum + 1,
+                    loadMore: !parentLoadMore?false:true
                 } : x));
             // const newArrayResults = [...updatedData, newReply];
             const newArrayResults = [newReply].concat(updatedData);
@@ -249,7 +272,8 @@ function Comment({
         parentContent,
         parentChildNum,
         parentIdentity,
-        parentCreatedAt }) => {
+        parentCreatedAt, 
+        parentLoadMore }) => {
         const vr = {
             postId: pId,
             content: replyContent,
@@ -260,7 +284,7 @@ function Comment({
             token: session ? session.token : null
         };
         const vr2 = { // untuk kebutuhan modifikasi cache
-            parentIdOfParent, parentContent, parentChildNum
+            parentIdOfParent, parentContent, parentChildNum, parentLoadMore
         };
         addReply(vr, vr2);
     };

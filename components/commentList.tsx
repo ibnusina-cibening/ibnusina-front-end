@@ -23,7 +23,7 @@ export default function CommentList({
       ;
   });
   // const [loadThis, setLoadThis] = useState(shouldLoad);
-  console.log(shouldLoad === comment.id);
+  // console.log(comment.loadMore);
   return (
     <div key={comment.id}>
       <CommentItem
@@ -32,12 +32,11 @@ export default function CommentList({
         deleteComment={deleteComment}
         saveReplyToParent={saveReplyToParent}
         parentContent={comment.content}
-        parentId={comment.parentId}
         numofchildren={comment.numofchildren}
         showMoreChildren={showMoreChildren}
       />
       {nestedComments}
-      <div>tampilkan lebih banyak</div>
+      {comment.loadMore && <div>tampilkan lebih banyak</div>}
     </div>
   );
 }
@@ -49,7 +48,6 @@ function CommentItem({
   saveReplyToParent,
   parentContent,
   showMoreChildren,
-  parentId,
   numofchildren }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState();
@@ -82,7 +80,8 @@ function CommentItem({
         parentContent,
         parentChildNum: comment.numofchildren,
         parentCreatedAt: comment.createdAt,
-        parentIdentity: comment.identity
+        parentIdentity: comment.identity,
+        parentLoadMore: comment.loadMore
       }
       saveReplyToParent(reply);
       setCounter(counter + 1);
