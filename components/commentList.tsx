@@ -6,7 +6,8 @@ export default function CommentList({
   comment,
   saveCommentEdited,
   deleteComment,
-  saveReplyToParent }) {
+  saveReplyToParent,
+  showMoreChildren }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <CommentList
@@ -14,6 +15,7 @@ export default function CommentList({
         saveCommentEdited={saveCommentEdited}
         deleteComment={deleteComment}
         saveReplyToParent={saveReplyToParent}
+        showMoreChildren={showMoreChildren}
       />
     </div>
       ;
@@ -28,6 +30,7 @@ export default function CommentList({
         parentContent={comment.content}
         parentId={comment.parentId}
         numofchildren={comment.numofchildren}
+        showMoreChildren={showMoreChildren}
       />
       {nestedComments}
     </div>
@@ -40,12 +43,14 @@ function CommentItem({
   saveCommentEdited,
   saveReplyToParent,
   parentContent,
+  showMoreChildren,
   parentId,
   numofchildren }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState();
   const [editMode, setEditMode] = useState(false);
   const [replyThis, setReplyThis] = useState();
+  const [counter, setCounter] = useState(0);
 
   const onSelectForm = () => {
     setSelectedForm(comment.id);
@@ -62,7 +67,7 @@ function CommentItem({
   const saveReply = ({ id, localValue, name }) => {
     if (name === 'simpan') {
       // mengirim data children sekaligus parent
-      let n = Math.floor(Math.random() * Date.now());
+      // let n = Math.floor(Math.random() * Date.now());
       const reply = {
         // id: n.toString(),
         parentCommentId: comment.id,
@@ -71,13 +76,15 @@ function CommentItem({
         parentIdOfParent: comment.parentId,
         parentContent,
         parentChildNum: comment.numofchildren,
-        parentCreatedAt: comment.createdAt, 
+        parentCreatedAt: comment.createdAt,
         parentIdentity: comment.identity
       }
       saveReplyToParent(reply);
+      setCounter (counter+1);
     }
     setReplyThis(null);
   }
+  // const counter = thisCommentId;
   return (
     <>
       <span key={comment.id}>{comment.identity.callName}</span>
@@ -88,44 +95,47 @@ function CommentItem({
         id={comment.id}
       />
       {!editMode && !replyThis && <span>
-        <ButtonComment 
+        <ButtonComment
           id={comment.id}
           name="edit"
           onClick={onSelectForm}
         />
-        <ButtonComment 
+        <ButtonComment
           name="balas"
           id={comment.id}
           onClick={replyMode}
         />
-        <ButtonComment 
+        <ButtonComment
           id={comment.id}
           name="hapus"
           onClick={() => {
             deleteComment({ id: comment.id });
           }}
         />
-        {' tampilkan '+ comment.numofchildren + ' balasan lainnya'}
+        {comment.numofchildren-counter !== 0 && <span onClick={() => {
+          showMoreChildren({ id: 'hello' });
+        }}>{' tampilkan ' + (comment.numofchildren-counter) + ' balasan lainnya'}
+        </span>}
       </span>
       }
       {editMode &&
         <span>
-          <ButtonComment 
-            id ={comment.id}
+          <ButtonComment
+            id={comment.id}
             name="simpan"
             onClick={() => {
               setEditMode(false);
               setSelectedForm(null);
-              saveCommentEdited({ 
-                id: comment.id, 
-                localValue, 
-                numofchildren: comment.numofchildren, 
-                parentId:comment.parentId 
+              saveCommentEdited({
+                id: comment.id,
+                localValue,
+                numofchildren: comment.numofchildren,
+                parentId: comment.parentId
               });
             }}
           />
-          <ButtonComment 
-            id ={comment.id}
+          <ButtonComment
+            id={comment.id}
             name="batal"
             onClick={() => {
               setEditMode(false);
@@ -169,8 +179,8 @@ function Reply({ id, saveReplyToParent }) {
             saveReply({ id, localValue, name: 'simpan' });
           }}
         />
-        <ButtonComment 
-          id = {id}
+        <ButtonComment
+          id={id}
           name="batal"
           onClick={() => {
             saveReply({ id, localValue, name: 'batal' });

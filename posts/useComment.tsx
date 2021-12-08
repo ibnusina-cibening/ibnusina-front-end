@@ -74,18 +74,28 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         next: null,
         isParent: true,
         commentParentId: "",
-        limit: 10
+        limit: 5
     };
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
     const { mutate } = useSWRConfig();
     const dataSet = !comment?.getCommentByPostId?.results ? []: comment.getCommentByPostId.results;
     const [isData, setIsData] = useState(dataSet);
+    const [isNext, setIsNext] = useState(null);
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
     const showComment = async ()=>{
         await setIsData(comment.getCommentByPostId.results);
-    }
+        setIsNext(comment.getCommentByPostId.nextTimeStamp);
+    };
+    const showMore = async ()=>{
+        const varComment = {postId: pId, next:isNext, isParent:true, commentParentId:"", limit: 2};
+        const moreComment = await fetchComment(varComment.postId, 
+            varComment.next, varComment.isParent, varComment.commentParentId, varComment.limit);
+        const {nextTimeStamp, results} = moreComment.getCommentByPostId;
+        setIsData([...isData, ...results]);
+        setIsNext(nextTimeStamp);
+    };
     const addComment = async (newCommentToAdd) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
@@ -94,7 +104,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             setIsData(newArrayResults);
             return arr;
         }, false)
-    }
+    };
     const addReply = async (newReplyAdded, vr2) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const {postId: postIdOfParent, 
@@ -135,9 +145,19 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         addComment={addComment}
         addReply={addReply}
         showComment = {showComment}
+        showMore={showMore}
+        nextComment = {isNext}
     />
 }
-function Comment({ data, pId, addComment, addReply, showComment}) {
+function Comment({ 
+    data, 
+    pId, 
+    addComment, 
+    addReply, 
+    showComment, 
+    nextComment, 
+    showMore
+}) {
     const dataList = data;
     const [commentList, setCommentList] = useState(data);
     const [formValue, setFormValue] = useState('tulis komentar');
@@ -150,6 +170,10 @@ function Comment({ data, pId, addComment, addReply, showComment}) {
             // await setFormValue('tulis komentar');
             showComment();
         }
+        if (e.target.name==='show more'){
+            // console.log(nextComment);
+            showMore()
+        }
         if (e.target.name === 'submit') {
             const vr = {
                 postId: pId,
@@ -161,19 +185,22 @@ function Comment({ data, pId, addComment, addReply, showComment}) {
             addComment(vr);
         }
     };
+    const showMoreChildren = (e)=>{
+        console.log(e);
+    }
     const setLogin = (e) => {
         setIsLoggedIn(e);
         setShowForm(e);
-    }
+    };
     const onChange = (e) => {
         setFormValue(e.target.value);
-    }
+    };
     // hasil edit komentar disimpan
     const saveCommentEdited = ({ id, localValue, numofchildren, parentId }) => {
         const updatedData = commentList.map(x => (x.id === id ?
             { id, parentId, content: localValue, children: null, numofchildren } : x));
         setCommentList(updatedData);
-    }
+    };
     const saveReply = ({ parentCommentId, 
             parentUserId, 
             replyContent, 
@@ -193,16 +220,16 @@ function Comment({ data, pId, addComment, addReply, showComment}) {
         };
         const vr2 = { // untuk kebutuhan modifikasi cache
             parentIdOfParent, parentContent, parentChildNum
-        }
+        };
         addReply(vr, vr2);
-    }
+    };
     const deleteComment = ({ id }) => {
         // pertama kita hapus dulu childrennya, jika ada
         const removeChildren = commentList.filter(x => x.parentId !== id);
         // menghapus komentar root 
         const newData = removeChildren.filter(x => x.id !== id);
         setCommentList(newData);
-    }
+    };
     return (
         <div>
             {showForm && <Login
@@ -235,10 +262,16 @@ function Comment({ data, pId, addComment, addReply, showComment}) {
                                 saveCommentEdited={saveCommentEdited}
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
+                                showMoreChildren={showMoreChildren}
                             />
                         </div>
                     })
                 }
+                {showForm && nextComment && <ButtonComment
+                    id={333}
+                    name="show more"
+                    onClick={handleClick}
+                />}
             </div>
         </div>
     )
