@@ -96,7 +96,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         setIsData([...isData, ...results]);
         setIsNext(nextTimeStamp);
     };
-    const showMoreChildren = async ({ commentParentId: cpId, childShowLimit }) => {
+    const showMoreChildren = async ({ commentId: cpId, childShowLimit }) => {
         let thisChildren = isData.filter(d => d.parentId === cpId);
         // let thisParent = isData.filter(d => d.id === cpId);
         // const newData = isData.filter(d => d.id !== cpId);
@@ -106,11 +106,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
                 // menyalin aray dari database dan membuang elemen terakhir; 
-                const copyResults = results.slice(0, -1); 
+                // jika resultnya terdiri dari satu elemen array 
+                const copyResults = results.length > 1 ? results.slice(0, -1): results;
                 // console.log(copyResults, results);
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                const newData = isData.map(x =>(x.id ===cpId? {
+                const newData = isData.map(x => (x.id === cpId ? {
                     id: x.id,
                     parentId: x.parentId,
                     content: x.content,
@@ -120,23 +121,24 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     identity: x.identity,
                     children: null,
                     numofchildren: x.numofchildren,
-                    loadMore: results.length > childShowLimit ? true: false
-                }: x))
+                    loadMore: results.length > childShowLimit ? true : false
+                } : x))
                 const updateData = [...newData, ...copyResults];
                 // console.log(updateData);
                 setIsData(updateData);
             }
-        } else if (thisChildren.length){
+        } else if (thisChildren.length) {
             const commentIndex = thisChildren.length - 1;
             const nextData = parseInt(thisChildren[commentIndex].createdAt);
             const moreComment = await fetchComment(postId, nextData, false, cpId, childShowLimit + 1);
             const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
                 // menyalin aray dari database dan membuang elemen terakhir; 
-                const copyResults = results.slice(0, -1); 
+                // jika resultnya terdiri dari satu elemen array 
+                const copyResults = results.length > 1 ? results.slice(0, -1): results;
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                const newData = isData.map(x =>(x.id ===cpId? {
+                const newData = isData.map(x => (x.id === cpId ? {
                     id: x.id,
                     parentId: x.parentId,
                     content: x.content,
@@ -146,8 +148,8 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     identity: x.identity,
                     children: null,
                     numofchildren: x.numofchildren,
-                    loadMore: results.length > childShowLimit ? true: false
-                }: x))
+                    loadMore: results.length > childShowLimit ? true : false
+                } : x))
                 const updateData = [...newData, ...copyResults];
                 // console.log(updateData);
                 setIsData(updateData);
@@ -187,7 +189,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     identity: parentIdentity,
                     children: null,
                     numofchildren: parentChildNum + 1,
-                    loadMore: !parentLoadMore?false:true
+                    loadMore: !parentLoadMore ? false : true
                 } : x));
             // const newArrayResults = [...updatedData, newReply];
             const newArrayResults = [newReply].concat(updatedData);
@@ -208,7 +210,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         showMore={showMore}
         showMoreChildren={showMoreChildren}
         nextComment={isNext}
-        shouldLoad = {shouldLoad}
+        shouldLoad={shouldLoad}
     />
 }
 function Comment({
@@ -272,7 +274,7 @@ function Comment({
         parentContent,
         parentChildNum,
         parentIdentity,
-        parentCreatedAt, 
+        parentCreatedAt,
         parentLoadMore }) => {
         const vr = {
             postId: pId,
@@ -328,7 +330,7 @@ function Comment({
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                                 showMoreChildren={showMoreChildren}
-                                shouldLoad = {shouldLoad}
+                                shouldLoad={shouldLoad}
                             />
                         </div>
                     })

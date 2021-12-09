@@ -36,7 +36,9 @@ export default function CommentList({
         showMoreChildren={showMoreChildren}
       />
       {nestedComments}
-      {comment.loadMore && <div>tampilkan lebih banyak</div>}
+      {comment.loadMore && <div onClick={()=>{
+        showMoreChildren({ commentId: comment.id, childShowLimit:2 });
+      }}>tampilkan lebih banyak</div>}
     </div>
   );
 }
@@ -118,7 +120,7 @@ function CommentItem({
         />
         {comment.numofchildren - counter !== 0 &&
           <span onClick={() => {
-            showMoreChildren({ commentParentId: comment.id, childShowLimit });
+            showMoreChildren({ commentId: comment.id, childShowLimit });
             setCounter(numofchildren);
           }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
           </span>
