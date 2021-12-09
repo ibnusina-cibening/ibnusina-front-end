@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { arrayToTree } from 'performant-array-to-tree';
 import useSWR, { useSWRConfig } from "swr";
 import Comment from "../components/commentRender";
-import { fetchComment, addCommentToList, editCommentary } from "./fetcher/commentFetcher";
+import { fetchComment, addCommentToList, editCommentary, removeComment } from "./fetcher/commentFetcher";
 
 function useComment(commentVariable) {
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
@@ -45,7 +45,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         commentParentId: "",
         limit: 5
     };
-    const childShowLimit = 2; 
+    const childShowLimit = 2;
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
     const { mutate } = useSWRConfig();
@@ -66,14 +66,16 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         setIsNext(nextTimeStamp);
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             // const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0]: x);
-            const  getCommentByPostId = {getCommentByPostId:{
-                nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                results: [...comment.getCommentByPostId.results, ...results]// di backend harus mereturn response berupa array, walaupun array kosong
-            }};
+            const getCommentByPostId = {
+                getCommentByPostId: {
+                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    results: [...comment.getCommentByPostId.results, ...results]// di backend harus mereturn response berupa array, walaupun array kosong
+                }
+            };
             return getCommentByPostId
         }, false)
     };
-    const showMoreChildren = async ({ commentId: cpId}) => {
+    const showMoreChildren = async ({ commentId: cpId }) => {
         let thisChildren = comment.getCommentByPostId.results.filter(d => d.parentId === cpId);
         // let thisParent = isData.filter(d => d.id === cpId);
         // const newData = isData.filter(d => d.id !== cpId);
@@ -104,10 +106,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 // setIsData(updateData);
                 await mutate([postId, next, isParent, commentParentId, limit], async () => {
                     // const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0]: x);
-                    const  getCommentByPostId = {getCommentByPostId:{
-                        nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                        results: updateData// di backend harus mereturn response berupa array, walaupun array kosong
-                    }};
+                    const getCommentByPostId = {
+                        getCommentByPostId: {
+                            nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                            results: updateData// di backend harus mereturn response berupa array, walaupun array kosong
+                        }
+                    };
                     return getCommentByPostId
                 }, false)
             }
@@ -138,10 +142,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 // setIsData(updateData);
                 await mutate([postId, next, isParent, commentParentId, limit], async () => {
                     // const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0]: x);
-                    const  getCommentByPostId = {getCommentByPostId:{
-                        nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                        results: updateData// di backend harus mereturn response berupa array, walaupun array kosong
-                    }};
+                    const getCommentByPostId = {
+                        getCommentByPostId: {
+                            nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                            results: updateData// di backend harus mereturn response berupa array, walaupun array kosong
+                        }
+                    };
                     return getCommentByPostId
                 }, false)
             }
@@ -154,10 +160,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             // const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
             // setIsData(newArrayResults);
             // return arr;
-            const  getCommentByPostId = {getCommentByPostId:{
-                nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                results: newArrayResults// di backend harus mereturn response berupa array, walaupun array kosong
-            }};
+            const getCommentByPostId = {
+                getCommentByPostId: {
+                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    results: newArrayResults// di backend harus mereturn response berupa array, walaupun array kosong
+                }
+            };
             return getCommentByPostId;
         }, false)
     };
@@ -192,10 +200,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             // const arr = { ...comment, results: newArrayResults, nextTimeStamp: comment.getCommentByPostId.nextTimeStamp };
             // await setIsData(newArrayResults);
             // console.log(newArrayResults);
-            const  getCommentByPostId = {getCommentByPostId:{
-                nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                results: newArrayResults// di backend harus mereturn response berupa array, walaupun array kosong
-            }};
+            const getCommentByPostId = {
+                getCommentByPostId: {
+                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    results: newArrayResults// di backend harus mereturn response berupa array, walaupun array kosong
+                }
+            };
             return getCommentByPostId;
         }, false)
     };
@@ -216,14 +226,32 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 loadMore
             } : x));
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0]: x);
-            const  getCommentByPostId = {getCommentByPostId:{
-                nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                results: nresult// di backend harus mereturn response berupa array, walaupun array kosong
-            }};
+            const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0] : x);
+            const getCommentByPostId = {
+                getCommentByPostId: {
+                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    results: nresult// di backend harus mereturn response berupa array, walaupun array kosong
+                }
+            };
             return getCommentByPostId
         }, false)
         // setIsData(updatedData);
+    }
+    const deleteComment = async ({token, postId, commentId, userId, parentId}) => {
+        const parentComment = comment.getCommentByPostId.results.filter(x => x.id===parentId);
+        const parentUserId = !parentComment.length? '': parentComment[0].userId;
+        const removeThis = await removeComment({token, postId, commentId, userId, parentUserId});
+        const {id:thisId} = removeThis.deleteComment;
+        await mutate([postId, next, isParent, commentParentId, limit], async () => {
+            const nresult = comment.getCommentByPostId.results.filter(x => x.id !== thisId);
+            const getCommentByPostId = {
+                getCommentByPostId: {
+                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    results: nresult
+                }
+            };
+            return getCommentByPostId
+        }, false)
     }
     const commentData = arrayToTree(dataSet, { dataField: "" });
     return <Comment
@@ -236,5 +264,6 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         showMoreChildren={showMoreChildren}
         nextComment={isNext}
         saveEditedComment={saveEditedComment}
+        removeComment={deleteComment}
     />
 }

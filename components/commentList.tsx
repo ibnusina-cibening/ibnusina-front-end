@@ -32,8 +32,8 @@ export default function CommentList({
         showMoreChildren={showMoreChildren}
       />
       {nestedComments}
-      {comment.loadMore && <div onClick={()=>{
-        showMoreChildren({ commentId: comment.id});
+      {comment.loadMore && <div onClick={() => {
+        showMoreChildren({ commentId: comment.id });
       }}>tampilkan lebih banyak</div>}
     </div>
   );
@@ -86,7 +86,7 @@ function CommentItem({
     }
     setReplyThis(null);
   }
-  const childShowLimit = 2;
+  // const childShowLimit = 2;
   return (
     <>
       <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span>
@@ -111,7 +111,12 @@ function CommentItem({
           id={comment.id}
           name="hapus"
           onClick={() => {
-            deleteComment({ id: comment.id });
+            deleteComment({
+              postId: comment.postId,
+              commentId: comment.id,
+              userId: comment.userId,
+              parentId: comment.parentId
+            });
           }}
         />
         {comment.numofchildren - counter !== 0 &&
@@ -137,7 +142,7 @@ function CommentItem({
                 numofchildren: comment.numofchildren,
                 parentId: comment.parentId,
                 identity: comment.identity,
-                loadMore: !comment.loadMore?false:comment.loadMore
+                loadMore: !comment.loadMore ? false : comment.loadMore
               });
             }}
           />

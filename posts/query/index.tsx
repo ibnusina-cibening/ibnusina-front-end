@@ -5,6 +5,7 @@ import fLogin from './fLogin';
 import getComment from './getComment';
 import addComment from './addComment';
 import editComment from './editComment';
+import deleteComment from './deleteComment';
 
 const headers = {
     'Content-Type': 'application/json',
@@ -22,5 +23,6 @@ export {
     headers, 
     url,
     addComment,
-    editComment
+    editComment,
+    deleteComment
   };

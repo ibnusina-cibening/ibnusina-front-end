@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { getComment, addComment, editComment} from '../query';
+import { getComment, addComment, editComment, deleteComment} from '../query';
 
 export async function fetchComment(postId, next, isParent, commentParentId, limit) {
     console.log('hi dari fetchComent');
@@ -35,6 +35,18 @@ export async function editCommentary ({token, commentId, content}){
     }
     const client = new GraphQLClient(url, { headers });
     const res = await client.request(editComment, {commentId, content }, headers);
+    const data = await res;
+    return data;
+}
+
+export async function removeComment ({token, postId, commentId, userId, parentUserId}){
+    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    // const url = "http://localhost:4000/"
+    const headers = {
+        Authorization: token
+    }
+    const client = new GraphQLClient(url, { headers });
+    const res = await client.request(deleteComment, {postId, commentId, userId, parentUserId}, headers);
     const data = await res;
     return data;
 }

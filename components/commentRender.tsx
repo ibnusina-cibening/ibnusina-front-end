@@ -14,10 +14,11 @@ export default function Comment({
     nextComment,
     showMore,
     showMoreChildren,
-    saveEditedComment
+    saveEditedComment,
+    removeComment
 }) {
     const dataList = data;
-    const [commentList, setCommentList] = useState(data);
+    // const [commentList, setCommentList] = useState(data);
     const [formValue, setFormValue] = useState('tulis komentar');
     const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -84,12 +85,8 @@ export default function Comment({
         };
         addReply(vr, vr2);
     };
-    const deleteComment = ({ id }) => {
-        // pertama kita hapus dulu childrennya, jika ada
-        const removeChildren = commentList.filter(x => x.parentId !== id);
-        // menghapus komentar root 
-        const newData = removeChildren.filter(x => x.id !== id);
-        setCommentList(newData);
+    const deleteComment = ({ postId, commentId, userId, parentId }) => {
+        removeComment({ token:session ? session.token : null, postId, commentId, userId, parentId });
     };
     return (
         <div>
