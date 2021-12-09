@@ -86,7 +86,6 @@ function CommentItem({
     }
     setReplyThis(null);
   }
-  // const childShowLimit = 2;
   return (
     <>
       <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span>
@@ -119,7 +118,7 @@ function CommentItem({
             });
           }}
         />
-        {comment.numofchildren - counter !== 0 &&
+        {comment.numofchildren - counter > 0 &&
           <span onClick={() => {
             showMoreChildren({ commentId: comment.id });
             setCounter(numofchildren);
