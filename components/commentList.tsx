@@ -7,8 +7,7 @@ export default function CommentList({
   saveCommentEdited,
   deleteComment,
   saveReplyToParent,
-  showMoreChildren,
-  shouldLoad }) {
+  showMoreChildren }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <CommentList
@@ -17,13 +16,10 @@ export default function CommentList({
         deleteComment={deleteComment}
         saveReplyToParent={saveReplyToParent}
         showMoreChildren={showMoreChildren}
-        shouldLoad={shouldLoad}
       />
     </div>
       ;
   });
-  // const [loadThis, setLoadThis] = useState(shouldLoad);
-  // console.log(comment.loadMore);
   return (
     <div key={comment.id}>
       <CommentItem
@@ -139,7 +135,8 @@ function CommentItem({
                 id: comment.id,
                 localValue,
                 numofchildren: comment.numofchildren,
-                parentId: comment.parentId
+                parentId: comment.parentId,
+                identity: comment.identity
               });
             }}
           />

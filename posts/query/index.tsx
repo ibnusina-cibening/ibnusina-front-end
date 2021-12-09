@@ -4,6 +4,7 @@ import metaPost from './metaPost';
 import fLogin from './fLogin';
 import getComment from './getComment';
 import addComment from './addComment';
+import editComment from './editComment';
 
 const headers = {
     'Content-Type': 'application/json',
@@ -20,5 +21,6 @@ export {
     fLogin, 
     headers, 
     url,
-    addComment
+    addComment,
+    editComment
   };
