@@ -50,13 +50,14 @@ export default function Comment({
         setFormValue(e.target.value);
     };
     // hasil edit komentar disimpan
-    const saveCommentEdited = ({ id, localValue, numofchildren, parentId, identity }) => {
+    const saveCommentEdited = ({ id, localValue, numofchildren, parentId, identity, loadMore }) => {
         saveEditedComment({ 
             id, 
             localValue, 
             numofchildren, 
             parentId, 
             identity,
+            loadMore,
             token: session ? session.token : null})
         // console.log(localValue)
     };

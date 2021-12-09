@@ -33,7 +33,7 @@ export default function CommentList({
       />
       {nestedComments}
       {comment.loadMore && <div onClick={()=>{
-        showMoreChildren({ commentId: comment.id, childShowLimit:2 });
+        showMoreChildren({ commentId: comment.id});
       }}>tampilkan lebih banyak</div>}
     </div>
   );
@@ -116,7 +116,7 @@ function CommentItem({
         />
         {comment.numofchildren - counter !== 0 &&
           <span onClick={() => {
-            showMoreChildren({ commentId: comment.id, childShowLimit });
+            showMoreChildren({ commentId: comment.id });
             setCounter(numofchildren);
           }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
           </span>
@@ -136,7 +136,8 @@ function CommentItem({
                 localValue,
                 numofchildren: comment.numofchildren,
                 parentId: comment.parentId,
-                identity: comment.identity
+                identity: comment.identity,
+                loadMore: !comment.loadMore?false:comment.loadMore
               });
             }}
           />
