@@ -60,7 +60,6 @@ export default function Comment({
             identity,
             loadMore,
             token: session ? session.token : null})
-        // console.log(localValue)
     };
     const saveReply = ({ parentCommentId,
         parentUserId,
@@ -86,10 +85,9 @@ export default function Comment({
         addReply(vr, vr2);
     };
     const deleteComment = ({ postId, commentId, userId, parentId }) => {
-        // sengaja mengambil userId dari komponen children, bukan dari user login
-        // tujuannya agar dimungkinkan delete oleh 'admin'.
         removeComment({ token:session ? session.token : null, postId, commentId, userId, parentId });
     };
+    // console.log(session.id);
     return (
         <div>
             {showForm && <Login
@@ -123,7 +121,7 @@ export default function Comment({
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                                 showMoreChildren={showMoreChildren}
-
+                                thisUserId = {session.id}
                             />
                         </div>
                     })

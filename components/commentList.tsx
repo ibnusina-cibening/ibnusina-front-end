@@ -7,6 +7,7 @@ export default function CommentList({
   saveCommentEdited,
   deleteComment,
   saveReplyToParent,
+  thisUserId,
   showMoreChildren }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
@@ -16,6 +17,7 @@ export default function CommentList({
         deleteComment={deleteComment}
         saveReplyToParent={saveReplyToParent}
         showMoreChildren={showMoreChildren}
+        thisUserId={thisUserId}
       />
     </div>
       ;
@@ -30,6 +32,7 @@ export default function CommentList({
         parentContent={comment.content}
         numofchildren={comment.numofchildren}
         showMoreChildren={showMoreChildren}
+        thisUserId={thisUserId}
       />
       {nestedComments}
       {comment.loadMore && <div onClick={() => {
@@ -46,6 +49,7 @@ function CommentItem({
   saveReplyToParent,
   parentContent,
   showMoreChildren,
+  thisUserId,
   numofchildren }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState();
@@ -86,6 +90,7 @@ function CommentItem({
     }
     setReplyThis(null);
   }
+  const myComment = thisUserId === comment.userId;
   return (
     <>
       <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span>
@@ -96,17 +101,17 @@ function CommentItem({
         id={comment.id}
       />
       {!editMode && !replyThis && <span>
-        <ButtonComment
+        {myComment && <ButtonComment
           id={comment.id}
           name="edit"
           onClick={onSelectForm}
-        />
+        />}
         <ButtonComment
           name="balas"
           id={comment.id}
           onClick={replyMode}
-        />
-        <ButtonComment
+        />      
+        {myComment && <ButtonComment
           id={comment.id}
           name="hapus"
           onClick={() => {
@@ -117,7 +122,7 @@ function CommentItem({
               parentId: comment.parentId
             });
           }}
-        />
+        />}
         {comment.numofchildren - counter > 0 &&
           <span onClick={() => {
             showMoreChildren({ commentId: comment.id });
