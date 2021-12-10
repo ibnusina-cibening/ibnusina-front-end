@@ -1,12 +1,15 @@
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import { FC } from 'react';
 // material
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
-
-const Logo = forwardRef(({ sx }, ref) => {
+interface SX{
+  sx:object
+}
+const Logo: FC <SX>= forwardRef(({ sx }, ref) => {
   const theme = useTheme();
   const PRIMARY_LIGHT = theme.palette.primary.light;
   const PRIMARY_MAIN = theme.palette.primary.main;

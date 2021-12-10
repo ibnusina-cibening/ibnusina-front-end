@@ -255,10 +255,10 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }) {
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log(pathname)
   return (
     <Stack direction='row'>
-      {navConfig.map((link) => (
+      {/* {navConfig.map((link) => (
         <MenuDesktopItem
           key={link.title}
           item={link}
@@ -269,7 +269,7 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }) {
           isOffset={isOffset}
           isHome={isHome}
         />
-      ))}
+      ))} */}
     </Stack>
   );
 }

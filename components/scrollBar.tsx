@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import SimpleBarReact from 'simplebar-react';
 // material
+import React, { FC} from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')({
+const RootStyle: FC<ANY> styled('div')({
   flexGrow: 1,
   height: '100%',
   overflow: 'hidden',
 });
 
-const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
+const SimpleBarStyle : FC styled(SimpleBarReact)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {

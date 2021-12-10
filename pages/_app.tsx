@@ -14,11 +14,13 @@ import theme from '../src/theme';
 // Client-side cache, shared for the whole session of the user in the browser.
 // const clientSideEmotionCache = createEmotionCache();
 
+import type { AppProps /*, AppContext */ } from 'next/app';
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   // emotionCache = clientSideEmotionCache,
-}) {
+}:AppProps) {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {
