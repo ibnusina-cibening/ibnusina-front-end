@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"], // es6 bawaan mui 
+    // "noImplicitAny": true, // bawaan mui
+    // "noImplicitThis": true, // bawaan mui
+    // "strictNullChecks": true, // bawaan mui
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -16,5 +19,5 @@
     "incremental": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.js", "components/page.js", "pages/index.js", "src/Link.js"]
 }
