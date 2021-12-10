@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
 import { InputComment, ButtonComment } from './commentElement';
+import { Login } from '../lib/login';
 
 export default function CommentList({
   comment,
@@ -8,7 +9,8 @@ export default function CommentList({
   deleteComment,
   saveReplyToParent,
   thisUserId,
-  showMoreChildren }) {
+  showMoreChildren,
+  setLogin }) {
   const nestedComments = (comment.children || []).map(comment => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <CommentList
@@ -18,6 +20,7 @@ export default function CommentList({
         saveReplyToParent={saveReplyToParent}
         showMoreChildren={showMoreChildren}
         thisUserId={thisUserId}
+        setLogin={setLogin}
       />
     </div>
       ;
@@ -33,6 +36,7 @@ export default function CommentList({
         numofchildren={comment.numofchildren}
         showMoreChildren={showMoreChildren}
         thisUserId={thisUserId}
+        setLogin={setLogin}
       />
       {nestedComments}
       {comment.loadMore && <div onClick={() => {
@@ -50,7 +54,8 @@ function CommentItem({
   parentContent,
   showMoreChildren,
   thisUserId,
-  numofchildren }) {
+  numofchildren,
+  setLogin }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState();
   const [editMode, setEditMode] = useState(false);
@@ -164,7 +169,9 @@ function CommentItem({
 
       }
       {
-        replyThis && <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
+        replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />:
+        replyThis&&<span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin}/></span>
+
       }
 
     </>

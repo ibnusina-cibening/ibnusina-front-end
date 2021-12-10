@@ -121,7 +121,8 @@ export default function Comment({
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                                 showMoreChildren={showMoreChildren}
-                                thisUserId = {session.id}
+                                thisUserId = {!session?null:session.id}
+                                setLogin = {setLogin}
                             />
                         </div>
                     })

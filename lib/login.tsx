@@ -1,5 +1,5 @@
 import { useSession, signOut, signIn } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function Login({ getlogin }) {
     const [login, setIslogin] = useState(true);
