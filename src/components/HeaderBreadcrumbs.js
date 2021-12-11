@@ -16,6 +16,7 @@ HeaderBreadcrumbs.propTypes = {
 };
 
 export default function HeaderBreadcrumbs({ links, action, heading, moreLink = '' || [], sx, ...other }) {
+  // console.log(moreLink, links);
   return (
     <Box sx={{ mb: 5, ...sx }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
