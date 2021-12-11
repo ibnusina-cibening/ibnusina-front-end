@@ -19,7 +19,7 @@ ThemeConfig.propTypes = {
   children: PropTypes.node,
 };
 
-export default function ThemeConfig({ children }) {
+export default function ThemeConfig({ children }:{children:any}) {
   const { themeMode, themeDirection } = useSettings();
   const isLight = themeMode === 'light';
 

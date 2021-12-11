@@ -9,24 +9,24 @@ import { ThemeProvider } from '@mui/material/styles';
 // import { CacheProvider } from '@emotion/react';
 import theme from '../src/theme/';
 // import Link from '../src/Link';
-// import createEmotionCache from '../src/createEmotionCache';
+import createEmotionCache from '../src/createEmotionCache';
 
 // Client-side cache, shared for the whole session of the user in the browser.
-// const clientSideEmotionCache = createEmotionCache();
+const clientSideEmotionCache = createEmotionCache();
 
 import type { AppProps /*, AppContext */ } from 'next/app';
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-  // emotionCache = clientSideEmotionCache,
+  // emotionCache = clientSideEmotionCache
 }:AppProps) {
-  useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side')
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles)
-    }
-  }, []);
+  // useEffect(() => {
+  //   const jssStyles = document.querySelector('#jss-server-side')
+  //   if (jssStyles) {
+  //     jssStyles.parentElement.removeChild(jssStyles)
+  //   }
+  // }, []);
   return (
       <SessionProvider session={session}>
         <Head>
