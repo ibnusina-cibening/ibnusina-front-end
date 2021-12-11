@@ -7,7 +7,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
 // import CssBaseline from '@mui/material/CssBaseline';
 // import { CacheProvider } from '@emotion/react';
-import theme from '../src/theme';
+import theme from '../src/theme/';
 // import Link from '../src/Link';
 // import createEmotionCache from '../src/createEmotionCache';
 
@@ -28,7 +28,6 @@ export default function App({
     }
   }, []);
   return (
-    
       <SessionProvider session={session}>
         <Head>
           <title>My page</title>
