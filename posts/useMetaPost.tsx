@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 import { metaPost } from './query';
 import convertToKilo from '../lib/convertToKilo';
 
-async function fetcher(postId) {
+async function fetcher(postId: any) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
   const client = new GraphQLClient(url)
   console.log('hi');
@@ -15,7 +15,7 @@ async function fetcher(postId) {
   return d;
 }
 
-const useMetaPost = (postId) => {
+const useMetaPost = (postId: any) => {
   const { error, data } = useSWR<{
     getMetaPostCount: {
       commentCount: number
@@ -59,7 +59,7 @@ function ViewReaction({ postId }: { postId: String }) {
   if (isError) return <div>error</div>
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  const myReaction = reaction.meReaction;
+  const myReaction = reaction?.meReaction;
   return <div>
     <span role="img" aria-label="excited">😍: {convertToKilo(mood?.EXCITED)}{myReaction === 'EXCITED' ? " Termasuk kamu" : null}</span>
     <span role="img" aria-label="praying">🙏: {convertToKilo(mood?.PRAYING)} {myReaction === 'PRAYING' ? " Termasuk kamu" : null}</span>
@@ -74,7 +74,7 @@ function ViewLike({ postId }: { postId: String }) {
   if (isError) return <div>error</div>
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  const includingYou = reaction.meLike ? " termasuk kamu" : null;
+  const includingYou = reaction?.meLike ? " termasuk kamu" : null;
   return <>
     <div>Suka: {convertToKilo(mood?.LIKE)} {includingYou}</div>
   </>

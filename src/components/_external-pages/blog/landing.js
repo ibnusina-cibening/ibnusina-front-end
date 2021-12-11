@@ -86,7 +86,7 @@ export default function LandingBlog({data}) {
   // const screenLeftAnimate = variantScreenLeft;
   // const screenCenterAnimate = variantScreenCenter;
   // const screenRightAnimate = variantScreenRight;
-
+  // console.log(data);
   return (
     <RootStyle>
       <Container maxWidth='lg'>

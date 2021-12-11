@@ -1,6 +1,7 @@
 import {postList, headers, url} from './query';
 
 export default async function postData() {
+  // const url = process.env.NEXT_PUBLIC_GRAPH_URL
   const query = postList;
   const getData = {
     method: 'POST',

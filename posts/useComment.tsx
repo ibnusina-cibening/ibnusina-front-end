@@ -4,7 +4,7 @@ import useSWR, { useSWRConfig } from "swr";
 import Comment from "../components/commentRender";
 import { fetchComment, addCommentToList, editCommentary, removeComment } from "./fetcher/commentFetcher";
 
-function useComment(commentVariable) {
+function useComment(commentVariable: { postId: any; next: any; isParent: any; commentParentId: any; limit: any; }) {
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { error, data } = useSWR<{
         getCommentByPostId: {
@@ -75,7 +75,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             return getCommentByPostId
         }, false)
     };
-    const showMoreChildren = async ({ commentId: cpId }) => {
+    const showMoreChildren = async ({ commentId: cpId }:{commentId:any}) => {
         // khusus untuk menampilkan komentar balasan (children)
         let thisChildren = comment.getCommentByPostId.results.filter(d => d.parentId === cpId);
         // jika di data cache tidak ada, kita akan cari di database;
@@ -156,7 +156,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             }
         }
     }
-    const addComment = async (newCommentToAdd) => {
+    const addComment = async (newCommentToAdd: { postId: any; content: any; parentUserId: any; parentCommentId: any; token: any; }) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
             const newArrayResults = [newComment].concat(comment.getCommentByPostId.results);
@@ -169,7 +169,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             return getCommentByPostId;
         }, false)
     };
-    const addReply = async (newReplyAdded, vr2) => {
+    const addReply = async (newReplyAdded: { postId: any; parentUserId: any; parentCommentId: any; parentIdentity?: any; parentCreatedAt?: any; content?: any; token?: any; }, vr2: { parentIdOfParent: any; parentContent: any; parentChildNum: any; parentLoadMore: any; }) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { postId: postIdOfParent,
                 // content: replyContent,  ini hanya digunakan untuk request saja

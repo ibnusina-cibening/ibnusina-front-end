@@ -1,13 +1,13 @@
 // material
 import { styled } from '@mui/material/styles';
 // components
-import Page from 'src/components/Page';
-import MainLayout from 'src/layouts/main';
+import Page from '../src/components/Page';
+import MainLayout from '../src/layouts/main';
 
 import {
   LandingDarkMode,
 } 
-from 'src/components/_external-pages/profile';
+from '../src/components/_external-pages/profile';
 
 
 const RootStyle = styled(Page)({
