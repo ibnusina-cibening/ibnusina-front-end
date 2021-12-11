@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------
 
-export default function Pickers(v) {
+export default function Pickers() {
   return {};
 }

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function IconButton(v) {
+export default function IconButton() {
   return {
     MuiIconButton: {
       styleOverrides: {

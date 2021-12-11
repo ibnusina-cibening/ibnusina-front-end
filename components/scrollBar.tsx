@@ -13,13 +13,13 @@ const RootStyle = styled('div')({
   overflow: 'hidden',
 });
 
-interface MS{
-  sx:object
-  timeout:number
-  clickOnTrack:boolean
-}
+// interface MS{
+//   sx:any
+//   timeout:number
+//   clickOnTrack:boolean
+// }
 
-const SimpleBarStyle: FC <MS> = styled(SimpleBarReact)(({ theme }) => ({
+const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
@@ -47,7 +47,7 @@ Scrollbar.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function Scrollbar({ children, sx, ...other }) {
+export default function Scrollbar({ children, sx, ...other }:{children:any, sx:any}) {
   const userAgent =
     typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent;
 

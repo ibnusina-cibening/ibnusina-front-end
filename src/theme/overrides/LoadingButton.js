@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function LoadingButton(v) {
+export default function LoadingButton() {
   return {
     MuiLoadingButton: {
       styleOverrides: {

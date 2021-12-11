@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Container(v) {
+export default function Container() {
   return {
     MuiContainer: {
       styleOverrides: {

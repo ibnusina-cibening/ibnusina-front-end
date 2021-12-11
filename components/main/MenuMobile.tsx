@@ -188,7 +188,7 @@ export default function MenuMobile({ isOffset, isHome, navConfig }:{isOffset:any
         ModalProps={{ keepMounted: true }}
         PaperProps={{ sx: { pb: 5, width: 260 } }}
       >
-        <Scrollbar sx={undefined}>
+        <Scrollbar>
           <Box sx={{ display: 'inline-flex' }}>
             <NextLink href='/'>
               <Logo sx={{ mx: PADDING, my: 3 }} />

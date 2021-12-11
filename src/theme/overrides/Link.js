@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Link(v) {
+export default function Link() {
   return {
     MuiLink: {
       defaultProps: {

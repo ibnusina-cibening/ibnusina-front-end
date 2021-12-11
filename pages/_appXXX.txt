@@ -1,0 +1,65 @@
+// import '../styles/global.css'
+import { SessionProvider } from 'next-auth/react'
+// import PropTypes from 'prop-types';
+import Head from 'next/head';
+import { NoSsr } from '@mui/material';
+
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider } from '@emotion/react';
+
+// contexts
+import { SettingsProvider } from '../src/contexts/SettingsContext';
+import { CollapseDrawerProvider } from '../src/contexts/CollapseDrawerContext';
+
+// components
+import Settings from '../components/settings';
+// import RtlLayout from 'src/components/RtlLayout';
+// import ProgressBar from 'src/components/ProgressBar';
+// import LoadingScreen from 'src/components/LoadingScreen';
+// import ThemePrimaryColor from 'src/components/ThemePrimaryColor';
+
+// theme
+// import ThemeConfig from 'src/theme';
+// import GlobalStyles from 'src/theme/globalStyles';
+
+// ------------------------------------
+
+import createEmotionCache from '../src/createEmotionCache';
+const clientSideEmotionCache = createEmotionCache();
+
+// import type { AppProps /*, AppContext */ } from 'next/app';
+
+export default function App({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps: { session, ...pageProps }
+}: any) {
+  // useEffect(() => {
+  //   const jssStyles = document.querySelector('#jss-server-side')
+  //   if (jssStyles) {
+  //     jssStyles.parentElement.removeChild(jssStyles)
+  //   }
+  // }, []);
+  return (
+    <SettingsProvider>
+      <CollapseDrawerProvider>
+        <SessionProvider session={session}>
+          <CacheProvider value={emotionCache}>
+            <Head>
+              <meta
+                name='viewport'
+                content='initial-scale=1, width=device-width'
+              />
+            </Head>
+            <NoSsr>
+              <Settings />
+            </NoSsr>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </CacheProvider>
+        </SessionProvider>
+      </CollapseDrawerProvider>
+    </SettingsProvider>
+  )
+}

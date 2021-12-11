@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 // emotion
 import createEmotionServer from '@emotion/server/create-instance';
 // utils
-import createEmotionCache from '../src/createEmotionCache';
+import createEmotionCache from '../src/utils/createEmotionCache';
 // theme
 import palette from '../src/theme/palette';
 
@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
           <link
             rel='apple-touch-icon'
             sizes='180x180'
-            href='/favicon/apple-touch-icon.png'
+            href='/favicon/favicon.ico'
           />
           <link
             rel='icon'
@@ -44,13 +44,13 @@ export default class MyDocument extends Document {
           />
           <meta
             name='description'
-            content='The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style'
+            content='Mewujudkan Generasi cerdas Qurani, yang Kreatif, Mandiri dan Berwawasan Global'
           />
           <meta
             name='keywords'
-            content='react,material,kit,application,dashboard,admin,template'
+            content='pesantren,ibnu sina,pondok,boarding school,islamic school,babah,kh. tatang haetami'
           />
-          <meta name='author' content='Minimal UI Kit' />
+          <meta name='author' content='Ryan' />
         </Head>
         <body>
           <Main />
@@ -71,7 +71,6 @@ MyDocument.getInitialProps = async (ctx) => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App:any) => (props) => <App emotionCache={cache} {...props} />,
-      // enhanceApp: (App) => (props) => <App {...props} />
     });
 
   const initialProps = await Document.getInitialProps(ctx);
