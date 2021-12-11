@@ -2,7 +2,7 @@ import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 
 // ----------------------------------------------------------------------
 
-export default function Select() {
+export default function Select(v) {
   return {
     MuiSelect: {
       defaultProps: {

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Badge() {
+export default function Badge(v) {
   return {
     MuiBadge: {
       styleOverrides: {

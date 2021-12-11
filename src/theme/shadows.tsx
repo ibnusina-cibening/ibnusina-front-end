@@ -7,7 +7,7 @@ import palette from './palette';
 const LIGHT_MODE = palette.light.grey[500];
 const DARK_MODE = '#000000';
 
-const createShadow = (color) => {
+const createShadow = (color: string) => {
   const transparent1 = alpha(color, 0.2);
   const transparent2 = alpha(color, 0.14);
   const transparent3 = alpha(color, 0.12);
@@ -40,7 +40,7 @@ const createShadow = (color) => {
   ];
 };
 
-const createCustomShadow = (color) => {
+const createCustomShadow = (color: string) => {
   const transparent = alpha(color, 0.24);
 
   return {

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function SvgIcon() {
+export default function SvgIcon(v) {
   return {
     MuiSvgIcon: {
       styleOverrides: {

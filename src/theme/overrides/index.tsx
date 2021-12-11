@@ -48,7 +48,7 @@ import LoadingButton from './LoadingButton';
 
 // ----------------------------------------------------------------------
 
-export default function ComponentsOverrides(theme) {
+export default function ComponentsOverrides({theme}:{theme:any}) {
   return merge(
     Fab(theme),
     Tabs(theme),

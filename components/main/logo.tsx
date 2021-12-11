@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 interface SX{
-  sx:object
+  sx:any
 }
 const Logo: FC <SX>= forwardRef(({ sx }, ref) => {
   const theme = useTheme();

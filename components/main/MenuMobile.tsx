@@ -48,7 +48,7 @@ MenuMobileItem.propTypes = {
   onOpen: PropTypes.func,
 };
 
-function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
+function MenuMobileItem({ item, isOpen, isActive, onOpen }:{item:any, isOpen:any, isActive:any, onOpen:any}) {
   const { title, path, icon, children } = item;
 
   if (children) {
@@ -145,7 +145,7 @@ MenuMobile.propTypes = {
   navConfig: PropTypes.array,
 };
 
-export default function MenuMobile({ isOffset, isHome, navConfig }) {
+export default function MenuMobile({ isOffset, isHome, navConfig }:{isOffset:any, isHome:any, navConfig:any}) {
   const { pathname } = useRouter();
   const [open, setOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -196,13 +196,13 @@ export default function MenuMobile({ isOffset, isHome, navConfig }) {
           </Box>
 
           <List disablePadding>
-            {navConfig.map((link) => (
+            {navConfig.map((link: any) => (
               <MenuMobileItem
-                key={link.title}
+                key={link?.title}
                 item={link}
                 isOpen={open}
                 onOpen={handleOpen}
-                isActive={pathname === link.path}
+                isActive={pathname === link?.path}
               />
             ))}
           </List>

@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"], // es6 bawaan mui 
-    // "noImplicitAny": true, // bawaan mui
-    // "noImplicitThis": true, // bawaan mui
-    // "strictNullChecks": true, // bawaan mui
+    "target": "es6",
+    "lib": ["es6","dom", "dom.iterable", "esnext"], // es6 bawaan mui 
+    "noImplicitAny": true, // bawaan mui
+    "noImplicitThis": true, // bawaan mui
+    "strictNullChecks": true, // bawaan mui
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,

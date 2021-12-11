@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Paper() {
+export default function Paper(v) {
   return {
     MuiPaper: {
       defaultProps: {

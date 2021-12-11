@@ -42,7 +42,7 @@ const ToolbarShadowStyle : FC = styled('div')(({ theme }) => ({
   borderRadius: '50%',
   position: 'absolute',
   width: `calc(100% - 48px)`,
-  boxShadow: theme.customShadows.z8
+  // boxShadow: theme.customShadows.z8
 }));
 
 // ----------------------------------------------------------------------

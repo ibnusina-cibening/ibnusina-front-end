@@ -2,7 +2,7 @@ import * as React from 'react';
 // next
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 // emotion
-// import createEmotionServer from '@emotion/server/create-instance';
+import createEmotionServer from '@emotion/server/create-instance';
 // utils
 import createEmotionCache from '../src/createEmotionCache';
 // theme
@@ -66,31 +66,31 @@ MyDocument.getInitialProps = async (ctx) => {
 
   const cache = createEmotionCache();
 
-  // const { extractCriticalToChunks } = createEmotionServer(cache);
+  const { extractCriticalToChunks } = createEmotionServer(cache);
 
   ctx.renderPage = () =>
     originalRenderPage({
-      // enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
-      enhanceApp: (App) => (props) => <App {...props} />
+      enhanceApp: (App:any) => (props) => <App emotionCache={cache} {...props} />,
+      // enhanceApp: (App) => (props) => <App {...props} />
     });
 
   const initialProps = await Document.getInitialProps(ctx);
 
-  // const emotionStyles = extractCriticalToChunks(initialProps.html);
-  // const emotionStyleTags = emotionStyles.styles.map((style) => (
-  //   <style
-  //     data-emotion={`${style.key} ${style.ids.join(' ')}`}
-  //     key={style.key}
-  //     // eslint-disable-next-line react/no-danger
-  //     dangerouslySetInnerHTML={{ __html: style.css }}
-  //   />
-  // ));
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      key={style.key}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ));
 
   return {
     ...initialProps,
     styles: [
       ...React.Children.toArray(initialProps.styles),
-      // ...emotionStyleTags,
+      ...emotionStyleTags,
     ],
   };
 };

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Grid() {
+export default function Grid(v) {
   return {
     MuiGrid: {
       styleOverrides: {}

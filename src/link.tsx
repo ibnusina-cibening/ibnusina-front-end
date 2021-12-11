@@ -14,11 +14,11 @@
 // export default FancyButton;
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+// import PropTypes from 'prop-types';
+// import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import MuiLink from '@mui/material/Link';
+// import MuiLink from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import { FC } from 'react';
 
@@ -35,7 +35,7 @@ type Ref = HTMLAnchorElement;
 //   replace:boolean,
   
 // }
-export const NextLinkComposed = React.forwardRef<Ref, Props>(function NextLinkComposed<ANY>(props, ref):JSX.Element{
+export const NextLinkComposed : FC<any> = React.forwardRef<Ref, Props>(function NextLinkComposed(props:any, ref:any):JSX.Element{
   const { to, linkAs, href, replace, scroll, shallow, prefetch, locale, ...other } = props;
 
   return (

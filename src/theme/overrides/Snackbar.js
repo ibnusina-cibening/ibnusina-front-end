@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-export default function Snackbar() {
+export default function Snackbar(v) {
   return {
     MuiSnackbarContent: {
       styleOverrides: {
