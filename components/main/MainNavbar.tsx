@@ -1,5 +1,3 @@
-// next
-// import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC} from 'react';
 // material
@@ -44,7 +42,7 @@ const ToolbarShadowStyle : FC = styled('div')(({ theme }) => ({
   borderRadius: '50%',
   position: 'absolute',
   width: `calc(100% - 48px)`,
-  // boxShadow: theme.customShadows.z8
+  boxShadow: theme.customShadows.z8
 }));
 
 // ----------------------------------------------------------------------
@@ -91,10 +89,10 @@ export default function MainNavbar() {
 
           <Button
             variant='contained'
-            target='_blank'
-            href='/'
+            // target='_blank'
+            // href='/'
           >
-            Purchase Now
+            Login
           </Button>
 
           <MHidden width='mdUp'>

@@ -19,5 +19,5 @@
     "incremental": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.js", "components/page.js", "pages/index.tsx", "src/link.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/_document.tsx", "components/page.js", "pages/index.tsx", "src/link.tsx"]
 }

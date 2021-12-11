@@ -18,8 +18,8 @@ const menuConfig = [
     icon: <Icon icon={homeFill} {...ICON_SIZE} />,
   },
   {
-    title: 'Dashboard',
-    // path: PATH_DASHBOARD.root,
+    title: 'Blog',
+    path: '/blog',
     icon: <Icon icon={fileFill} {...ICON_SIZE} />,
   },
 ];

@@ -21,7 +21,7 @@ import {
 // components
 import Logo from './logo';
 import NavSection from '../navSection';
-import Scrollbar from '../Scrollbar';
+import Scrollbar from '../scrollBar';
 import { MIconButton } from '../../components/@material-extend';
 
 // ----------------------------------------------------------------------
@@ -188,7 +188,7 @@ export default function MenuMobile({ isOffset, isHome, navConfig }) {
         ModalProps={{ keepMounted: true }}
         PaperProps={{ sx: { pb: 5, width: 260 } }}
       >
-        <Scrollbar>
+        <Scrollbar sx={undefined}>
           <Box sx={{ display: 'inline-flex' }}>
             <NextLink href='/'>
               <Logo sx={{ mx: PADDING, my: 3 }} />

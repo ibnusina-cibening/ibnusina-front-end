@@ -97,7 +97,8 @@ function MenuDesktopItem({
 }) {
   const { title, path, children } = item;
   const isActive = pathname === path;
-
+  // console.log(item);
+  // return <div>test</div>
   if (children) {
     return (
       <>
@@ -176,7 +177,7 @@ function MenuDesktopItem({
                             }),
                           }}
                         >
-                          {item.title === 'Dashboard' ? (
+                          {item.title === 'Blog' ? (
                             <CardActionArea
                               sx={{
                                 py: 5,
@@ -255,10 +256,10 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(pathname)
+  // console.log(pathname)
   return (
     <Stack direction='row'>
-      {/* {navConfig.map((link) => (
+      {navConfig.map((link) => (
         <MenuDesktopItem
           key={link.title}
           item={link}
@@ -269,7 +270,7 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }) {
           isOffset={isOffset}
           isHome={isHome}
         />
-      ))} */}
+      ))}
     </Stack>
   );
 }
