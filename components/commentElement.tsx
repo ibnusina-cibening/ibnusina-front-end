@@ -1,6 +1,7 @@
 import utilStyles from '../styles/utils.module.css';
 
-export function InputComment({ disabled, localValue, onChange, id }) {
+export function InputComment({ disabled, localValue, onChange, id }:{
+    disabled:boolean, localValue:any, onChange:any, id:string}) {
     return (
         <textarea
             disabled={disabled}
@@ -12,7 +13,7 @@ export function InputComment({ disabled, localValue, onChange, id }) {
     )
 }
 
-export function ButtonComment({ id, onClick, name }) {
+export function ButtonComment({ id, onClick, name }:{id:any, onClick:any, name:string}) {
     return (
         <button
             id={id}
@@ -23,7 +24,7 @@ export function ButtonComment({ id, onClick, name }) {
     )
 }
 
-export function InputMain({ formValue, onChange }) {
+export function InputMain({ formValue, onChange }:{formValue:string, onChange:any}) {
     return (
         <div className={utilStyles.comment}>
             <textarea
@@ -35,7 +36,8 @@ export function InputMain({ formValue, onChange }) {
     )
 }
 
-export function AddComment({ formValue, onChange, handleClick, isLoggedIn }) {
+export function AddComment({ formValue, onChange, handleClick, isLoggedIn }:{
+    formValue:string, onChange:any, handleClick:any, isLoggedIn:boolean}) {
     return (
         <>
             {isLoggedIn &&

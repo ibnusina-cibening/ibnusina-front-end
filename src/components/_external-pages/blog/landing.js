@@ -6,7 +6,7 @@ import { Grid, Container} from '@mui/material';
 //
 // import { varFadeInUp, varFadeInLeft, MotionInView } from '../../animate';
 // import { useMediaQuery } from '@mui/material';
-import BlogPostCard from 'src/components/blog/BlogPostCard';
+import BlogPostCard from '../../blog/BlogPostCard';
 
 // ----------------------------------------------------------------------
 

@@ -1,14 +1,14 @@
 // material
 import { styled } from '@mui/material/styles';
 // components
-import Page from 'src/components/Page';
-import MainLayout from 'src/layouts/main';
+import Page from '../../src/components/Page';
+import MainLayout from '../../src/layouts/main';
 
-import client, { QueryPosts } from 'src/db';
+// import client, { QueryPosts } from 'src/db';
 import {
   LandingBlog,
 } 
-from 'src/components/_external-pages/blog';
+from '../../src/components/_external-pages/blog';
 
 
 const RootStyle = styled(Page)({

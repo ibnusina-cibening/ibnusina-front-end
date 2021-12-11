@@ -1,14 +1,14 @@
 import { alpha, styled } from '@mui/material/styles';
-import MainLayout from 'src/layouts/main';
-import client, {QueryDetailPosts, gql} from 'src/db';
+import MainLayout from '../../src/layouts/main';
+// import client, {QueryDetailPosts, gql} from 'src/db';
 import { Box, Card, Container, Typography} from '@mui/material';
-import Markdown from 'src/components/Markdown';
-import Page from 'src/components/Page';
-import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
+import Markdown from '../../src/components/Markdown';
+import Page from '../../src/components/Page';
+import HeaderBreadcrumbs from '../../src/components/HeaderBreadcrumbs';
 import {
   BlogPostHero,
   BlogPostCommentList
-} from 'src/components/_external-pages/blog/blogPost';
+} from '../../src/components/_external-pages/blog/blogPost';
 
 
 

@@ -5,7 +5,7 @@ import { Button, Box, Container, Typography } from '@mui/material';
 //
 import { varFadeInDown, varFadeInUp, MotionInView } from '../../animate';
 
-// ----------------------------------------------------------------------
+// ---------------------------------------------------------------------- 
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 456,
