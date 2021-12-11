@@ -1,7 +1,11 @@
 import { GraphQLClient } from 'graphql-request';
 import { getComment, addComment, editComment, deleteComment} from '../query';
 
-export async function fetchComment(postId, next, isParent, commentParentId, limit) {
+export async function fetchComment(postId: string, 
+    next: number | null, 
+    isParent: boolean, 
+    commentParentId: string, 
+    limit: number) {
     console.log('hi dari fetchComent');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/";
@@ -14,7 +18,12 @@ export async function fetchComment(postId, next, isParent, commentParentId, limi
     return data;
 }
 
-export async function addCommentToList({ postId, content, parentUserId, parentCommentId, token }) {
+export async function addCommentToList({ postId, content, parentUserId, parentCommentId, token }:{
+    postId:string, 
+    content:string, 
+    parentUserId:string, 
+    parentCommentId:string, 
+    token:string}) {
     console.log('hai dari addCommenttoList');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/"
@@ -27,7 +36,7 @@ export async function addCommentToList({ postId, content, parentUserId, parentCo
     return data;
 }
 
-export async function editCommentary ({token, commentId, content}){
+export async function editCommentary ({token, commentId, content}:{token:string, commentId:string, content:string}){
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/"
     const headers = {
@@ -39,7 +48,13 @@ export async function editCommentary ({token, commentId, content}){
     return data;
 }
 
-export async function removeComment ({token, postId, commentId, userId, parentUserId}){
+export async function removeComment ({token, postId, commentId, userId, parentUserId}:{
+    token:string,
+    postId:string,
+    commentId:string,
+    userId:string,
+    parentUserId:string
+}){
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/"
     const headers = {

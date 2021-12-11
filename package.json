@@ -37,7 +37,11 @@
     "simplebar-react": "^2.3.5",
     "stylis": "^4.0.10",
     "stylis-plugin-rtl": "^2.0.2",
-    "swr": "latest"
+    "swr": "latest",
+    "react-markdown": "^7.1.0",
+    "rehype-highlight": "^5.0.0",
+    "rehype-raw": "^6.1.0",
+    "@iconify/icons-ant-design": "^1.1.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",

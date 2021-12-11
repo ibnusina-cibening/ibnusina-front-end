@@ -1,7 +1,7 @@
 // material
 import { styled } from '@mui/material/styles';
 // components
-import {FC} from 'react';
+import { FC } from 'react';
 import Page from '../../src/components/Page';
 import MainLayout from '../../src/layouts/main';
 import { GetStaticProps } from 'next'
@@ -9,24 +9,13 @@ import postlist from '../../posts/postList';
 // import client, { QueryPosts } from 'src/db';
 import {
   LandingBlog,
-} 
-from '../../src/components/_external-pages/blog';
+}
+  from '../../src/components/_external-pages/blog';
 
 
 const RootStyle: FC<any> = styled(Page)({
   height: '100%',
 });
-  
-
-// export async function getServerSideProps(){
-//   const { data } = await client.query(QueryPosts, {fetchPolicy: "network-only"});
-//   return{
-//     props:{
-//       posts: data?.loadPosts?.postResult,
-//       revalidate: 30
-//     }
-//   }
-// }
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await postlist();
@@ -59,12 +48,12 @@ export default function BlogPage({
 }) {
   return (
     <MainLayout>
-        <RootStyle
+      <RootStyle
         title='IBNU SINA | Blog'
         id='move_top'
-        >
-            <LandingBlog data={allPostsData} />
-        </RootStyle>
+      >
+        <LandingBlog data={allPostsData} />
+      </RootStyle>
     </MainLayout>
   );
 }

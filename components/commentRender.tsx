@@ -16,6 +16,17 @@ export default function Comment({
     showMoreChildren,
     saveEditedComment,
     removeComment
+}: {
+    data: any,
+    pId: string,
+    addComment: any,
+    addReply: any,
+    showComment: any,
+    nextComment: any,
+    showMore: any,
+    showMoreChildren: any,
+    saveEditedComment: any,
+    removeComment: any
 }) {
     const dataList = data;
     // const [commentList, setCommentList] = useState(data);
@@ -23,7 +34,7 @@ export default function Comment({
     const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const { data: session, status } = useSession();
-    const handleClick = async (e) => {
+    const handleClick = async (e: { target: { name: string; }; }) => {
         if (e.target.name === 'show') {
             await setShowForm(!showForm)
             // await setFormValue('tulis komentar');
@@ -43,25 +54,34 @@ export default function Comment({
             addComment(vr);
         }
     };
-    const setLogin = (e) => {
+    const setLogin = (e: boolean | ((prevState: boolean) => boolean)) => {
         setIsLoggedIn(e);
         setShowForm(e);
     };
-    const onChange = (e) => {
+    const onChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setFormValue(e.target.value);
     };
     // hasil edit komentar disimpan
-    const saveCommentEdited = ({ id, localValue, numofchildren, parentId, identity, loadMore }) => {
-        saveEditedComment({ 
-            id, 
-            localValue, 
-            numofchildren, 
-            parentId, 
+    const saveCommentEdited = ({ id, localValue, numofchildren, parentId, identity, loadMore }: {
+        id: string,
+        localValue: string,
+        numofchildren: number,
+        parentId: string,
+        identity: object,
+        loadMore: boolean
+    }) => {
+        saveEditedComment({
+            id,
+            localValue,
+            numofchildren,
+            parentId,
             identity,
             loadMore,
-            token: session ? session.token : null})
+            token: session ? session.token : null
+        })
     };
-    const saveReply = ({ parentCommentId,
+    const saveReply = ({
+        parentCommentId,
         parentUserId,
         replyContent,
         parentIdOfParent,
@@ -69,7 +89,17 @@ export default function Comment({
         parentChildNum,
         parentIdentity,
         parentCreatedAt,
-        parentLoadMore }) => {
+        parentLoadMore }: {
+            parentCommentId: string
+            parentUserId: string,
+            replyContent: string,
+            parentIdOfParent: string,
+            parentContent: string,
+            parentChildNum: number,
+            parentIdentity: string,
+            parentCreatedAt: string,
+            parentLoadMore: boolean
+        }) => {
         const vr = {
             postId: pId,
             content: replyContent,
@@ -84,8 +114,13 @@ export default function Comment({
         };
         addReply(vr, vr2);
     };
-    const deleteComment = ({ postId, commentId, userId, parentId }) => {
-        removeComment({ token:session ? session.token : null, postId, commentId, userId, parentId });
+    const deleteComment = ({ postId, commentId, userId, parentId }: {
+        postId: string,
+        commentId: string,
+        userId: string,
+        parentId: string
+    }) => {
+        removeComment({ token: session ? session.token : null, postId, commentId, userId, parentId });
     };
     // console.log(session.id);
     return (
@@ -113,7 +148,7 @@ export default function Comment({
             <div>
                 <span>--------------------------------------</span>
                 {showForm &&
-                    dataList.map(c => {
+                    dataList.map((c: { id: React.Key | null | undefined; }) => {
                         return <div className={utilStyles.commentContainer} key={c.id}>
                             <CommentList
                                 comment={c}
@@ -121,8 +156,8 @@ export default function Comment({
                                 deleteComment={deleteComment}
                                 saveReplyToParent={saveReply}
                                 showMoreChildren={showMoreChildren}
-                                thisUserId = {!session?null:session.id}
-                                setLogin = {setLogin}
+                                thisUserId={!session ? undefined : session.id}
+                                setLogin={setLogin}
                             />
                         </div>
                     })

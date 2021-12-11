@@ -50,15 +50,19 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
     const { mutate } = useSWRConfig();
+    // ------------------
     const dataSet = !comment?.getCommentByPostId?.results ? [] : comment.getCommentByPostId.results;
-    const [isNext, setIsNext] = useState(null);
+    const dataTimeStamp = !comment?.getCommentByPostId?.results? 0: comment.getCommentByPostId.nextTimeStamp;
+    // -------------------
+    const [isNext, setIsNext] = useState(0); // sebelumnya null
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
 
     const showComment = async () => {
         // setisnext hanya untuk kebutuhan menampilkan komentar root 
         // KITA BELUM MENGANTISIPASI JIKA TIDAK ADA KOMENTAR ([]);
-        setIsNext(comment.getCommentByPostId.nextTimeStamp);
+        const setNext = !comment ? 0 : dataTimeStamp;
+        setIsNext(setNext);
     };
     const showMore = async () => {
         // khusus untuk komentar root 
@@ -69,28 +73,28 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const getCommentByPostId = {
                 getCommentByPostId: {
                     nextTimeStamp: nextTimeStamp,
-                    results: [...comment.getCommentByPostId.results, ...results]
+                    results: [...dataSet, ...results]
                 }
             };
             return getCommentByPostId
         }, false)
     };
-    const showMoreChildren = async ({ commentId: cpId }:{commentId:any}) => {
+    const showMoreChildren = async ({ commentId: cpId }: { commentId: any }) => {
         // khusus untuk menampilkan komentar balasan (children)
-        let thisChildren = comment.getCommentByPostId.results.filter(d => d.parentId === cpId);
+        let thisChildren = dataSet.filter(d => d.parentId === cpId);
         // jika di data cache tidak ada, kita akan cari di database;
         // ini disedikan untuk tombol "tampilkan ... komntar lainnya" (di atas)
         // karena itu, next timestampnya dibiarkan null tidak masalah
         if (!thisChildren.length) {
             const moreComment = await fetchComment(postId, null, false, cpId, childShowLimit + 1);
-            const { results} = moreComment.getCommentByPostId;
+            const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
                 // menyalin aray dari database 
                 // dan membuang elemen terakhir, jika resultnya lebih besar dari childshowlimit
                 const copyResults = results.length > childShowLimit ? results.slice(0, -1) : results;
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                const newData = comment.getCommentByPostId.results.map(x => (x.id === cpId ? {
+                const newData = dataSet.map(x => (x.id === cpId ? {
                     id: x.id,
                     parentId: x.parentId,
                     content: x.content,
@@ -108,7 +112,8 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         getCommentByPostId: {
                             // timestamp dibiarkan tidak berubah,
                             // karena kita akan membutuhkannya untuk komentar root (show more)
-                            nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                            
+                            nextTimeStamp: dataTimeStamp,
                             results: updateData
                         }
                     };
@@ -129,7 +134,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 const copyResults = results.length > childShowLimit ? results.slice(0, -1) : results;
                 // apakah masih ada children yang harus ditampilkan pada komentar ini? 
                 // jika masih ada, maka tombol show more akan ditampilkan. Jika tidak, maka tidak
-                const newData = comment.getCommentByPostId.results.map(x => (x.id === cpId ? {
+                const newData = dataSet.map(x => (x.id === cpId ? {
                     id: x.id,
                     parentId: x.parentId,
                     content: x.content,
@@ -147,7 +152,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         getCommentByPostId: {
                             // nextimestamp dibiarkan tidak berubah
                             // alasanna sama dengan yang di atas
-                            nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                            nextTimeStamp: dataTimeStamp,
                             results: updateData
                         }
                     };
@@ -159,20 +164,37 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     const addComment = async (newCommentToAdd: { postId: any; content: any; parentUserId: any; parentCommentId: any; token: any; }) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
-            const newArrayResults = [newComment].concat(comment.getCommentByPostId.results);
+            const newArrayResults = [newComment].concat(dataSet);
             const getCommentByPostId = {
                 getCommentByPostId: {
-                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    nextTimeStamp: dataTimeStamp,
                     results: newArrayResults
                 }
             };
             return getCommentByPostId;
         }, false)
     };
-    const addReply = async (newReplyAdded: { postId: any; parentUserId: any; parentCommentId: any; parentIdentity?: any; parentCreatedAt?: any; content?: any; token?: any; }, vr2: { parentIdOfParent: any; parentContent: any; parentChildNum: any; parentLoadMore: any; }) => {
+    const addReply = async (
+        newReplyAdded: {
+            postId: string;
+            parentUserId: string;
+            parentCommentId: string;
+            parentIdentity: string;
+            parentCreatedAt: string;
+            content: string;
+            token: string;
+        },
+
+        vr2: {
+            parentIdOfParent: any;
+            parentContent: any; 
+            parentChildNum: any;
+             parentLoadMore: any;
+        }) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const { postId: postIdOfParent,
-                // content: replyContent,  ini hanya digunakan untuk request saja
+            const {
+                postId: postIdOfParent,
+                // content: replyContent,  //ini hanya digunakan untuk request saja
                 parentUserId,
                 parentCommentId,
                 parentIdentity,
@@ -183,7 +205,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const { parentIdOfParent, parentContent, parentChildNum, parentLoadMore } = vr2;
             // mengupdate numofchildren pada parent comment 
             // sekaligus penambahan loadMore
-            const updatedData = comment.getCommentByPostId.results.map(x => (x.id === parentId ?
+            const updatedData = dataSet.map(x => (x.id === parentId ?
                 {
                     id: parentCommentId,
                     parentId: parentIdOfParent,
@@ -199,17 +221,26 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             const newArrayResults = [newReply].concat(updatedData); // yang baru disimpan di bawah
             const getCommentByPostId = {
                 getCommentByPostId: {
-                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    nextTimeStamp: dataTimeStamp,
                     results: newArrayResults
                 }
             };
             return getCommentByPostId;
         }, false)
     };
-    const saveEditedComment = async ({ id: commentId, localValue: content, numofchildren, parentId, identity, loadMore, token }) => {
+    const saveEditedComment = async ({ id: commentId, localValue: content, numofchildren, parentId, identity, loadMore, token }:{
+        id:string,
+        localValue:string,
+        content:string,
+        numofchildren:number,
+        parentId:string,
+        identity:object,
+        loadMore:boolean,
+        token:string
+    }) => {
         const editThisComment = await editCommentary({ token, commentId, content })
         const { content: cont, createdAt, userId } = editThisComment.updateComment;
-        const updatedData = comment.getCommentByPostId.results.map(x => (x.id === commentId ?
+        const updatedData = dataSet.map(x => (x.id === commentId ?
             {
                 id: commentId,
                 userId,
@@ -223,28 +254,34 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 loadMore
             } : x));
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const nresult = comment.getCommentByPostId.results.map(x => x.id === commentId ? updatedData[0] : x);
+            const nresult = dataSet.map(x => x.id === commentId ? updatedData[0] : x);
             const getCommentByPostId = {
                 getCommentByPostId: {
-                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
+                    nextTimeStamp: dataTimeStamp,
                     results: nresult
                 }
             };
             return getCommentByPostId
         }, false)
     }
-    const deleteComment = async ({ token, postId, commentId, userId, parentId }) => {
-        const parentComment = comment.getCommentByPostId.results.filter(x => x.id === parentId);
+    const deleteComment = async ({ token, postId, commentId, userId, parentId }:{
+        token:string,
+        postId:string,
+        commentId:string,
+        userId:string,
+        parentId:string
+    }) => {
+        const parentComment = dataSet.filter(x => x.id === parentId);
         const parentUserId = !parentComment.length ? '' : parentComment[0].userId;
         const removeThis = await removeComment({ token, postId, commentId, userId, parentUserId });
         const { id: thisId } = removeThis.deleteComment;
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             // menghapus parent sekaligus children-nya
-            const nresult = await comment.getCommentByPostId.results.filter(x => x.id !== thisId);
+            const nresult = await dataSet.filter(x => x.id !== thisId);
             const nr = await nresult.filter(x => x.parentId !== thisId);
             // kemudian kita juga harus mengupdate numofchildren pada parent, jika memang memiliki parent
-            let res; 
-            if (parentUserId !==''){
+            let res;
+            if (parentUserId !== '') {
                 res = nr.map(d => (d.id === parentComment[0].id ?
                     {
                         id: parentComment[0].id,
@@ -255,7 +292,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         identity: parentComment[0].identity,
                         content: parentComment[0].content,
                         children: parentComment[0].children,
-                        numofchildren: parentComment[0].numofchildren-1, // berkurang satu 
+                        numofchildren: parentComment[0].numofchildren - 1, // berkurang satu 
                         loadMore: parentComment[0].loadMore,
                     } : d
                 ))
@@ -263,8 +300,8 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             // selanjutnya kita update ke cache 
             const getCommentByPostId = {
                 getCommentByPostId: {
-                    nextTimeStamp: comment.getCommentByPostId.nextTimeStamp,
-                    results: !res ? nr: res // antisipasi jika yang dihapus adalah komentar root 
+                    nextTimeStamp: dataTimeStamp,
+                    results: !res ? nr : res // antisipasi jika yang dihapus adalah komentar root 
                 }
             };
             return getCommentByPostId

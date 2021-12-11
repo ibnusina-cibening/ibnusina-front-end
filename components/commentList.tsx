@@ -10,8 +10,17 @@ export default function CommentList({
   saveReplyToParent,
   thisUserId,
   showMoreChildren,
-  setLogin }) {
-  const nestedComments = (comment.children || []).map(comment => {
+  setLogin }: {
+    comment: any,
+    saveCommentEdited: any,
+    deleteComment: any,
+    saveReplyToParent: any,
+    thisUserId: any,
+    showMoreChildren: any,
+    setLogin: any
+  }
+) {
+  const nestedComments = (comment.children || []).map((comment: { id: React.Key | null | undefined; }) => {
     return <div className={utilStyles.commentContainerChildren} key={comment.id}>
       <CommentList
         comment={comment}
@@ -55,9 +64,19 @@ function CommentItem({
   showMoreChildren,
   thisUserId,
   numofchildren,
-  setLogin }) {
+  setLogin }: {
+    comment:any,
+    deleteComment: any,
+    saveCommentEdited: any,
+    saveReplyToParent:any,
+    parentContent: string,
+    showMoreChildren: any,
+    thisUserId:string,
+    numofchildren: number,
+    setLogin: any
+  }) {
   const [localValue, setLocalValue] = useState(comment.content);
-  const [selectedForm, setSelectedForm] = useState();
+  const [selectedForm, setSelectedForm] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [replyThis, setReplyThis] = useState();
   const [counter, setCounter] = useState(0);
@@ -67,14 +86,14 @@ function CommentItem({
     setEditMode(true);
   }
 
-  const onChange = (e) => {
+  const onChange = (e: { target: { value: any; }; }) => {
     setLocalValue(e.target.value);
   }
-  const replyMode = (e) => {
+  const replyMode = (e: { target: { id: React.SetStateAction<undefined>; }; }) => {
     setReplyThis(e.target.id);
   }
 
-  const saveReply = ({ id, localValue, name }) => {
+  const saveReply = ({ localValue, name }:{localValue:string, name:string}) => {
     if (name === 'simpan') {
       // mengirim data children sekaligus parent
       // let n = Math.floor(Math.random() * Date.now());
@@ -93,7 +112,7 @@ function CommentItem({
       saveReplyToParent(reply);
       setCounter(counter + 1);
     }
-    setReplyThis(null);
+    setReplyThis(undefined);
   }
   const myComment = thisUserId === comment.userId;
   return (
@@ -115,7 +134,7 @@ function CommentItem({
           name="balas"
           id={comment.id}
           onClick={replyMode}
-        />      
+        />
         {myComment && <ButtonComment
           id={comment.id}
           name="hapus"
@@ -169,8 +188,8 @@ function CommentItem({
 
       }
       {
-        replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />:
-        replyThis&&<span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin}/></span>
+        replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} /> :
+          replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
 
       }
 
@@ -178,12 +197,20 @@ function CommentItem({
   )
 }
 
-function Reply({ id, saveReplyToParent, name }) {
+function Reply({ id, saveReplyToParent, name }:{
+  id:string,
+  saveReplyToParent:any,
+  name:string
+}) {
   const [localValue, setLocalValue] = useState('test reply');
-  const saveReply = ({ id, localValue, name }) => {
+  const saveReply = ({ id, localValue, name }:{
+    id:string,
+    localValue:string,
+    name:string
+  }) => {
     saveReplyToParent({ id, localValue, name });
   }
-  const onChange = (e) => {
+  const onChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setLocalValue(e.target.value);
   }
   return (
