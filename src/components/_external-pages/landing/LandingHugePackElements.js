@@ -74,7 +74,7 @@ const variantScreenRight = {
   animate: { ...COMMON, translateX: '50%', translateY: -40, opacity: 1 },
 };
 
-const YoutubeEmbed = dynamic(()=>import('src/components/YoutubePlay'))
+const YoutubeEmbed = dynamic(()=>import('../../YoutubePlay'))
 
 
 

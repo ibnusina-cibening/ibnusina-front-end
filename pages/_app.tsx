@@ -1,8 +1,8 @@
 // scroll bar
-import 'simplebar/src/simplebar.css';
+// import 'simplebar/src/simplebar.css';
 // editor
-import 'react-quill/dist/quill.snow.css';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// import 'react-quill/dist/quill.snow.css';
+// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 // next
 import Head from 'next/head';
@@ -23,7 +23,7 @@ import RtlLayout from '../src/components/RtlLayout';
 import ProgressBar from '../src/components/ProgressBar';
 import LoadingScreen from '../src/components/LoadingScreen';
 import ThemePrimaryColor from '../src/components/ThemePrimaryColor';
-import { AuthProvider } from '../src/db/auth';
+// import { AuthProvider } from '../src/db/auth';
 import { SnackbarProvider } from 'notistack';
 
 import { SessionProvider } from 'next-auth/react'
@@ -36,7 +36,7 @@ export default function MyApp({
     emotionCache = clientSideEmotionCache,
     pageProps: { session, ...pageProps },
     router
-  }: any) {
+}: any) {
     return (
         <SessionProvider session={session}>
             <SettingsProvider>
@@ -62,13 +62,12 @@ export default function MyApp({
 
                                         router.pathname.startsWith('/dashboard') ?
 
-                                            <AuthProvider>
-                                                <SnackbarProvider>
+                                            <SnackbarProvider>
 
-                                                    <Component {...pageProps} />
+                                                <Component {...pageProps} />
 
-                                                </SnackbarProvider>
-                                            </AuthProvider>
+                                            </SnackbarProvider>
+
 
                                             :
 

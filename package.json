@@ -33,7 +33,11 @@
     "simplebar": "^5.3.5",
     "simplebar-react": "^2.3.5",
     "swr": "latest",
-    "notistack": "^2.0.3"
+    "notistack": "^2.0.3",
+    "nprogress": "^0.2.0",
+    "stylis": "^4.0.10",
+    "stylis-plugin-rtl": "^2.0.2",
+    "change-case": "^4.1.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",

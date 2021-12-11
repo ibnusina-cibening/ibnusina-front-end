@@ -53,7 +53,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params }:{params: any}) => {
   // postContent(params.slug as string).catch(error => error.message);
   const res = await postContent(params.slug as string);
   const postData = res.data.postBySlug;

@@ -24,7 +24,7 @@ const menuConfig = [
   },
   {
     title: 'Blog',
-    path: '/blog',
+    path: '/posts',
     icon: <Icon icon={fileFill} {...ICON_SIZE} />,
   },
   {
