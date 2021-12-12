@@ -10,15 +10,10 @@ import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
-// routes
-// import { PATH_DASHBOARD } from '../../../routes/paths';
-// utils
-// import { fDate } from '../../../utils/formatTime';
-// import { fShortenNumber } from '../../../utils/formatNumber';
-//
 import SvgIconStyle from '../SvgIconStyle';
-// import { PATH_BLOG } from 'src/routes/paths';
-
+// library 
+import convertToKilo from '../../../lib/convertToKilo';
+import FormatDate from '../../../lib/fromatDate';
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -90,9 +85,9 @@ export default function BlogPostCard({ post, index }) {
   const latestPost = index === 1 || index === 2;
   
   const POST_INFO = [
-    { number: meta != null ? meta.commentCount : 0, icon: messageCircleFill },
-    { number: meta != null ? meta.viewCount : 0, icon: eyeFill },
-    { number: meta != null ? meta.shareCount : 0, icon: shareFill }
+    { number: meta != null ? convertToKilo(meta.commentCount) : 0, icon: messageCircleFill },
+    { number: meta != null ? convertToKilo(meta.viewCount) : 0, icon: eyeFill },
+    { number: meta != null ? convertToKilo(meta.shareCount) : 0, icon: shareFill }
   ];
 
   return (
@@ -159,7 +154,7 @@ export default function BlogPostCard({ post, index }) {
           }}
         >
           <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
-            {createdAt}
+            {FormatDate(createdAt)}
           </Typography>
 
           <TitleStyle 

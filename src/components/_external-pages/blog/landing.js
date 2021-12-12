@@ -77,7 +77,7 @@ const COMMON = {
 // ----------------------------------------------------------------------
 
 export default function LandingBlog({data}) {
-  
+  // console.log(data);
   // const theme = useTheme();
   // const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
   // const isLight = theme.palette.mode === 'light';

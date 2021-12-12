@@ -17,18 +17,6 @@ const RootStyle: FC<any> = styled(Page)({
   height: '100%',
 });
 
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = await postlist();
-  postlist().catch(error => error.message);
-  const allPostsData = posts.data.loadPosts.postResult;
-  return {
-    props: {
-      allPostsData
-    },
-    revalidate: 10
-  }
-}
-
 export default function BlogPage({
   allPostsData
 }: {
@@ -56,4 +44,16 @@ export default function BlogPage({
       </RootStyle>
     </MainLayout>
   );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await postlist();
+  postlist().catch(error => error.message);
+  const allPostsData = posts.data.loadPosts.postResult;
+  return {
+    props: {
+      allPostsData
+    },
+    revalidate: 10
+  }
 }

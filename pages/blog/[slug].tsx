@@ -29,19 +29,23 @@ const RootStyle: FC<any> = styled(Page)({
   height: '100%',
 });
 
-export default function BlogPost(props: {
-  id: string
-  title: string
-  createdAt: string
-  content: string
-  slug: string
+export default function BlogPost({
+  postData
+}: {
+  postData: {
+    id: string
+    title: string
+    createdAt: string
+    content: string
+    slug: string
+  }
 }) {
-
+  // console.log(postData.content);
   return (
     <MainLayout>
       <Spacer>
         <RootStyle
-          title={props.title}
+          title={postData.title}
           id='move_top'
         >
           <Container maxWidth={'lg'}>
@@ -50,19 +54,19 @@ export default function BlogPost(props: {
               links={[
                 { name: 'Home', href: '/' },
                 { name: 'Blog', href: '/blog' },
-                { name: props.slug }
+                { name: postData.slug }
               ]} action={undefined} sx={undefined} />
 
-            {props && (
+            {postData && (
               <Card>
-                <BlogPostHero post={props} />
+                <BlogPostHero post={postData} />
 
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
-                  <Typography variant="h6" sx={{ mb: 5 }}>
+                  {/* <Typography variant="h6" sx={{ mb: 5 }}>
                     Test
-                  </Typography>
+                  </Typography> */}
 
-                  <Markdown children={props.content} />
+                  <Markdown children={postData.content} />
                 </Box>
               </Card>
             )}
