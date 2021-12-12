@@ -9,6 +9,7 @@ query{
       slug
       author{
         callName
+        avatar
       }
       meta{
         viewCount

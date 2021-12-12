@@ -102,6 +102,7 @@ BlogPostHero.propTypes = {
 };
 
 export default function BlogPostHero({ post, ...other }) {
+  // console.log(post);
   const { imageUrl, title, author, createdAt } = post;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -122,7 +123,7 @@ export default function BlogPostHero({ post, ...other }) {
               {author?.callName}
             </Typography>
             <Typography variant="body2" sx={{ color: 'grey.500' }}>
-              {createdAt}
+              {createdAt} 
             </Typography>
           </Box>
         </Box>

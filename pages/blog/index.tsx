@@ -26,6 +26,7 @@ export default function BlogPage({
     slug: string
     author: {
       callName: string
+      avatar: string
     }
     meta: {
       viewCount: number

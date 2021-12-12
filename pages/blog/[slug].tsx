@@ -38,6 +38,10 @@ export default function BlogPost({
     createdAt: string
     content: string
     slug: string
+    author:{
+      avatar:string,
+      callName:string
+    }
   }
 }) {
   // console.log(postData.content);
@@ -60,14 +64,10 @@ export default function BlogPost({
             {postData && (
               <Card>
                 <BlogPostHero post={postData} />
-
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
-                  {/* <Typography variant="h6" sx={{ mb: 5 }}>
-                    Test
-                  </Typography> */}
-
                   <Markdown children={postData.content} />
                 </Box>
+                <Box sx={{ p: { xs: 3, md: 5 } }}>tes dulu</Box>
               </Card>
             )}
             <BlogPostCommentList />
