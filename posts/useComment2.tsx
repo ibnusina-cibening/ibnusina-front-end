@@ -163,13 +163,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             }
         }
     }
-    const addComment = async (newCommentToAdd: {
-        postId: any;
-        content: any;
-        parentUserId: any;
-        parentCommentId: any;
-        token: any;
-    }) => {
+    const addComment = async (newCommentToAdd: { postId: any; content: any; parentUserId: any; parentCommentId: any; token: any; }) => {
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const { addComment: newComment } = await addCommentToList(newCommentToAdd);
             const newArrayResults = [newComment].concat(dataSet);
@@ -208,7 +202,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 parentIdentity,
                 parentCreatedAt } = newReplyAdded;
             const { addComment: newReply } = await addCommentToList(newReplyAdded);
-            const { parentId } = newReply;
+            const { postId, userId, content, createdAt, id, identity, numofchildren, parentId } = newReply;
             // numofchildren diambil dari data yang ada (cache atau state)
             const { parentIdOfParent, parentContent, parentChildNum, parentLoadMore } = vr2;
             // mengupdate numofchildren pada parent comment 
@@ -279,13 +273,13 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         userId: string,
         parentId: string
     }) => {
-        const parentComment = dataSet.filter(x => x.id === parentId);
+    const parentComment = dataSet.filter(x => x.id === parentId);
         const parentUserId = !parentComment.length ? '' : parentComment[0].userId;
         const removeThis = await removeComment({ token, postId, commentId, userId, parentUserId });
         const { id: thisId } = removeThis.deleteComment;
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             // menghapus parent sekaligus children-nya
-            const nresult = dataSet.filter(x => x.id !== thisId);
+            const nresult = await dataSet.filter(x => x.id !== thisId);
             const nr = await nresult.filter(x => x.parentId !== thisId);
             // kemudian kita juga harus mengupdate numofchildren pada parent, jika memang memiliki parent
             let res;
@@ -316,6 +310,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         }, false)
     }
     const commentData = arrayToTree(dataSet, { dataField: "" });
+    return commentData;
     return <Comment
         data={commentData}
         pId={pId}

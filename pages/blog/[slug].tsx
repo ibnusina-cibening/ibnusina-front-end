@@ -12,6 +12,9 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import allPostId from '../../posts/allPostId';
 import postContent from '../../posts/postContent';
 import { FC } from 'react';
+// database
+import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
+import UseComment from '../../posts/useComment';
 
 const Spacer = styled('div')(({ theme }) => ({
   padding: theme.spacing(15, 0),
@@ -38,13 +41,14 @@ export default function BlogPost({
     createdAt: string
     content: string
     slug: string
-    author:{
-      avatar:string,
-      callName:string
+    author: {
+      avatar: string,
+      callName: string
     }
   }
 }) {
   // console.log(postData.content);
+  const id = !postData? '':postData.id;
   return (
     <MainLayout>
       <Spacer>
@@ -67,10 +71,20 @@ export default function BlogPost({
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
                   <Markdown children={postData.content} />
                 </Box>
-                <Box sx={{ p: { xs: 3, md: 5 } }}>tes dulu</Box>
+                <Box sx={{ p: { xs: 3, md: 5 } }}>
+                  -------- statistik ------------
+                  <ViewStats postId={id} />
+                  --------- reaksi ---------------
+                  <ViewReaction postId={id} />
+                  ---------- suka ----------------
+                  <ViewLike postId={id} />
+                  ---------- tindakan -----------
+                  komentar, bagikan, suka
+                </Box>
               </Card>
             )}
-            <BlogPostCommentList />
+            {/* <BlogPostCommentList /> */}
+            <UseComment pId={id} />
           </Container>
         </RootStyle>
       </Spacer>

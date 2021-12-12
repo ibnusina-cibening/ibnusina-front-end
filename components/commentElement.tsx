@@ -1,19 +1,79 @@
 import utilStyles from '../styles/utils.module.css';
+import {
+    Box,
+    Button,
+    Avatar,
+    Divider,
+    ListItem,
+    TextField,
+    Typography,
+    ListItemText,
+    ListItemAvatar
+} from '@mui/material';
+import FormatDate from '../lib/fromatDate';
 
-export function InputComment({ disabled, localValue, onChange, id }:{
-    disabled:boolean, localValue:any, onChange:any, id:string}) {
+export function InputComment({ disabled, localValue, onChange, comment, id }: {
+    disabled: boolean, localValue: any, onChange: any, comment: any, id:string
+}) {
     return (
-        <textarea
-            disabled={disabled}
-            className={utilStyles.textarea}
-            value={localValue}
-            onChange={onChange}
-            id={id}
-        />
+        <>{disabled ?
+            <ListItemText
+                primary={comment.identity.callName}
+                primaryTypographyProps={{ variant: 'subtitle1' }}
+                secondary={
+                    <>
+                        <Typography
+                            gutterBottom
+                            variant="caption"
+                            sx={{
+                                display: 'block',
+                                color: 'text.disabled'
+                            }}
+                        >
+                            {FormatDate(comment.createdAt)}
+                        </Typography>
+                        <Typography component="span" variant="body2">
+                            <strong>{'said: '}</strong> {comment.content}
+                        </Typography>
+                    </>
+                }
+            />
+            :
+            // <textarea
+            //     disabled={disabled}
+            //     className={utilStyles.textarea}
+            //     value={localValue}
+            //     onChange={onChange}
+            //     id={id}
+            // />
+            <ListItemText
+                // fullWidth
+                primary={'name'}
+                primaryTypographyProps={{ variant: 'subtitle1' }}
+                secondary={
+                    <>
+                        <Typography
+                            gutterBottom
+                            variant="caption"
+                            sx={{
+                                display: 'block',
+                                color: 'text.disabled'
+                            }}
+                        >
+                            {'createdAt'}
+                        </Typography>
+                        <Typography component="span" variant="body2">
+                            <strong>{'tagUser'}</strong> {'message'}
+                        </Typography>
+                    </>
+                }
+            />
+        }
+        </>
     )
 }
 
-export function ButtonComment({ id, onClick, name }:{id:any, onClick:any, name:string}) {
+export function ButtonComment({ id, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
         <button
             id={id}
@@ -24,11 +84,11 @@ export function ButtonComment({ id, onClick, name }:{id:any, onClick:any, name:s
     )
 }
 
-export function InputMain({ formValue, onChange }:{formValue:string, onChange:any}) {
+export function InputMain({ formValue, onChange }: { formValue: string, onChange: any }) {
     return (
-        <div className={utilStyles.comment}>
+        <div>
             <textarea
-                className={utilStyles.textarea}
+                // className={utilStyles.textarea}
                 value={formValue}
                 onChange={onChange}
             />
@@ -36,8 +96,9 @@ export function InputMain({ formValue, onChange }:{formValue:string, onChange:an
     )
 }
 
-export function AddComment({ formValue, onChange, handleClick, isLoggedIn }:{
-    formValue:string, onChange:any, handleClick:any, isLoggedIn:boolean}) {
+export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
+    formValue: string, onChange: any, handleClick: any, isLoggedIn: boolean
+}) {
     return (
         <>
             {isLoggedIn &&

@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
 import { InputComment, ButtonComment } from './commentElement';
 import { Login } from '../lib/login';
+import {
+  Box,
+  Button,
+  Avatar,
+  Divider,
+  ListItem,
+  TextField,
+  Typography,
+  ListItemText,
+  ListItemAvatar
+} from '@mui/material';
 
 export default function CommentList({
   comment,
@@ -21,7 +32,7 @@ export default function CommentList({
   }
 ) {
   const nestedComments = (comment.children || []).map((comment: { id: React.Key | null | undefined; }) => {
-    return <div className={utilStyles.commentContainerChildren} key={comment.id}>
+    return (<div key={comment.id}>
       <CommentList
         comment={comment}
         saveCommentEdited={saveCommentEdited}
@@ -31,11 +42,11 @@ export default function CommentList({
         thisUserId={thisUserId}
         setLogin={setLogin}
       />
-    </div>
-      ;
+    </div>)
   });
   return (
-    <div key={comment.id}>
+    <div
+      key={comment.id}>
       <CommentItem
         comment={comment}
         saveCommentEdited={saveCommentEdited}
@@ -65,13 +76,13 @@ function CommentItem({
   thisUserId,
   numofchildren,
   setLogin }: {
-    comment:any,
+    comment: any,
     deleteComment: any,
     saveCommentEdited: any,
-    saveReplyToParent:any,
+    saveReplyToParent: any,
     parentContent: string,
     showMoreChildren: any,
-    thisUserId:string,
+    thisUserId: string,
     numofchildren: number,
     setLogin: any
   }) {
@@ -93,7 +104,7 @@ function CommentItem({
     setReplyThis(e.target.id);
   }
 
-  const saveReply = ({ localValue, name }:{localValue:string, name:string}) => {
+  const saveReply = ({ localValue, name }: { localValue: string, name: string }) => {
     if (name === 'simpan') {
       // mengirim data children sekaligus parent
       // let n = Math.floor(Math.random() * Date.now());
@@ -116,12 +127,24 @@ function CommentItem({
   }
   const myComment = thisUserId === comment.userId;
   return (
-    <>
-      <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span>
+    <ListItem disableGutters
+      sx={{
+        alignItems: 'flex-start',
+        py: 3,
+        ...(comment.parentId !== '' && {
+          ml: 'auto',
+          width: (theme) => `calc(100% - ${theme.spacing(7)})`
+        })
+      }}>
+      {/* <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span> */}
+      <ListItemAvatar>
+          <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
+        </ListItemAvatar>
       <InputComment
         disabled={selectedForm === comment.id ? false : true}
         localValue={localValue}
         onChange={onChange}
+        comment={comment}
         id={comment.id}
       />
       {!editMode && !replyThis && <span>
@@ -157,7 +180,7 @@ function CommentItem({
       </span>
       }
       {editMode &&
-        <span>
+        <>
           <ButtonComment
             id={comment.id}
             name="simpan"
@@ -184,7 +207,7 @@ function CommentItem({
             }}
           />
 
-        </span>
+        </>
 
       }
       {
@@ -193,20 +216,20 @@ function CommentItem({
 
       }
 
-    </>
+    </ListItem>
   )
 }
 
-function Reply({ id, saveReplyToParent, name }:{
-  id:string,
-  saveReplyToParent:any,
-  name:string
+function Reply({ id, saveReplyToParent, name }: {
+  id: string,
+  saveReplyToParent: any,
+  name: string
 }) {
   const [localValue, setLocalValue] = useState('test reply');
-  const saveReply = ({ id, localValue, name }:{
-    id:string,
-    localValue:string,
-    name:string
+  const saveReply = ({ id, localValue, name }: {
+    id: string,
+    localValue: string,
+    name: string
   }) => {
     saveReplyToParent({ id, localValue, name });
   }
@@ -221,6 +244,7 @@ function Reply({ id, saveReplyToParent, name }:{
         disabled={false}
         localValue={localValue}
         onChange={onChange}
+        comment={undefined}
       />
       <span>
         <ButtonComment

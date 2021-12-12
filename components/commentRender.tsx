@@ -4,6 +4,7 @@ import CommentList from '../components/commentList';
 import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { useSession } from "next-auth/react";
+import { Box, List } from '@mui/material';
 
 export default function Comment({
     data,
@@ -124,7 +125,7 @@ export default function Comment({
     };
     // console.log(session.id);
     return (
-        <div>
+        <Box>
             {showForm && <Login
                 getlogin={setLogin}
             />}
@@ -145,11 +146,12 @@ export default function Comment({
                     isLoggedIn={isLoggedIn}
                 />
             }
-            <div>
+            <>
                 <span>--------------------------------------</span>
+                <List disablePadding>
                 {showForm &&
                     dataList.map((c: { id: React.Key | null | undefined; }) => {
-                        return <div className={utilStyles.commentContainer} key={c.id}>
+                        return <Box key={c.id} sx={{}}>
                             <CommentList
                                 comment={c}
                                 saveCommentEdited={saveCommentEdited}
@@ -159,15 +161,16 @@ export default function Comment({
                                 thisUserId={!session ? undefined : session.id}
                                 setLogin={setLogin}
                             />
-                        </div>
+                        </Box>
                     })
                 }
+                </List>
                 {showForm && nextComment && <ButtonComment
                     id={333}
                     name="show more"
                     onClick={handleClick}
                 />}
-            </div>
-        </div>
+            </>
+        </Box>
     )
 }
