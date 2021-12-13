@@ -120,6 +120,7 @@ function CommentItem({
   }
 
   const onChange = (e: { target: { value: any; }; }) => {
+    // console.log(e.target.value);
     setLocalValue(e.target.value);
   }
   const replyMode = (e: { target: { id: React.SetStateAction<undefined>; }; }) => {
@@ -234,11 +235,7 @@ function CommentItem({
           </>
 
         }
-        {
-          replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} /> :
-            replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
 
-        }
 
       </ListItem>
       <Divider
@@ -247,6 +244,20 @@ function CommentItem({
           width: (theme) => `calc(100% - ${theme.spacing(7)})`
         }}
       />
+      {
+        replyThis && thisUserId ?
+          <List>
+            <ListItem>
+              <strong>balas ke {comment.identity.callName}</strong>
+              <ListItemAvatar>
+                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
+              </ListItemAvatar>
+              <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
+            </ListItem>
+          </List>
+          :
+          replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
+      }
     </>
   )
 }
@@ -269,7 +280,6 @@ function Reply({ id, saveReplyToParent, name }: {
   }
   return (
     <>
-      <span>balas ke {name}</span>
       <InputComment
         id={id}
         disabled={false}
@@ -277,7 +287,7 @@ function Reply({ id, saveReplyToParent, name }: {
         onChange={onChange}
         comment={undefined}
       />
-      <span>
+      <>
         <ButtonComment
           id={id}
           name="simpan"
@@ -292,8 +302,7 @@ function Reply({ id, saveReplyToParent, name }: {
             saveReply({ id, localValue, name: 'batal' });
           }}
         />
-      </span>
+      </>
     </>
-
   )
 }
