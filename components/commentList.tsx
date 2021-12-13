@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import utilStyles from '../styles/utils.module.css';
 import { InputComment, ButtonComment } from './commentElement';
 import { Login } from '../lib/login';
 import {
   Box,
   Button,
+  Card,
   Avatar,
   Divider,
   ListItem,
   TextField,
   Typography,
   ListItemText,
-  ListItemAvatar
+  ListItemAvatar,
+  List
 } from '@mui/material';
 
 export default function CommentList({
@@ -31,21 +32,8 @@ export default function CommentList({
     setLogin: any
   }
 ) {
-  const nestedComments = (comment.children || []).map((comment: { id: React.Key | null | undefined; }) => {
-    return (<div key={comment.id}>
-      <CommentList
-        comment={comment}
-        saveCommentEdited={saveCommentEdited}
-        deleteComment={deleteComment}
-        saveReplyToParent={saveReplyToParent}
-        showMoreChildren={showMoreChildren}
-        thisUserId={thisUserId}
-        setLogin={setLogin}
-      />
-    </div>)
-  });
   return (
-    <div
+    <List
       key={comment.id}>
       <CommentItem
         comment={comment}
@@ -58,11 +46,45 @@ export default function CommentList({
         thisUserId={thisUserId}
         setLogin={setLogin}
       />
-      {nestedComments}
+      {/* {nestedComments} */}
+      {
+        comment.children.length > 0 &&
+
+        <>
+          {
+            comment.children.map((comment: { id: React.Key | null | undefined; }) => {
+              return (
+                <List
+                  // disableGutters
+                  sx={{
+                    // alignItems: 'flex-start',
+                    // pl: 4,
+                    color: 'red',
+                    // mt: 1,
+                    ml: 5,
+                    // width: (theme) => `calc(100% - ${theme.spacing(4)})`
+                  }}
+                  key={comment.id}
+                >
+                  <CommentList
+                    comment={comment}
+                    saveCommentEdited={saveCommentEdited}
+                    deleteComment={deleteComment}
+                    saveReplyToParent={saveReplyToParent}
+                    showMoreChildren={showMoreChildren}
+                    thisUserId={thisUserId}
+                    setLogin={setLogin}
+                  />
+                </List>
+              )
+            })
+          }
+        </>
+      }
       {comment.loadMore && <div onClick={() => {
         showMoreChildren({ commentId: comment.id });
       }}>tampilkan lebih banyak</div>}
-    </div>
+    </List>
   );
 }
 
@@ -127,96 +149,105 @@ function CommentItem({
   }
   const myComment = thisUserId === comment.userId;
   return (
-    <ListItem disableGutters
-      sx={{
-        alignItems: 'flex-start',
-        py: 3,
-        ...(comment.parentId !== '' && {
-          ml: 'auto',
-          width: (theme) => `calc(100% - ${theme.spacing(7)})`
-        })
-      }}>
-      {/* <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span> */}
-      <ListItemAvatar>
+    <>
+      <ListItem
+        sx={{
+          alignItems: 'flex-start',
+          // pl: 4,
+          // color: 'red',
+          // mt: 1,
+          // ml: 5,
+          width: (theme) => `calc(100% - ${theme.spacing(4)})`
+        }}
+      >
+        {/* <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span> */}
+        <ListItemAvatar>
           <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
         </ListItemAvatar>
-      <InputComment
-        disabled={selectedForm === comment.id ? false : true}
-        localValue={localValue}
-        onChange={onChange}
-        comment={comment}
-        id={comment.id}
-      />
-      {!editMode && !replyThis && <span>
-        {myComment && <ButtonComment
+        <InputComment
+          disabled={selectedForm === comment.id ? false : true}
+          localValue={localValue}
+          onChange={onChange}
+          comment={comment}
           id={comment.id}
-          name="edit"
-          onClick={onSelectForm}
-        />}
-        <ButtonComment
-          name="balas"
-          id={comment.id}
-          onClick={replyMode}
         />
-        {myComment && <ButtonComment
-          id={comment.id}
-          name="hapus"
-          onClick={() => {
-            deleteComment({
-              postId: comment.postId,
-              commentId: comment.id,
-              userId: comment.userId,
-              parentId: comment.parentId
-            });
-          }}
-        />}
-        {comment.numofchildren - counter > 0 &&
-          <span onClick={() => {
-            showMoreChildren({ commentId: comment.id });
-            setCounter(numofchildren);
-          }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
-          </span>
-        }
-      </span>
-      }
-      {editMode &&
-        <>
-          <ButtonComment
+        {!editMode && !replyThis && <span>
+          {myComment && <ButtonComment
             id={comment.id}
-            name="simpan"
+            name="edit"
+            onClick={onSelectForm}
+          />}
+          <ButtonComment
+            name="balas"
+            id={comment.id}
+            onClick={replyMode}
+          />
+          {myComment && <ButtonComment
+            id={comment.id}
+            name="hapus"
             onClick={() => {
-              setEditMode(false);
-              setSelectedForm(null);
-              saveCommentEdited({
-                id: comment.id,
-                localValue,
-                numofchildren: comment.numofchildren,
-                parentId: comment.parentId,
-                identity: comment.identity,
-                loadMore: !comment.loadMore ? false : comment.loadMore
+              deleteComment({
+                postId: comment.postId,
+                commentId: comment.id,
+                userId: comment.userId,
+                parentId: comment.parentId
               });
             }}
-          />
-          <ButtonComment
-            id={comment.id}
-            name="batal"
-            onClick={() => {
-              setEditMode(false);
-              setSelectedForm(null);
-              setLocalValue(comment.content);
-            }}
-          />
+          />}
+          {comment.numofchildren - counter > 0 &&
+            <span onClick={() => {
+              showMoreChildren({ commentId: comment.id });
+              setCounter(numofchildren);
+            }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
+            </span>
+          }
+        </span>
+        }
+        {editMode &&
+          <>
+            <ButtonComment
+              id={comment.id}
+              name="simpan"
+              onClick={() => {
+                setEditMode(false);
+                setSelectedForm(null);
+                saveCommentEdited({
+                  id: comment.id,
+                  localValue,
+                  numofchildren: comment.numofchildren,
+                  parentId: comment.parentId,
+                  identity: comment.identity,
+                  loadMore: !comment.loadMore ? false : comment.loadMore
+                });
+              }}
+            />
+            <ButtonComment
+              id={comment.id}
+              name="batal"
+              onClick={() => {
+                setEditMode(false);
+                setSelectedForm(null);
+                setLocalValue(comment.content);
+              }}
+            />
 
-        </>
+          </>
 
-      }
-      {
-        replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} /> :
-          replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
+        }
+        {
+          replyThis && thisUserId ? <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} /> :
+            replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
 
-      }
+        }
 
-    </ListItem>
+      </ListItem>
+      <Divider
+        sx={{
+          ml: 'auto',
+          width: (theme) => `calc(100% - ${theme.spacing(7)})`
+        }}
+      />
+    </>
   )
 }
 

@@ -25,11 +25,11 @@ const useMetaPost = (postId: any) => {
         meLike: boolean
         meReaction: string
         mood: {
-          LIKE: string
-          SMILE: string
-          SAD: string
-          EXCITED: string
-          PRAYING: string
+          LIKE: number
+          SMILE: number
+          SAD: number
+          EXCITED: number
+          PRAYING: number
         }
       }
     }

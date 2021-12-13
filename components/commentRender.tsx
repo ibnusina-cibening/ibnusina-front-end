@@ -4,7 +4,7 @@ import CommentList from '../components/commentList';
 import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { useSession } from "next-auth/react";
-import { Box, List } from '@mui/material';
+import { Box, List, ListSubheader, ListItem } from '@mui/material';
 
 export default function Comment({
     data,
@@ -125,7 +125,7 @@ export default function Comment({
     };
     // console.log(session.id);
     return (
-        <Box>
+        <>
             {showForm && <Login
                 getlogin={setLogin}
             />}
@@ -148,29 +148,29 @@ export default function Comment({
             }
             <>
                 <span>--------------------------------------</span>
-                <List disablePadding>
-                {showForm &&
-                    dataList.map((c: { id: React.Key | null | undefined; }) => {
-                        return <Box key={c.id} sx={{}}>
-                            <CommentList
-                                comment={c}
-                                saveCommentEdited={saveCommentEdited}
-                                deleteComment={deleteComment}
-                                saveReplyToParent={saveReply}
-                                showMoreChildren={showMoreChildren}
-                                thisUserId={!session ? undefined : session.id}
-                                setLogin={setLogin}
-                            />
-                        </Box>
-                    })
-                }
-                </List>
+                <>
+                    {showForm &&
+                        dataList.map((c: { id: React.Key | null | undefined; }) => {
+                            return <div key={c.id}>
+                                <CommentList
+                                    comment={c}
+                                    saveCommentEdited={saveCommentEdited}
+                                    deleteComment={deleteComment}
+                                    saveReplyToParent={saveReply}
+                                    showMoreChildren={showMoreChildren}
+                                    thisUserId={!session ? undefined : session.id}
+                                    setLogin={setLogin}
+                                />
+                            </div>
+                        })
+                    }
+                </>
                 {showForm && nextComment && <ButtonComment
                     id={333}
                     name="show more"
                     onClick={handleClick}
                 />}
             </>
-        </Box>
+        </>
     )
 }
