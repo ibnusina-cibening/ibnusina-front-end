@@ -10,11 +10,17 @@ import {
     ListItemText,
     ListItemAvatar
 } from '@mui/material';
-import FormatDate from '../lib/fromatDate';
+// import FormatDate from '../lib/fromatDate';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import {id} from 'date-fns/locale';
 
-export function InputComment({ disabled, localValue, onChange, comment, id }: {
+export function InputComment({ disabled, localValue, onChange, comment, id:commentId }: {
     disabled: boolean, localValue: any, onChange: any, comment: any, id:string
 }) {
+    const timestamp = formatDistanceToNow(
+        new Date(comment.createdAt *1000),
+        {includeSeconds: true, locale:id}
+      )
     return (
         <>{disabled ?
             <ListItemText
@@ -30,10 +36,10 @@ export function InputComment({ disabled, localValue, onChange, comment, id }: {
                                 color: 'text.disabled'
                             }}
                         >
-                            {FormatDate(comment.createdAt)}
+                            {timestamp + ' yang lalu'}
                         </Typography>
                         <Typography component="span" variant="body2">
-                            <strong>{'said: '}</strong> {comment.content}
+                            {comment.content}
                         </Typography>
                     </>
                 }
@@ -73,10 +79,10 @@ export function InputComment({ disabled, localValue, onChange, comment, id }: {
     )
 }
 
-export function ButtonComment({ id, onClick, name }: { id: any, onClick: any, name: string }) {
+export function ButtonComment({ id:commentId, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
         <button
-            id={id}
+            id={commentId}
             type="button"
             name={name}
             onClick={onClick}

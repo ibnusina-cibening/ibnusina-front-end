@@ -146,31 +146,29 @@ export default function Comment({
                     isLoggedIn={isLoggedIn}
                 />
             }
-            <>
-                <span>--------------------------------------</span>
-                <>
-                    {showForm &&
-                        dataList.map((c: { id: React.Key | null | undefined; }) => {
-                            return <div key={c.id}>
-                                <CommentList
-                                    comment={c}
-                                    saveCommentEdited={saveCommentEdited}
-                                    deleteComment={deleteComment}
-                                    saveReplyToParent={saveReply}
-                                    showMoreChildren={showMoreChildren}
-                                    thisUserId={!session ? undefined : session.id}
-                                    setLogin={setLogin}
-                                />
-                            </div>
-                        })
-                    }
-                </>
-                {showForm && nextComment && <ButtonComment
-                    id={333}
-                    name="show more"
-                    onClick={handleClick}
-                />}
-            </>
+
+            <span>--------------------------------------</span>
+            {showForm &&
+                dataList.map((c: { id: React.Key | null | undefined; }) => {
+                    return <div key={c.id}>
+                        <CommentList
+                            comment={c}
+                            saveCommentEdited={saveCommentEdited}
+                            deleteComment={deleteComment}
+                            saveReplyToParent={saveReply}
+                            showMoreChildren={showMoreChildren}
+                            thisUserId={!session ? undefined : session.id}
+                            setLogin={setLogin}
+                        />
+                    </div>
+                })
+            }
+            {showForm && nextComment && <ButtonComment
+                id={333}
+                name="show more"
+                onClick={handleClick}
+            />}
+
         </>
     )
 }
