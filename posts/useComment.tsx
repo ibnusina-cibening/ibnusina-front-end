@@ -21,7 +21,7 @@ function useComment(commentVariable: {
                     },
                     numofchildren: number,
                     parentId: string
-                    createdAt: string,
+                    createdAt: number,
                     postId: string,
                     userId: string
                     children: number
@@ -188,7 +188,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             parentUserId: string;
             parentCommentId: string;
             parentIdentity: string;
-            parentCreatedAt: string;
+            parentCreatedAt: number;
             content: string;
             token: string;
         },
@@ -262,11 +262,11 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                 loadMore
             } : x));
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const nresult = dataSet.map(x => x.id === commentId ? updatedData[0] : x);
+            // const nresult = dataSet.map(x => x.id === commentId ? updatedData[0] : x);
             const getCommentByPostId = {
                 getCommentByPostId: {
                     nextTimeStamp: dataTimeStamp,
-                    results: nresult
+                    results: updatedData
                 }
             };
             return getCommentByPostId
