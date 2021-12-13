@@ -15,7 +15,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { id } from 'date-fns/locale';
 
 // KOMPONEN UNTUK REPLY, TAMPILAN KONTEN KOMENTAR DAN EDIT KOMENTAR 
-export function InputComment({ disabled, localValue, onChange, comment, id: commentId }: {
+export function InputComment({ disabled, localValue:localvalue, onChange, comment, id: commentId }: {
     disabled: boolean, localValue: string, onChange: any, comment: any, id: string
 }) {
     // untuk reply, field comment tidak diisi / undefined
@@ -57,28 +57,30 @@ export function InputComment({ disabled, localValue, onChange, comment, id: comm
             />
             :
             // REPLY KOMENTAR / EDIT KOMENTAR
-            <textarea
-                disabled={disabled}
-                className={utilStyles.textarea}
-                value={localValue}
-                onChange={onChange}
-                id={commentId}
-            />
-            // <TextField
-            //     fullWidth 
-            //     id={commentId}
-            //     inputProps={{localValue}}
-            //     // inputRef = {localValue}
+            // <textarea
+            //     disabled={disabled}
+            //     className={utilStyles.textarea}
+            //     value={localValue}
             //     onChange={onChange}
-            //     size="small"
-            //     // placeholder="Write comment"
-            //     sx={{
-            //         '& fieldset': {
-            //             borderWidth: `1px !important`,
-            //             borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
-            //         }
-            //     }}
+            //     id={commentId}
             // />
+            <TextField
+                fullWidth 
+                multiline={true}
+                id={commentId}
+                inputProps={{localvalue}}
+                value={localvalue}
+                onChange={onChange}
+                // type= "string"
+                size="small"
+                placeholder="Tulis komentar"
+                sx={{
+                    '& fieldset': {
+                        borderWidth: `1px !important`,
+                        borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
+                    }
+                }}
+            />
         }
         </>
     )
