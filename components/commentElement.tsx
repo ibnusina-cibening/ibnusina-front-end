@@ -80,7 +80,7 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
 export function ButtonComment({ id: commentId, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
         <Button
-            size="small" sx={{ position: 'relative', left: 0}}
+            size="small" sx={{ position: 'relative', left: 0 }}
             id={commentId}
             type="button"
             name={name}
@@ -89,15 +89,31 @@ export function ButtonComment({ id: commentId, onClick, name }: { id: any, onCli
     )
 }
 
-export function InputMain({ formValue, onChange }: { formValue: string, onChange: any }) {
+export function InputMain({ formValue: formvalue, onChange }: { formValue: string, onChange: any }) {
     return (
-        <div>
-            <textarea
-                // className={utilStyles.textarea}
-                value={formValue}
-                onChange={onChange}
-            />
-        </div>
+        // <div>
+        //     <textarea
+        //         // className={utilStyles.textarea}
+        //         value={formValue}
+        //         onChange={onChange}
+        //     />
+        // </div>
+        <TextField
+            fullWidth
+            multiline={true}
+            // id={commentId}
+            inputProps={{ formvalue }}
+            value={formvalue}
+            onChange={onChange}
+            size="small"
+            placeholder="Tulis komentar"
+            sx={{
+                '& fieldset': {
+                    borderWidth: `1px !important`,
+                    borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
+                }
+            }}
+        />
     )
 }
 
@@ -105,20 +121,24 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
     formValue: string, onChange: any, handleClick: any, isLoggedIn: boolean
 }) {
     return (
-        <>
+        <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
             {isLoggedIn &&
-                <InputMain
-                    formValue={formValue}
-                    onChange={onChange}
-                />
+                <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+                    <InputMain
+                        formValue={formValue}
+                        onChange={onChange}
+                    />
+                </Box>
             }
             {isLoggedIn &&
-                <ButtonComment
-                    id={2}
-                    name="submit"
-                    onClick={handleClick}
-                />
+                <Box>
+                    <ButtonComment
+                        id={2}
+                        name="submit"
+                        onClick={handleClick}
+                    />
+                </Box>
             }
-        </>
+        </Box>
     )
 }

@@ -198,13 +198,6 @@ function CommentItem({
                 });
               }}
             />}
-            {comment.numofchildren - counter > 0 &&
-              <span onClick={() => {
-                showMoreChildren({ commentId: comment.id });
-                setCounter(numofchildren);
-              }}>{' tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
-              </span>
-            }
           </ButtonGroup>
         }
         {editMode &&
@@ -234,12 +227,23 @@ function CommentItem({
                 setLocalValue(comment.content);
               }}
             />
-
           </>
-
         }
-
-
+      </ListItem>
+      <ListItem
+        sx={{
+          alignItems: 'flex-start',
+          color: 'blue',
+          pl: 7,
+        }}
+      >
+        {comment.numofchildren - counter > 0 &&
+          <span onClick={() => {
+            showMoreChildren({ commentId: comment.id });
+            setCounter(numofchildren);
+          }}>{'tampilkan ' + (comment.numofchildren - counter) + ' balasan lainnya'}
+          </span>
+        }
       </ListItem>
       <Divider
         sx={{
@@ -291,7 +295,7 @@ function Reply({ id, saveReplyToParent, name }: {
     setLocalValue(e.target.value);
   }
   return (
-    <Box component="span" sx={{ p: 2, border: '1px dashed grey', width:'100%'}}>
+    <Box component="span" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
       <InputComment
         id={id}
         disabled={false}
@@ -300,22 +304,22 @@ function Reply({ id, saveReplyToParent, name }: {
         comment={undefined}
       />
       {/* <ListItemSecondaryAction> */}
-        <Box component="span">
-          <ButtonComment
-            id={id}
-            name="simpan"
-            onClick={() => {
-              saveReply({ id, localValue, name: 'simpan' });
-            }}
-          />
-          <ButtonComment
-            id={id}
-            name="batal"
-            onClick={() => {
-              saveReply({ id, localValue, name: 'batal' });
-            }}
-          />
-        </Box>
+      <Box component="span">
+        <ButtonComment
+          id={id}
+          name="simpan"
+          onClick={() => {
+            saveReply({ id, localValue, name: 'simpan' });
+          }}
+        />
+        <ButtonComment
+          id={id}
+          name="batal"
+          onClick={() => {
+            saveReply({ id, localValue, name: 'batal' });
+          }}
+        />
+      </Box>
       {/* </ListItemSecondaryAction> */}
     </Box>
   )

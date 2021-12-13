@@ -4,7 +4,7 @@ import CommentList from '../components/commentList';
 import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { useSession } from "next-auth/react";
-import { Box, List, ListSubheader, ListItem } from '@mui/material';
+import { Box, List, ListSubheader, ListItem, Divider } from '@mui/material';
 
 export default function Comment({
     data,
@@ -31,7 +31,7 @@ export default function Comment({
 }) {
     const dataList = data;
     // const [commentList, setCommentList] = useState(data);
-    const [formValue, setFormValue] = useState('tulis komentar');
+    const [formValue, setFormValue] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const { data: session, status } = useSession();
@@ -126,9 +126,21 @@ export default function Comment({
     // console.log(session.id);
     return (
         <>
-            {showForm && <Login
-                getlogin={setLogin}
-            />}
+            <Divider
+                sx={{
+                    ml: 'auto',
+                    width: (theme) => `calc(100% - ${theme.spacing(7)})`
+                }}
+            />
+
+            {showForm &&
+                <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+                    <Login
+                        getlogin={setLogin}
+                    />
+                </Box>
+            }
+
             {!showForm &&
                 <ButtonComment
                     id={1}
@@ -139,15 +151,22 @@ export default function Comment({
             }
             {
                 showForm &&
+
                 <AddComment
                     formValue={formValue}
                     onChange={onChange}
                     handleClick={handleClick}
                     isLoggedIn={isLoggedIn}
                 />
+
             }
 
-            <span>--------------------------------------</span>
+            <Divider
+                sx={{
+                    ml: 'auto',
+                    width: (theme) => `calc(100% - ${theme.spacing(7)})`
+                }}
+            />
             {showForm &&
                 dataList.map((c: { id: React.Key | null | undefined; }) => {
                     return <div key={c.id}>
