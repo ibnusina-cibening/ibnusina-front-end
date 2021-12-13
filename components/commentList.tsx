@@ -158,7 +158,7 @@ function CommentItem({
           // color: 'red',
           // mt: 1,
           // ml: 5,
-          width: (theme) => `calc(100% - ${theme.spacing(4)})`
+          // width: (theme) => `calc(100% - ${theme.spacing(4)})`
         }}
       >
         {/* <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span> */}
@@ -247,7 +247,16 @@ function CommentItem({
       {
         replyThis && thisUserId ?
           <List>
-            <ListItem>
+            <ListItem
+              sx={{
+                alignItems: 'flex-start',
+                // pl: 4,
+                // color: 'red',
+                // mt: 1,
+                // ml: 5,
+                // width: (theme) => `calc(100% - ${theme.spacing(4)})`
+              }}
+            >
               <strong>balas ke {comment.identity.callName}</strong>
               <ListItemAvatar>
                 <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
@@ -267,7 +276,7 @@ function Reply({ id, saveReplyToParent, name }: {
   saveReplyToParent: any,
   name: string
 }) {
-  const [localValue, setLocalValue] = useState('test reply');
+  const [localValue, setLocalValue] = useState('');
   const saveReply = ({ id, localValue, name }: {
     id: string,
     localValue: string,

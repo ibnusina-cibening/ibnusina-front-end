@@ -56,14 +56,6 @@ export function InputComment({ disabled, localValue:localvalue, onChange, commen
                 }
             />
             :
-            // REPLY KOMENTAR / EDIT KOMENTAR
-            // <textarea
-            //     disabled={disabled}
-            //     className={utilStyles.textarea}
-            //     value={localValue}
-            //     onChange={onChange}
-            //     id={commentId}
-            // />
             <TextField
                 fullWidth 
                 multiline={true}
@@ -71,7 +63,6 @@ export function InputComment({ disabled, localValue:localvalue, onChange, commen
                 inputProps={{localvalue}}
                 value={localvalue}
                 onChange={onChange}
-                // type= "string"
                 size="small"
                 placeholder="Tulis komentar"
                 sx={{
