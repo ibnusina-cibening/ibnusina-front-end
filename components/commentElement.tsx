@@ -15,7 +15,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { id } from 'date-fns/locale';
 
 // KOMPONEN UNTUK REPLY, TAMPILAN KONTEN KOMENTAR DAN EDIT KOMENTAR 
-export function InputComment({ disabled, localValue:localvalue, onChange, comment, id: commentId }: {
+export function InputComment({ disabled, localValue: localvalue, onChange, comment, id: commentId }: {
     disabled: boolean, localValue: string, onChange: any, comment: any, id: string
 }) {
     // untuk reply, field comment tidak diisi / undefined
@@ -57,10 +57,10 @@ export function InputComment({ disabled, localValue:localvalue, onChange, commen
             />
             :
             <TextField
-                fullWidth 
+                fullWidth
                 multiline={true}
                 id={commentId}
-                inputProps={{localvalue}}
+                inputProps={{ localvalue }}
                 value={localvalue}
                 onChange={onChange}
                 size="small"
@@ -79,12 +79,13 @@ export function InputComment({ disabled, localValue:localvalue, onChange, commen
 
 export function ButtonComment({ id: commentId, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
-        <button
+        <Button
+            size="small" sx={{ position: 'relative', left: 0}}
             id={commentId}
             type="button"
             name={name}
             onClick={onClick}
-        >{name}</button>
+        >{name}</Button>
     )
 }
 
