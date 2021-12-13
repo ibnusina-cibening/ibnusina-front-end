@@ -260,11 +260,11 @@ function CommentItem({
                 // width: (theme) => `calc(100% - ${theme.spacing(4)})`
               }}
             >
+              <small>balas ke {comment.identity.callName}</small>
               <ListItemAvatar>
                 <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
               </ListItemAvatar>
               <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
-              {/* <ListItemText>balas ke {comment.identity.callName}</ListItemText> */}
             </ListItem>
           </List>
           :
@@ -291,7 +291,7 @@ function Reply({ id, saveReplyToParent, name }: {
     setLocalValue(e.target.value);
   }
   return (
-    <Box component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+    <Box component="span" sx={{ p: 2, border: '1px dashed grey', width:'100%'}}>
       <InputComment
         id={id}
         disabled={false}
