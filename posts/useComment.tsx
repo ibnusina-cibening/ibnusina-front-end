@@ -10,7 +10,7 @@ function useComment(commentVariable: {
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { error, data } = useSWR<{
         getCommentByPostId: {
-            nextTimeStamp: 0,
+            nextTimeStamp: number,
             results: [
                 {
                     id: string,
@@ -21,7 +21,8 @@ function useComment(commentVariable: {
                     },
                     numofchildren: number,
                     parentId: string
-                    createdAt: number,
+                    createdAt: string,
+                    updatedAt: string,
                     postId: string,
                     userId: string
                     children: number
@@ -188,7 +189,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             parentUserId: string;
             parentCommentId: string;
             parentIdentity: string;
-            parentCreatedAt: number;
+            parentCreatedAt: string;
             content: string;
             token: string;
         },
@@ -247,14 +248,16 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         token: string
     }) => {
         const editThisComment = await editCommentary({ token, commentId, content })
-        const { content: cont, createdAt, userId } = editThisComment.updateComment;
+        const { content: cont, updatedAt, userId } = editThisComment.updateComment;
+        // console.log(editThisComment);
         const updatedData = dataSet.map(x => (x.id === commentId ?
             {
                 id: commentId,
                 userId,
                 postId: pId,
                 parentId,
-                createdAt,
+                updatedAt,
+                createdAt: '',
                 identity,
                 content: cont,
                 children: null,

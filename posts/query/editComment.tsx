@@ -9,6 +9,7 @@ mutation updateComment ($commentId: ID!, $content: String!){
     children
     numofchildren
     createdAt
+    updatedAt
     postId
     userId
   }

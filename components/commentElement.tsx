@@ -12,18 +12,28 @@ import {
 } from '@mui/material';
 // import FormatDate from '../lib/fromatDate';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import {id} from 'date-fns/locale';
+import { id } from 'date-fns/locale';
 
-export function InputComment({ disabled, localValue, onChange, comment, id:commentId }: {
-    disabled: boolean, localValue: any, onChange: any, comment: any, id:string
+// KOMPONEN UNTUK REPLY, TAMPILAN KONTEN KOMENTAR DAN EDIT KOMENTAR 
+export function InputComment({ disabled, localValue, onChange, comment, id: commentId }: {
+    disabled: boolean, localValue: string, onChange: any, comment: any, id: string
 }) {
-    const timestamp = formatDistanceToNow(
-        new Date(comment.createdAt *1000),
-        {includeSeconds: true, locale:id}
-      )
+    // untuk reply, field comment tidak diisi / undefined
+    // karena itu, timestamp hanya dibuat untuk edit komentar saja
+    let timeStamp;
+    if (comment) {
+        const createdAt = !comment.createdAt ? comment.updatedAt : comment.createdAt;
+        timeStamp = formatDistanceToNow(
+            new Date(createdAt * 1000),
+            { includeSeconds: true, locale: id }
+        )
+    }
+
     return (
         <>{disabled ?
             <ListItemText
+                // MENAMPILKAN KOMENTAR 
+                // timestamp terisi 
                 primary={comment.identity.callName}
                 primaryTypographyProps={{ variant: 'subtitle1' }}
                 secondary={
@@ -36,7 +46,8 @@ export function InputComment({ disabled, localValue, onChange, comment, id:comme
                                 color: 'text.disabled'
                             }}
                         >
-                            {timestamp + ' yang lalu'}
+                            {comment.updatedAt && 'diupdate: '}
+                            {timeStamp + ' yang lalu'}
                         </Typography>
                         <Typography component="span" variant="body2">
                             {comment.content}
@@ -45,41 +56,35 @@ export function InputComment({ disabled, localValue, onChange, comment, id:comme
                 }
             />
             :
-            // <textarea
-            //     disabled={disabled}
-            //     className={utilStyles.textarea}
-            //     value={localValue}
-            //     onChange={onChange}
-            //     id={id}
-            // />
-            <ListItemText
-                // fullWidth
-                primary={'name'}
-                primaryTypographyProps={{ variant: 'subtitle1' }}
-                secondary={
-                    <>
-                        <Typography
-                            gutterBottom
-                            variant="caption"
-                            sx={{
-                                display: 'block',
-                                color: 'text.disabled'
-                            }}
-                        >
-                            {'createdAt'}
-                        </Typography>
-                        <Typography component="span" variant="body2">
-                            <strong>{'tagUser'}</strong> {'message'}
-                        </Typography>
-                    </>
-                }
+            // REPLY KOMENTAR / EDIT KOMENTAR
+            <textarea
+                disabled={disabled}
+                className={utilStyles.textarea}
+                value={localValue}
+                onChange={onChange}
+                id={commentId}
             />
+            // <TextField
+            //     fullWidth 
+            //     id={commentId}
+            //     inputProps={{localValue}}
+            //     // inputRef = {localValue}
+            //     onChange={onChange}
+            //     size="small"
+            //     // placeholder="Write comment"
+            //     sx={{
+            //         '& fieldset': {
+            //             borderWidth: `1px !important`,
+            //             borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
+            //         }
+            //     }}
+            // />
         }
         </>
     )
 }
 
-export function ButtonComment({ id:commentId, onClick, name }: { id: any, onClick: any, name: string }) {
+export function ButtonComment({ id: commentId, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
         <button
             id={commentId}

@@ -11,6 +11,7 @@ query getCommentByPostId($postId:ID!, $next:Int, $isParent: Boolean!, $commentPa
       children
       userId
       content
+      updatedAt
       parentId
       numofchildren
       identity {
