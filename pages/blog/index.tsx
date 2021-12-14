@@ -5,7 +5,8 @@ import { FC } from 'react';
 import Page from '../../src/components/Page';
 import MainLayout from '../../src/layouts/main';
 import { GetStaticProps } from 'next'
-import postlist from '../../posts/postList';
+// import postlist from '../../posts/postList';
+import { fetchPostList } from '../../posts/fetcher/postFetcher'
 // import client, { QueryPosts } from 'src/db';
 import {
   LandingBlog,
@@ -48,9 +49,9 @@ export default function BlogPage({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await postlist();
-  postlist().catch(error => error.message);
-  const allPostsData = posts.data.loadPosts.postResult;
+  const posts = await fetchPostList();
+  fetchPostList().catch((error) => console.error(error))
+  const allPostsData = await posts.loadPosts.postResult;
   return {
     props: {
       allPostsData

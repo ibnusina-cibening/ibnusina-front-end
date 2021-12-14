@@ -12,7 +12,7 @@ export async function fetchComment(postId: string,
     const headers = {
         Authorization: ''
     }
-    const client = new GraphQLClient(url, { headers });
+    const client = new GraphQLClient(url);
     const res = await client.request(getComment, { postId, next, isParent, commentParentId, limit }, headers);
     const data = await res;
     return data;
@@ -30,7 +30,7 @@ export async function addCommentToList({ postId, content, parentUserId, parentCo
     const headers = {
         Authorization: token
     }
-    const client = new GraphQLClient(url, { headers });
+    const client = new GraphQLClient(url);
     const res = await client.request(addComment, { postId, content, parentUserId, parentCommentId }, headers);
     const data = await res;
     return data;
@@ -42,7 +42,7 @@ export async function editCommentary ({token, commentId, content}:{token:string,
     const headers = {
         Authorization: token
     }
-    const client = new GraphQLClient(url, { headers });
+    const client = new GraphQLClient(url);
     const res = await client.request(editComment, {commentId, content }, headers);
     const data = await res;
     return data;
@@ -60,7 +60,7 @@ export async function removeComment ({token, postId, commentId, userId, parentUs
     const headers = {
         Authorization: token
     }
-    const client = new GraphQLClient(url, { headers });
+    const client = new GraphQLClient(url);
     const res = await client.request(deleteComment, {postId, commentId, userId, parentUserId}, headers);
     const data = await res;
     return data;
