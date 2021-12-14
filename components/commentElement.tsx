@@ -79,13 +79,27 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
 
 export function ButtonComment({ id: commentId, onClick, name }: { id: any, onClick: any, name: string }) {
     return (
-        <Button
-            size="small" sx={{ position: 'relative', left: 0 }}
-            id={commentId}
-            type="button"
-            name={name}
-            onClick={onClick}
-        >{name}</Button>
+        <>
+            {name === 'show more' ? 
+                <Button
+                    size="large" 
+                    // sx={{ position: 'relative', left: 0 }}
+                    variant="contained"
+                    id={commentId}
+                    type="button"
+                    name={name}
+                    onClick={onClick}
+                >{name}</Button>
+                :
+                <Button
+                    size="small" sx={{ position: 'relative', right: 0 }}
+                    id={commentId}
+                    type="button"
+                    name={name}
+                    onClick={onClick}
+                >{name}</Button>
+            }
+        </>
     )
 }
 

@@ -182,11 +182,15 @@ export default function Comment({
                     </div>
                 })
             }
-            {showForm && nextComment && <ButtonComment
-                id={333}
-                name="show more"
-                onClick={handleClick}
-            />}
+            {showForm && nextComment &&
+             <Box  sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent:"center", alignItems:"center", display:"flex"}}>
+                <ButtonComment
+                    id={333}    
+                    name="show more"
+                    onClick={handleClick}
+                />
+            </Box>
+            }
 
         </>
     )

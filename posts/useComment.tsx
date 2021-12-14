@@ -47,9 +47,9 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         next: 0,
         isParent: true,
         commentParentId: "",
-        limit: 5
+        limit: 5 // batas komentar root yang ditampilkan 
     };
-    const childShowLimit = 2;
+    const childShowLimit = 2; // batas komentar children yang ditampilkan saat diklik 
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
     const { comment, isLoading, isError } = useComment(commentVariable);
     const { mutate } = useSWRConfig();

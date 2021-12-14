@@ -7,6 +7,7 @@ import {
   Card,
   Avatar,
   Divider,
+  Chip,
   ListItem,
   TextField,
   Typography,
@@ -36,6 +37,7 @@ export default function CommentList({
 ) {
   return (
     <List
+      disablePadding
       key={comment.id}>
       <CommentItem
         comment={comment}
@@ -57,11 +59,12 @@ export default function CommentList({
             comment.children.map((comment: { id: React.Key | null | undefined; }) => {
               return (
                 <List
+                  disablePadding
                   // disableGutters
                   sx={{
                     // alignItems: 'flex-start',
                     // pl: 4,
-                    color: 'red',
+                    // color: 'red',
                     // mt: 1,
                     ml: 5,
                     // width: (theme) => `calc(100% - ${theme.spacing(4)})`
@@ -83,9 +86,22 @@ export default function CommentList({
           }
         </>
       }
-      {comment.loadMore && <div onClick={() => {
-        showMoreChildren({ commentId: comment.id });
-      }}>tampilkan lebih banyak</div>}
+      {comment.loadMore &&
+        // bergantung pada nilai childshowlimit yang didefinisikan di komponen use Comment
+        <ListItem
+          disablePadding
+          sx={{
+            alignItems: 'flex-start',
+            color: 'blue',
+            pl: 7,
+          }}
+        >
+          <span onClick={() => {
+            showMoreChildren({ commentId: comment.id });
+          }}>komentar berikutnya
+          </span>
+        </ListItem>
+      }
     </List>
   );
 }
@@ -151,86 +167,90 @@ function CommentItem({
     setReplyThis(undefined);
   }
   const myComment = thisUserId === comment.userId;
+
   return (
     <>
+
       <ListItem
+        disablePadding
         sx={{
-          alignItems: 'flex-start',
-          // pl: 4,
-          // color: 'red',
-          // mt: 1,
-          // ml: 5,
-          // width: (theme) => `calc(100% - ${theme.spacing(4)})`
+          // alignItems: 'flex-start',
         }}
       >
-        {/* <span key={comment.id}>{comment.identity.callName + " (" + (comment.id) + ")"}</span> */}
         <ListItemAvatar>
           <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
         </ListItemAvatar>
-        <InputComment
-          disabled={selectedForm === comment.id ? false : true}
-          localValue={localValue}
-          onChange={onChange}
-          comment={comment}
-          id={comment.id}
-        />
-        {!editMode && !replyThis &&
-          <ButtonGroup variant="text">
-            {myComment && <ButtonComment
-              id={comment.id}
-              name="edit"
-              onClick={onSelectForm}
-            />}
-            <ButtonComment
-              name="balas"
-              id={comment.id}
-              onClick={replyMode}
-            />
-            {myComment && <ButtonComment
-              id={comment.id}
-              name="hapus"
-              onClick={() => {
-                deleteComment({
-                  postId: comment.postId,
-                  commentId: comment.id,
-                  userId: comment.userId,
-                  parentId: comment.parentId
-                });
-              }}
-            />}
-          </ButtonGroup>
-        }
-        {editMode &&
-          <>
-            <ButtonComment
-              id={comment.id}
-              name="simpan"
-              onClick={() => {
-                setEditMode(false);
-                setSelectedForm(null);
-                saveCommentEdited({
-                  id: comment.id,
-                  localValue,
-                  numofchildren: comment.numofchildren,
-                  parentId: comment.parentId,
-                  identity: comment.identity,
-                  loadMore: !comment.loadMore ? false : comment.loadMore
-                });
-              }}
-            />
-            <ButtonComment
-              id={comment.id}
-              name="batal"
-              onClick={() => {
-                setEditMode(false);
-                setSelectedForm(null);
-                setLocalValue(comment.content);
-              }}
-            />
-          </>
-        }
+        <Box component="span" sx={{ border: (editMode ? '1px dashed black' : ''), width: '100%' }}>
+          {!editMode && !replyThis ?
+            <Box component="span" sx={{ mt:1, mb:-1, justifyContent: "right", alignItems: "right", display: "flex" }}>
+              <ButtonGroup variant='text'>
+                {myComment && <ButtonComment
+                  id={comment.id}
+                  name="edit"
+                  onClick={onSelectForm}
+                />}
+                <ButtonComment
+                  name="balas"
+                  id={comment.id}
+                  onClick={replyMode}
+                />
+                {myComment && <ButtonComment
+                  id={comment.id}
+                  name="hapus"
+                  onClick={() => {
+                    deleteComment({
+                      postId: comment.postId,
+                      commentId: comment.id,
+                      userId: comment.userId,
+                      parentId: comment.parentId
+                    });
+                  }}
+                />}
+              </ButtonGroup>
+            </Box> : <Box sx={{ m: 2 }}></Box>
+          }
+          <InputComment
+            disabled={selectedForm === comment.id ? false : true}
+            localValue={localValue}
+            onChange={onChange}
+            comment={comment}
+            id={comment.id}
+          />
+          {editMode &&
+            /// mengedit komentar 
+            <Box component="div" sx={{ justifyContent: "left", alignItems: "left", display: "flex" }}>
+              <ButtonComment
+                id={comment.id}
+                name="simpan"
+                onClick={() => {
+                  setEditMode(false);
+                  setSelectedForm(null);
+                  saveCommentEdited({
+                    id: comment.id,
+                    localValue,
+                    numofchildren: comment.numofchildren,
+                    parentId: comment.parentId,
+                    identity: comment.identity,
+                    loadMore: !comment.loadMore ? false : comment.loadMore
+                  });
+                }}
+              />
+              <ButtonComment
+                id={comment.id}
+                name="batal"
+                onClick={() => {
+                  setEditMode(false);
+                  setSelectedForm(null);
+                  setLocalValue(comment.content);
+                }}
+              />
+            </Box>
+          }
+        </Box>
       </ListItem>
+
       <ListItem
+        disablePadding
         sx={{
           alignItems: 'flex-start',
           color: 'blue',
@@ -252,16 +272,13 @@ function CommentItem({
         }}
       />
       {
+        // jika user login dan akan berkomentar
         replyThis && thisUserId ?
-          <List>
+          <List >
             <ListItem
+              // disablePadding
               sx={{
                 alignItems: 'flex-start',
-                // pl: 4,
-                // color: 'red',
-                // mt: 1,
-                // ml: 5,
-                // width: (theme) => `calc(100% - ${theme.spacing(4)})`
               }}
             >
               <small>balas ke {comment.identity.callName}</small>
@@ -272,6 +289,7 @@ function CommentItem({
             </ListItem>
           </List>
           :
+          // user ingin berkomentar tapi tidak login
           replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
       }
     </>
@@ -295,7 +313,7 @@ function Reply({ id, saveReplyToParent, name }: {
     setLocalValue(e.target.value);
   }
   return (
-    <Box component="span" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+    <Box component="span" sx={{ border: '1px dashed green', width: '100%' }}>
       <InputComment
         id={id}
         disabled={false}
@@ -320,7 +338,6 @@ function Reply({ id, saveReplyToParent, name }: {
           }}
         />
       </Box>
-      {/* </ListItemSecondaryAction> */}
     </Box>
   )
 }
