@@ -9,8 +9,7 @@ import {
   BlogPostCommentList
 } from '../../src/components/_external-pages/blog/blogPost';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import allPostId from '../../posts/allPostId';
-import postContent from '../../posts/postContent';
+import {fetchPostContent, fetchAllPostId} from '../../posts/fetcher/postFetcher'
 import { FC } from 'react';
 // database
 import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
@@ -95,8 +94,8 @@ export default function BlogPost({
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  allPostId().catch(error => error.message);
-  const paths = await allPostId();
+  // allPostId().catch(error => error.message);
+  const paths = await fetchAllPostId();
   return {
     paths,
     fallback: 'blocking'
@@ -104,9 +103,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: { params: any }) => {
-  // postContent(params.slug as string).catch(error => error.message);
-  const res = await postContent(params.slug as string);
-  const postData = res.data.postBySlug;
+  const res = await fetchPostContent(params.slug as string);
+  fetchPostContent(params.slug as string).catch((error) => console.error(error));
+  const postData = res.postBySlug;
   return {
     props: {
       postData

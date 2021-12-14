@@ -50,7 +50,7 @@ export default function BlogPage({
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await fetchPostList();
-  fetchPostList().catch((error) => console.error(error))
+  fetchPostList().catch((error) => console.error(error));
   const allPostsData = await posts.loadPosts.postResult;
   return {
     props: {
