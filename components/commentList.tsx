@@ -3,7 +3,6 @@ import { InputComment, ButtonComment } from './commentElement';
 import { Login } from '../lib/login';
 import {
   Box,
-  Button,
   Card,
   Avatar,
   Divider,
@@ -12,6 +11,9 @@ import {
   TextField,
   Typography,
   ListItemText,
+  Skeleton,
+  Alert,
+  Button,
   ListItemSecondaryAction,
   ButtonGroup,
   ListItemAvatar,
@@ -25,14 +27,16 @@ export default function CommentList({
   saveReplyToParent,
   thisUserId,
   showMoreChildren,
-  setLogin }: {
+  setLogin,
+  deleteInProgress }: {
     comment: any,
     saveCommentEdited: any,
     deleteComment: any,
     saveReplyToParent: any,
     thisUserId: any,
     showMoreChildren: any,
-    setLogin: any
+    setLogin: any,
+    deleteInProgress: string
   }
 ) {
   return (
@@ -49,6 +53,7 @@ export default function CommentList({
         showMoreChildren={showMoreChildren}
         thisUserId={thisUserId}
         setLogin={setLogin}
+        deleteInProgress={deleteInProgress}
       />
       {/* {nestedComments} */}
       {
@@ -60,14 +65,8 @@ export default function CommentList({
               return (
                 <List
                   disablePadding
-                  // disableGutters
                   sx={{
-                    // alignItems: 'flex-start',
-                    // pl: 4,
-                    // color: 'red',
-                    // mt: 1,
                     ml: 5,
-                    // width: (theme) => `calc(100% - ${theme.spacing(4)})`
                   }}
                   key={comment.id}
                 >
@@ -79,6 +78,7 @@ export default function CommentList({
                     showMoreChildren={showMoreChildren}
                     thisUserId={thisUserId}
                     setLogin={setLogin}
+                    deleteInProgress={deleteInProgress}
                   />
                 </List>
               )
@@ -115,6 +115,7 @@ function CommentItem({
   showMoreChildren,
   thisUserId,
   numofchildren,
+  deleteInProgress,
   setLogin }: {
     comment: any,
     deleteComment: any,
@@ -124,27 +125,26 @@ function CommentItem({
     showMoreChildren: any,
     thisUserId: string,
     numofchildren: number,
-    setLogin: any
+    setLogin: any,
+    deleteInProgress: string
   }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [replyThis, setReplyThis] = useState();
   const [counter, setCounter] = useState(0);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const onSelectForm = () => {
     setSelectedForm(comment.id);
     setEditMode(true);
   }
-
   const onChange = (e: { target: { value: any; }; }) => {
-    // console.log(e.target.value);
     setLocalValue(e.target.value);
   }
   const replyMode = (e: { target: { id: React.SetStateAction<undefined>; }; }) => {
     setReplyThis(e.target.id);
   }
-
   const saveReply = ({ localValue, name }: { localValue: string, name: string }) => {
     if (name === 'simpan') {
       // mengirim data children sekaligus parent
@@ -166,22 +166,26 @@ function CommentItem({
     }
     setReplyThis(undefined);
   }
-  const myComment = thisUserId === comment.userId;
 
+  const myComment = thisUserId === comment.userId;
+  const inProgressDelete = deleteInProgress == comment.id;
+  // console.log(deleteInProgress); 
+  if (inProgressDelete) return (
+    <Box sx={{ pt: 0.5 }}>
+      <Box component="span" sx={{color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
+      <Skeleton />
+      <Skeleton width="60%" />  
+    </Box>)
   return (
     <>
-
       <ListItem
         disablePadding
-        sx={{
-          // alignItems: 'flex-start',
-        }}
       >
         <ListItemAvatar>
           <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
         </ListItemAvatar>
         <Box component="span" sx={{ border: (editMode ? '1px dashed black' : ''), width: '100%' }}>
-          {!editMode && !replyThis ?
+          {!editMode && !replyThis && !confirmDelete ?
             <Box component="span" sx={{ mt: 1, mb: -1, justifyContent: "right", alignItems: "right", display: "flex" }}>
               <ButtonGroup variant='text'>
                 {myComment &&
@@ -203,16 +207,11 @@ function CommentItem({
                     id={comment.id}
                     name="hapus"
                     onClick={() => {
-                      deleteComment({
-                        postId: comment.postId,
-                        commentId: comment.id,
-                        userId: comment.userId,
-                        parentId: comment.parentId
-                      });
+                      setConfirmDelete(true);
                     }}
                   />}
               </ButtonGroup>
-            </Box> : <Box sx={{ m: 2 }}></Box>
+            </Box> : !editMode && <Box sx={{ m: 2 }}></Box>
           }
           <InputComment
             disabled={selectedForm === comment.id ? false : true}
@@ -227,7 +226,7 @@ function CommentItem({
               <ButtonComment
                 id={comment.id}
                 name="simpan"
-                disabled ={!localValue ? true:false}
+                disabled={!localValue ? true : false}
                 onClick={() => {
                   setEditMode(false);
                   setSelectedForm(null);
@@ -243,7 +242,7 @@ function CommentItem({
               />
               <ButtonComment
                 id={comment.id}
-                disabled = {false}
+                disabled={false}
                 name="batal"
                 onClick={() => {
                   setEditMode(false);
@@ -272,6 +271,32 @@ function CommentItem({
           </span>
         }
       </ListItem>
+      {confirmDelete &&
+        <Alert severity="warning"
+          action={
+            <ButtonGroup variant="text">
+              <Button color="inherit" size="small" onClick={() => {
+                setConfirmDelete(false);
+                deleteComment({
+                  postId: comment.postId,
+                  commentId: comment.id,
+                  userId: comment.userId,
+                  parentId: comment.parentId
+                });
+              }}>
+                YA
+              </Button>
+              <Button color="inherit" size="small" onClick={() => {
+                setConfirmDelete(false);
+              }}>
+                BATAL
+              </Button>
+            </ButtonGroup>
+          }
+        >
+          Apakah anda yakin ingin menghapus komentar ini?
+        </Alert>
+      }
       <Divider
         sx={{
           ml: 'auto',
@@ -326,7 +351,7 @@ function Reply({ id, saveReplyToParent, name }: {
       {/* <ListItemSecondaryAction> */}
       <Box component="span">
         <ButtonComment
-          disabled={!localValue?true:false}
+          disabled={!localValue ? true : false}
           id={id}
           name="simpan"
           onClick={() => {
@@ -334,7 +359,7 @@ function Reply({ id, saveReplyToParent, name }: {
           }}
         />
         <ButtonComment
-        disabled={false}
+          disabled={false}
           id={id}
           name="batal"
           onClick={() => {

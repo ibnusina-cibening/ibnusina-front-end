@@ -58,6 +58,8 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     const dataTimeStamp = !comment?.getCommentByPostId?.results ? 0 : comment.getCommentByPostId.nextTimeStamp;
     // -------------------
     const [isNext, setIsNext] = useState(0); // sebelumnya null
+    const [deleteInProgress, setDeleteInProgress] = useState('');
+
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
 
@@ -171,17 +173,24 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         parentCommentId: any;
         token: any;
     }) => {
-        await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const { addComment: newComment } = await addCommentToList(newCommentToAdd);
-            const newArrayResults = [newComment].concat(dataSet);
-            const getCommentByPostId = {
-                getCommentByPostId: {
-                    nextTimeStamp: dataTimeStamp,
-                    results: newArrayResults
-                }
-            };
-            return getCommentByPostId;
-        }, false)
+        setDeleteInProgress('sedang ditambahkan');
+        const { addComment: newComment } = await addCommentToList(newCommentToAdd);
+        if (!newComment.id) setDeleteInProgress('');
+        if (newComment.id){
+            setDeleteInProgress(newComment.id);
+            await mutate([postId, next, isParent, commentParentId, limit], async () => {
+                const newArrayResults = [newComment].concat(dataSet);
+                const getCommentByPostId = {
+                    getCommentByPostId: {
+                        nextTimeStamp: dataTimeStamp,
+                        results: newArrayResults
+                    }
+                };
+                setDeleteInProgress('');
+                return getCommentByPostId;
+            }, false)
+        }
+        
     };
     const addReply = async (
         newReplyAdded: {
@@ -284,39 +293,44 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     }) => {
         const parentComment = dataSet.filter(x => x.id === parentId);
         const parentUserId = !parentComment.length ? '' : parentComment[0].userId;
+        setDeleteInProgress(commentId)
         const removeThis = await removeComment({ token, postId, commentId, userId, parentUserId });
         const { id: thisId } = removeThis.deleteComment;
-        await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            // menghapus parent sekaligus children-nya
-            const nresult = dataSet.filter(x => x.id !== thisId);
-            const nr = await nresult.filter(x => x.parentId !== thisId);
-            // kemudian kita juga harus mengupdate numofchildren pada parent, jika memang memiliki parent
-            let res;
-            if (parentUserId !== '') {
-                res = nr.map(d => (d.id === parentComment[0].id ?
-                    {
-                        id: parentComment[0].id,
-                        userId: parentComment[0].userId,
-                        postId: pId,
-                        parentId: parentComment[0].parentId,
-                        createdAt: parentComment[0].createdAt,
-                        identity: parentComment[0].identity,
-                        content: parentComment[0].content,
-                        children: parentComment[0].children,
-                        numofchildren: parentComment[0].numofchildren - 1, // berkurang satu 
-                        loadMore: parentComment[0].loadMore,
-                    } : d
-                ))
-            }
-            // selanjutnya kita update ke cache 
-            const getCommentByPostId = {
-                getCommentByPostId: {
-                    nextTimeStamp: dataTimeStamp,
-                    results: !res ? nr : res // antisipasi jika yang dihapus adalah komentar root 
+        if (!thisId) setDeleteInProgress('');
+        if (thisId) {
+            await mutate([postId, next, isParent, commentParentId, limit], async () => {
+                // menghapus parent sekaligus children-nya
+                const nresult = dataSet.filter(x => x.id !== thisId);
+                const nr = await nresult.filter(x => x.parentId !== thisId);
+                // kemudian kita juga harus mengupdate numofchildren pada parent, jika memang memiliki parent
+                let res;
+                if (parentUserId !== '') {
+                    res = nr.map(d => (d.id === parentComment[0].id ?
+                        {
+                            id: parentComment[0].id,
+                            userId: parentComment[0].userId,
+                            postId: pId,
+                            parentId: parentComment[0].parentId,
+                            createdAt: parentComment[0].createdAt,
+                            identity: parentComment[0].identity,
+                            content: parentComment[0].content,
+                            children: parentComment[0].children,
+                            numofchildren: parentComment[0].numofchildren - 1, // berkurang satu 
+                            loadMore: parentComment[0].loadMore,
+                        } : d
+                    ))
                 }
-            };
-            return getCommentByPostId
-        }, false)
+                // selanjutnya kita update ke cache 
+                const getCommentByPostId = {
+                    getCommentByPostId: {
+                        nextTimeStamp: dataTimeStamp,
+                        results: !res ? nr : res // antisipasi jika yang dihapus adalah komentar root 
+                    }
+                };
+                setDeleteInProgress('');
+                return getCommentByPostId
+            }, false)
+        }
     }
     const commentData = arrayToTree(dataSet, { dataField: "" });
     return <Comment
@@ -330,5 +344,6 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         nextComment={isNext}
         saveEditedComment={saveEditedComment}
         removeComment={deleteComment}
+        deleteInProgress = {deleteInProgress}
     />
 }

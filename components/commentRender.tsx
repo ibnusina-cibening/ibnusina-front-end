@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import utilStyles from '../styles/utils.module.css';
 import CommentList from '../components/commentList';
 import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { useSession } from "next-auth/react";
-import { Box, List, ListSubheader, ListItem, Divider } from '@mui/material';
+import { Box, List, ListSubheader, ListItem, Divider, Skeleton } from '@mui/material';
 
 export default function Comment({
     data,
@@ -16,7 +15,8 @@ export default function Comment({
     showMore,
     showMoreChildren,
     saveEditedComment,
-    removeComment
+    removeComment,
+    deleteInProgress
 }: {
     data: any,
     pId: string,
@@ -27,7 +27,8 @@ export default function Comment({
     showMore: any,
     showMoreChildren: any,
     saveEditedComment: any,
-    removeComment: any
+    removeComment: any,
+    deleteInProgress: string
 }) {
     const dataList = data;
     // const [commentList, setCommentList] = useState(data);
@@ -53,6 +54,7 @@ export default function Comment({
                 token: session ? session.token : null
             }
             addComment(vr);
+            setFormValue('');
         }
     };
     const setLogin = (e: boolean | ((prevState: boolean) => boolean)) => {
@@ -152,13 +154,22 @@ export default function Comment({
             }
             {
                 showForm &&
+                <>
+                    {!deleteInProgress && <AddComment
+                        formValue={formValue}
+                        onChange={onChange}
+                        handleClick={handleClick}
+                        isLoggedIn={isLoggedIn}
+                    />}
 
-                <AddComment
-                    formValue={formValue}
-                    onChange={onChange}
-                    handleClick={handleClick}
-                    isLoggedIn={isLoggedIn}
-                />
+                    {deleteInProgress &&
+                        <Box sx={{ pt: 0.5 }}>
+                            <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
+                            <Skeleton />
+                            <Skeleton width="60%" />
+                        </Box>
+                    }
+                </>
 
             }
 
@@ -175,6 +186,7 @@ export default function Comment({
                             comment={c}
                             saveCommentEdited={saveCommentEdited}
                             deleteComment={deleteComment}
+                            deleteInProgress={deleteInProgress}
                             saveReplyToParent={saveReply}
                             showMoreChildren={showMoreChildren}
                             thisUserId={!session ? undefined : session.id}
@@ -184,14 +196,14 @@ export default function Comment({
                 })
             }
             {showForm && nextComment &&
-             <Box  sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent:"center", alignItems:"center", display:"flex"}}>
-                <ButtonComment
-                    disabled={false}
-                    id={333}    
-                    name="show more"
-                    onClick={handleClick}
-                />
-            </Box>
+                <Box sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
+                    <ButtonComment
+                        disabled={false}
+                        id={333}
+                        name="show more"
+                        onClick={handleClick}
+                    />
+                </Box>
             }
 
         </>
