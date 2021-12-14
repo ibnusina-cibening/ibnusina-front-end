@@ -56,6 +56,7 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
                 }
             />
             :
+            // mengedit komentar
             <TextField
                 fullWidth
                 multiline={true}
@@ -77,12 +78,14 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
     )
 }
 
-export function ButtonComment({ id: commentId, onClick, name }: { id: any, onClick: any, name: string }) {
+export function ButtonComment({ id: commentId, onClick, name, disabled }: 
+    { id: any, onClick: any, name: string, disabled:boolean }) {
     const buttonSize = name === 'show more' ? 'large' : name === 'submit' ? 'medium' : 'small';
     return (
 
         <Button
             size= {buttonSize}
+            disabled = {disabled}
             sx={{ position: 'relative', right: 0 }}
             variant= {buttonSize == 'small' ? 'text': 'contained'}
             id={commentId}
@@ -131,6 +134,7 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
             {isLoggedIn &&
                 <Box>
                     <ButtonComment
+                        disabled={!formValue?true:false}
                         id={2}
                         name="submit"
                         onClick={handleClick}

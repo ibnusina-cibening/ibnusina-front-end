@@ -143,6 +143,7 @@ export default function Comment({
 
             {!showForm &&
                 <ButtonComment
+                    disabled={false}
                     id={1}
                     name="show"
                     onClick={handleClick}
@@ -185,6 +186,7 @@ export default function Comment({
             {showForm && nextComment &&
              <Box  sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent:"center", alignItems:"center", display:"flex"}}>
                 <ButtonComment
+                    disabled={false}
                     id={333}    
                     name="show more"
                     onClick={handleClick}

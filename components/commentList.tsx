@@ -182,30 +182,35 @@ function CommentItem({
         </ListItemAvatar>
         <Box component="span" sx={{ border: (editMode ? '1px dashed black' : ''), width: '100%' }}>
           {!editMode && !replyThis ?
-            <Box component="span" sx={{ mt:1, mb:-1, justifyContent: "right", alignItems: "right", display: "flex" }}>
+            <Box component="span" sx={{ mt: 1, mb: -1, justifyContent: "right", alignItems: "right", display: "flex" }}>
               <ButtonGroup variant='text'>
-                {myComment && <ButtonComment
-                  id={comment.id}
-                  name="edit"
-                  onClick={onSelectForm}
-                />}
+                {myComment &&
+                  <ButtonComment
+                    disabled={false}
+                    id={comment.id}
+                    name="edit"
+                    onClick={onSelectForm}
+                  />}
                 <ButtonComment
+                  disabled={false}
                   name="balas"
                   id={comment.id}
                   onClick={replyMode}
                 />
-                {myComment && <ButtonComment
-                  id={comment.id}
-                  name="hapus"
-                  onClick={() => {
-                    deleteComment({
-                      postId: comment.postId,
-                      commentId: comment.id,
-                      userId: comment.userId,
-                      parentId: comment.parentId
-                    });
-                  }}
-                />}
+                {myComment &&
+                  <ButtonComment
+                    disabled={false}
+                    id={comment.id}
+                    name="hapus"
+                    onClick={() => {
+                      deleteComment({
+                        postId: comment.postId,
+                        commentId: comment.id,
+                        userId: comment.userId,
+                        parentId: comment.parentId
+                      });
+                    }}
+                  />}
               </ButtonGroup>
             </Box> : <Box sx={{ m: 2 }}></Box>
           }
@@ -222,6 +227,7 @@ function CommentItem({
               <ButtonComment
                 id={comment.id}
                 name="simpan"
+                disabled ={!localValue ? true:false}
                 onClick={() => {
                   setEditMode(false);
                   setSelectedForm(null);
@@ -237,6 +243,7 @@ function CommentItem({
               />
               <ButtonComment
                 id={comment.id}
+                disabled = {false}
                 name="batal"
                 onClick={() => {
                   setEditMode(false);
@@ -278,7 +285,7 @@ function CommentItem({
             <ListItem>
               <small>balas ke {comment.identity.callName}</small>
               <ListItemAvatar>
-                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml:-3, width: 48, height: 48 }} />
+                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
               </ListItemAvatar>
               <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
             </ListItem>
@@ -308,7 +315,7 @@ function Reply({ id, saveReplyToParent, name }: {
     setLocalValue(e.target.value);
   }
   return (
-    <Box component="span" sx={{mr:-2, border: '1px dashed green', width: '100%' }}>
+    <Box component="span" sx={{ mr: -2, border: '1px dashed green', width: '100%' }}>
       <InputComment
         id={id}
         disabled={false}
@@ -319,6 +326,7 @@ function Reply({ id, saveReplyToParent, name }: {
       {/* <ListItemSecondaryAction> */}
       <Box component="span">
         <ButtonComment
+          disabled={!localValue?true:false}
           id={id}
           name="simpan"
           onClick={() => {
@@ -326,6 +334,7 @@ function Reply({ id, saveReplyToParent, name }: {
           }}
         />
         <ButtonComment
+        disabled={false}
           id={id}
           name="batal"
           onClick={() => {
