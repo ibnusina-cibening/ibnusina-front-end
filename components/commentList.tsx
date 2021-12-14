@@ -275,15 +275,10 @@ function CommentItem({
         // jika user login dan akan berkomentar
         replyThis && thisUserId ?
           <List >
-            <ListItem
-              // disablePadding
-              sx={{
-                alignItems: 'flex-start',
-              }}
-            >
+            <ListItem>
               <small>balas ke {comment.identity.callName}</small>
               <ListItemAvatar>
-                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ width: 48, height: 48 }} />
+                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml:-3, width: 48, height: 48 }} />
               </ListItemAvatar>
               <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
             </ListItem>
@@ -313,7 +308,7 @@ function Reply({ id, saveReplyToParent, name }: {
     setLocalValue(e.target.value);
   }
   return (
-    <Box component="span" sx={{ border: '1px dashed green', width: '100%' }}>
+    <Box component="span" sx={{mr:-2, border: '1px dashed green', width: '100%' }}>
       <InputComment
         id={id}
         disabled={false}
