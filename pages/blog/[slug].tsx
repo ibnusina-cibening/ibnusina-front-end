@@ -64,7 +64,7 @@ export default function BlogPost({
                 { name: 'Home', href: '/' },
                 { name: 'Blog', href: '/blog' },
                 { name: postData.slug }
-              ]} action={undefined} sx={undefined} />
+              ]} action={null} sx={null} />
 
             {postData && (
               <Card>

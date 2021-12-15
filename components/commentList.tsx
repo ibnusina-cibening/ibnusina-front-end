@@ -28,7 +28,7 @@ export default function CommentList({
   thisUserId,
   showMoreChildren,
   setLogin,
-  deleteInProgress }: {
+  inProgress }: {
     comment: any,
     saveCommentEdited: any,
     deleteComment: any,
@@ -36,7 +36,7 @@ export default function CommentList({
     thisUserId: any,
     showMoreChildren: any,
     setLogin: any,
-    deleteInProgress: string
+    inProgress: string
   }
 ) {
   return (
@@ -53,7 +53,7 @@ export default function CommentList({
         showMoreChildren={showMoreChildren}
         thisUserId={thisUserId}
         setLogin={setLogin}
-        deleteInProgress={deleteInProgress}
+        inProgress={inProgress}
       />
       {/* {nestedComments} */}
       {
@@ -78,7 +78,7 @@ export default function CommentList({
                     showMoreChildren={showMoreChildren}
                     thisUserId={thisUserId}
                     setLogin={setLogin}
-                    deleteInProgress={deleteInProgress}
+                    inProgress={inProgress}
                   />
                 </List>
               )
@@ -115,7 +115,7 @@ function CommentItem({
   showMoreChildren,
   thisUserId,
   numofchildren,
-  deleteInProgress,
+  inProgress,
   setLogin }: {
     comment: any,
     deleteComment: any,
@@ -126,7 +126,7 @@ function CommentItem({
     thisUserId: string,
     numofchildren: number,
     setLogin: any,
-    deleteInProgress: string
+    inProgress: string
   }) {
   const [localValue, setLocalValue] = useState(comment.content);
   const [selectedForm, setSelectedForm] = useState(null);
@@ -168,13 +168,13 @@ function CommentItem({
   }
 
   const myComment = thisUserId === comment.userId;
-  const inProgressDelete = deleteInProgress == comment.id;
+  const inProgressProcess = inProgress == comment.id;
   // console.log(deleteInProgress); 
-  if (inProgressDelete) return (
+  if (inProgressProcess) return (
     <Box sx={{ pt: 0.5 }}>
-      <Box component="span" sx={{color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
+      <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
       <Skeleton />
-      <Skeleton width="60%" />  
+      <Skeleton width="60%" />
     </Box>)
   return (
     <>

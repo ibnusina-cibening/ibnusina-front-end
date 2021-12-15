@@ -10,37 +10,37 @@ export default function Comment({
     pId,
     addComment,
     addReply,
-    showComment,
+    // showComment,
     nextComment,
     showMore,
     showMoreChildren,
     saveEditedComment,
     removeComment,
-    deleteInProgress
+    inProgress
 }: {
     data: any,
     pId: string,
     addComment: any,
     addReply: any,
-    showComment: any,
+    // showComment: any,
     nextComment: any,
     showMore: any,
     showMoreChildren: any,
     saveEditedComment: any,
     removeComment: any,
-    deleteInProgress: string
+    inProgress: string
 }) {
     const dataList = data;
     // const [commentList, setCommentList] = useState(data);
     const [formValue, setFormValue] = useState('');
-    const [showForm, setShowForm] = useState(false);
+    // const [showForm, setShowForm] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const { data: session, status } = useSession();
     const handleClick = async (e: { target: { name: string; }; }) => {
         if (e.target.name === 'show') {
-            await setShowForm(!showForm)
+            // await setShowForm(!showForm)
             // await setFormValue('tulis komentar');
-            showComment();
+            // showComment();
         }
         if (e.target.name === 'show more') {
             showMore()
@@ -59,7 +59,7 @@ export default function Comment({
     };
     const setLogin = (e: boolean | ((prevState: boolean) => boolean)) => {
         setIsLoggedIn(e);
-        setShowForm(e);
+        // setShowForm(e);
     };
     const onChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setFormValue(e.target.value);
@@ -135,7 +135,7 @@ export default function Comment({
                 }}
             />
 
-            {showForm &&
+            {
                 <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
                     <Login
                         getlogin={setLogin}
@@ -143,7 +143,7 @@ export default function Comment({
                 </Box>
             }
 
-            {!showForm &&
+            {/* {!showForm &&
                 <ButtonComment
                     disabled={false}
                     id={1}
@@ -151,23 +151,22 @@ export default function Comment({
                     onClick={handleClick}
                 />
 
-            }
+            } */}
             {
-                showForm &&
+                session &&
                 <>
-                    {!deleteInProgress && <AddComment
-                        formValue={formValue}
-                        onChange={onChange}
-                        handleClick={handleClick}
-                        isLoggedIn={isLoggedIn}
-                    />}
-
-                    {deleteInProgress &&
+                    {inProgress === 'add root comment' ?
                         <Box sx={{ pt: 0.5 }}>
                             <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
                             <Skeleton />
                             <Skeleton width="60%" />
-                        </Box>
+                        </Box> :
+                        <AddComment
+                            formValue={formValue}
+                            onChange={onChange}
+                            handleClick={handleClick}
+                            isLoggedIn={isLoggedIn}
+                        />
                     }
                 </>
 
@@ -179,14 +178,14 @@ export default function Comment({
                     width: (theme) => `calc(100% - ${theme.spacing(7)})`
                 }}
             />
-            {showForm &&
+            {
                 dataList.map((c: { id: React.Key | null | undefined; }) => {
                     return <div key={c.id}>
                         <CommentList
                             comment={c}
                             saveCommentEdited={saveCommentEdited}
                             deleteComment={deleteComment}
-                            deleteInProgress={deleteInProgress}
+                            inProgress={inProgress}
                             saveReplyToParent={saveReply}
                             showMoreChildren={showMoreChildren}
                             thisUserId={!session ? undefined : session.id}
@@ -195,7 +194,7 @@ export default function Comment({
                     </div>
                 })
             }
-            {showForm && nextComment &&
+            {nextComment !== 0 &&
                 <Box sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
                     <ButtonComment
                         disabled={false}

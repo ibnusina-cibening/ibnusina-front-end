@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { arrayToTree } from 'performant-array-to-tree';
 import useSWR, { useSWRConfig } from "swr";
 import Comment from "../components/commentRender";
@@ -47,7 +47,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         next: 0,
         isParent: true,
         commentParentId: "",
-        limit: 5 // batas komentar root yang ditampilkan 
+        limit: 3 // batas komentar root yang ditampilkan 
     };
     const childShowLimit = 2; // batas komentar children yang ditampilkan saat diklik 
     const { postId, next, isParent, commentParentId, limit } = commentVariable;
@@ -55,25 +55,21 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     const { mutate } = useSWRConfig();
     // ------------------
     const dataSet = !comment?.getCommentByPostId?.results ? [] : comment.getCommentByPostId.results;
-    const dataTimeStamp = !comment?.getCommentByPostId?.results ? 0 : comment.getCommentByPostId.nextTimeStamp;
+    const dataTimeStamp = !comment?.getCommentByPostId?.nextTimeStamp ? 0 : comment.getCommentByPostId.nextTimeStamp;
     // -------------------
-    const [isNext, setIsNext] = useState(0); // sebelumnya null
-    const [deleteInProgress, setDeleteInProgress] = useState('');
 
+    const [inProgress, setInProgress] = useState('');
+    const [isNext, setIsNext] = useState(dataTimeStamp); // sebelumnya null
+    useEffect(() => {
+        setIsNext(dataTimeStamp);
+    }, [dataTimeStamp]);
     if (isLoading) return <div>loading</div>
     if (isError) return <div>error</div>
 
-    const showComment = async () => {
-        // setisnext hanya untuk kebutuhan menampilkan komentar root 
-        // KITA BELUM MENGANTISIPASI JIKA TIDAK ADA KOMENTAR ([]);
-        const setNext = !comment ? 0 : dataTimeStamp;
-        setIsNext(setNext);
-    };
     const showMore = async () => {
         // khusus untuk komentar root 
         const moreComment = await fetchComment(postId, isNext, true, "", limit);
         const { nextTimeStamp, results } = moreComment.getCommentByPostId;
-        setIsNext(nextTimeStamp);
         await mutate([postId, next, isParent, commentParentId, limit], async () => {
             const getCommentByPostId = {
                 getCommentByPostId: {
@@ -173,11 +169,11 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         parentCommentId: any;
         token: any;
     }) => {
-        setDeleteInProgress('sedang ditambahkan');
+        setInProgress('add root comment');
         const { addComment: newComment } = await addCommentToList(newCommentToAdd);
-        if (!newComment.id) setDeleteInProgress('');
-        if (newComment.id){
-            setDeleteInProgress(newComment.id);
+        if (!newComment.id) setInProgress('');
+        if (newComment.id) {
+            setInProgress(newComment.id);
             await mutate([postId, next, isParent, commentParentId, limit], async () => {
                 const newArrayResults = [newComment].concat(dataSet);
                 const getCommentByPostId = {
@@ -186,11 +182,11 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         results: newArrayResults
                     }
                 };
-                setDeleteInProgress('');
+                setInProgress('');
                 return getCommentByPostId;
             }, false)
         }
-        
+
     };
     const addReply = async (
         newReplyAdded: {
@@ -293,10 +289,10 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     }) => {
         const parentComment = dataSet.filter(x => x.id === parentId);
         const parentUserId = !parentComment.length ? '' : parentComment[0].userId;
-        setDeleteInProgress(commentId)
+        setInProgress(commentId)
         const removeThis = await removeComment({ token, postId, commentId, userId, parentUserId });
         const { id: thisId } = removeThis.deleteComment;
-        if (!thisId) setDeleteInProgress('');
+        if (!thisId) setInProgress('');
         if (thisId) {
             await mutate([postId, next, isParent, commentParentId, limit], async () => {
                 // menghapus parent sekaligus children-nya
@@ -327,7 +323,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         results: !res ? nr : res // antisipasi jika yang dihapus adalah komentar root 
                     }
                 };
-                setDeleteInProgress('');
+                setInProgress('');
                 return getCommentByPostId
             }, false)
         }
@@ -338,12 +334,12 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         pId={pId}
         addComment={addComment}
         addReply={addReply}
-        showComment={showComment}
+        // showComment={showComment}
         showMore={showMore}
         showMoreChildren={showMoreChildren}
         nextComment={isNext}
         saveEditedComment={saveEditedComment}
         removeComment={deleteComment}
-        deleteInProgress = {deleteInProgress}
+        inProgress={inProgress}
     />
 }
