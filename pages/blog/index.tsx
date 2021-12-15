@@ -2,17 +2,15 @@
 import { styled } from '@mui/material/styles';
 // components
 import { FC } from 'react';
-import Page from '../../src/components/Page';
-import MainLayout from '../../src/layouts/main';
+import Page from 'src/components/Page';
+import MainLayout from 'src/layouts/main';
 import { GetStaticProps } from 'next'
-// import postlist from '../../posts/postList';
-import { fetchPostList } from '../../posts/fetcher/postFetcher'
-// import client, { QueryPosts } from 'src/db';
+import { gql, GraphQLClient } from 'graphql-request';
 import {
   LandingBlog,
 }
-  from '../../src/components/_external-pages/blog';
-
+  from 'src/components/_external-pages/blog';
+import Error from '../_error';
 
 const RootStyle: FC<any> = styled(Page)({
   height: '100%',
@@ -49,9 +47,41 @@ export default function BlogPage({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await fetchPostList();
-  fetchPostList().catch((error) => console.error(error));
-  const allPostsData = await posts.loadPosts.postResult;
+  const postList = gql`
+  query{
+    loadPosts(limit:15){
+      nextPost
+      postResult{
+        id
+        title
+        createdAt
+        slug
+        author{
+          callName
+          avatar
+        }
+        meta{
+          viewCount
+          commentCount
+          shareCount
+        }
+      }
+    }
+  }
+  `;
+  const url = process.env.GRAPH_URL; // hanya diakses di server ( tidak menggunakan prefix NEXT_PUBLIC)
+  const headers = {Authorization: '' };
+  const client = new GraphQLClient(url, { headers });
+  const data = await client.request(postList);
+  const allPostsData = data.loadPosts.postResult;
+  // console.log(process.env.NODE_ENV );
+  try {
+    if (!allPostsData) {
+      return Error({statusCode:404})
+    }
+  }catch(e){
+    return Error({statusCode:500})
+  }
   return {
     props: {
       allPostsData
@@ -59,3 +89,5 @@ export const getStaticProps: GetStaticProps = async () => {
     revalidate: 10
   }
 }
+
+// referensi: https://stackoverflow.com/questions/61452675/econnrefused-during-next-build-works-fine-with-next-dev

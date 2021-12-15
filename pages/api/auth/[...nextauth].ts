@@ -1,7 +1,29 @@
 import NextAuth from 'next-auth'
 import GoogleProvider from "next-auth/providers/google"
-import { GraphQLClient } from 'graphql-request';
-import { fLogin } from '../../../posts/query'
+import { GraphQLClient, gql } from 'graphql-request';
+// import { fLogin } from '../../../posts/query'
+// import { gql } from 'graphql-request'; 
+
+const fLogin = gql`
+mutation fLogin($username:String!, $email:String!, $avatar: String){
+  fLogin(username:$username, email:$email, avatar: $avatar){
+    token
+    myData{
+      id
+      callName
+      role
+      avatar
+      detail{
+        createdAt
+        email
+        lastLogin
+        intro
+        mobile
+      }
+    }
+  }
+  }
+`;
 
 async function fetcher(name, email, picture) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi

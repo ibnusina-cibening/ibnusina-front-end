@@ -14,6 +14,7 @@ import { FC } from 'react';
 // database
 import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
 import UseComment from '../../posts/useComment';
+import Error from '../_error';
 
 const Spacer = styled('div')(({ theme }) => ({
   padding: theme.spacing(15, 0),
@@ -105,6 +106,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }: { params: any }) => {
   const res = await fetchPostContent(params.slug as string);
   fetchPostContent(params.slug as string).catch((error) => console.error(error));
+  if (!res) {
+    return Error({statusCode:404})
+  }
   const postData = res.postBySlug;
   return {
     props: {
