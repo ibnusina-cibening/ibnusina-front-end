@@ -1,7 +1,7 @@
 import postList from './postList';
 import postContent from './postContent';
 import metaPost from './metaPost';
-import fLogin from './fLogin';
+// import fLogin from './fLogin';
 import getComment from './getComment';
 import addComment from './addComment';
 import editComment from './editComment';
@@ -19,7 +19,7 @@ export {
     postContent, 
     metaPost,
     getComment, 
-    fLogin, 
+    // fLogin, 
     headers, 
     url,
     addComment,

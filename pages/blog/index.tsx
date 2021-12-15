@@ -90,4 +90,5 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
+// fetching data sebaiknya langsung di sini, tidak request route api. 
 // referensi: https://stackoverflow.com/questions/61452675/econnrefused-during-next-build-works-fine-with-next-dev

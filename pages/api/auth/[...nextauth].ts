@@ -26,7 +26,7 @@ mutation fLogin($username:String!, $email:String!, $avatar: String){
 `;
 
 async function fetcher(name, email, picture) {
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
+  const url = await process.env.GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
   const headers = {
     Authorization: ''
   }
