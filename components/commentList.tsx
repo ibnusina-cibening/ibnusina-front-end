@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputComment, ButtonComment } from './commentElement';
+import { InputComment, ButtonComment, CommentLoader } from './commentElement';
 import { Login } from '../lib/login';
 import {
   Box,
@@ -55,10 +55,8 @@ export default function CommentList({
         setLogin={setLogin}
         inProgress={inProgress}
       />
-      {/* {nestedComments} */}
       {
         comment.children.length > 0 &&
-
         <>
           {
             comment.children.map((comment: { id: React.Key | null | undefined; }) => {
@@ -87,20 +85,25 @@ export default function CommentList({
         </>
       }
       {comment.loadMore &&
-        // bergantung pada nilai childshowlimit yang didefinisikan di komponen use Comment
-        <ListItem
-          disablePadding
-          sx={{
-            alignItems: 'flex-start',
-            color: 'blue',
-            pl: 7,
-          }}
-        >
-          <span onClick={() => {
-            showMoreChildren({ commentId: comment.id });
-          }}>komentar berikutnya
-          </span>
-        </ListItem>
+        // jumlah yang ditampilkan tergantung nilai childshowlimit yang didefinisikan di komponen useComment
+        <>
+          {inProgress === comment.id + 2 ? <CommentLoader message='sebentar' /> :
+            <ListItem
+              disablePadding
+              sx={{
+                alignItems: 'flex-start',
+                color: 'blue',
+                pl: 7,
+              }}
+            >
+              <Box component="span" sx={{ m: 1, justifyContent: "center", alignItems: "center", display: "flex" }}>
+                <Button variant="outlined" size="small" onClick={() => {
+                  showMoreChildren({ commentId: comment.id });
+                }}>tampilkan lebih banyak
+                </Button>
+              </Box>
+            </ListItem>}
+        </>
       }
     </List>
   );
@@ -159,7 +162,7 @@ function CommentItem({
         parentContent,
         parentChildNum: comment.numofchildren,
         parentCreatedAt: comment.createdAt,
-        parentUpdatedAt: !comment.updatedAt?null:comment.updatedAt,
+        parentUpdatedAt: !comment.updatedAt ? null : comment.updatedAt,
         parentIdentity: comment.identity,
         parentLoadMore: comment.loadMore
       }
@@ -174,11 +177,7 @@ function CommentItem({
   const inProgressProcess = inProgress == comment.id;
   // console.log(inProgressProcess); 
   if (inProgressProcess) return (
-    <Box sx={{ pt: 0.5 }}>
-      <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
-      <Skeleton />
-      <Skeleton width="60%" />
-    </Box>
+    <CommentLoader message={'Tunggu sebentar yah.. !'} />
   )
   // console.log(inProgress, replyThis);
   return (
@@ -227,11 +226,7 @@ function CommentItem({
           />
           {
             inProgress === replyString &&
-            <Box sx={{ pt: 0.5 }}>
-              <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
-              <Skeleton />
-              <Skeleton width="60%" />
-            </Box>
+            <CommentLoader message={'Balasan komentar sedang ditambahkan'} />
           }
           {editMode &&
             /// mengedit komentar 
@@ -271,7 +266,7 @@ function CommentItem({
       <ListItem
         disablePadding
         sx={{
-          alignItems: 'flex-start',
+          // alignItems: 'flex-start',
           color: 'blue',
           pl: 7,
         }}
@@ -284,6 +279,10 @@ function CommentItem({
           </span>
         }
       </ListItem>
+      {
+        inProgress === comment.id + 1 &&
+        <span><CommentLoader message={'tunggu sebentar!'} /></span>
+      }
       {confirmDelete &&
         <Alert severity="warning"
           action={
@@ -326,10 +325,10 @@ function CommentItem({
                 <ListItemAvatar>
                   <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
                 </ListItemAvatar>
-                <Reply 
-                  id={comment.id} 
-                  inProgress={inProgress} 
-                  name={comment.identity.callName} 
+                <Reply
+                  id={comment.id}
+                  inProgress={inProgress}
+                  name={comment.identity.callName}
                   saveReplyToParent={saveReply} />
               </ListItem>
             </List>
@@ -337,7 +336,15 @@ function CommentItem({
 
           :
           // user ingin berkomentar tapi tidak login
-          replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
+          replyThis &&
+          <Alert severity="warning"
+            action={
+              <Login getlogin={setLogin} />
+            }
+          >
+            Silahkan login untuk membalas komentar
+          </Alert>
+
       }
     </>
   )

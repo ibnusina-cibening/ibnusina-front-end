@@ -3,6 +3,7 @@ import { arrayToTree } from 'performant-array-to-tree';
 import useSWR, { useSWRConfig } from "swr";
 import Comment from "../components/commentRender";
 import { fetchComment, addCommentToList, editCommentary, removeComment } from "./fetcher/commentFetcher";
+import { CommentLoader } from 'components/commentElement'; 
 
 function useComment(commentVariable: {
     postId: string; next: number; isParent: boolean; commentParentId: string; limit: number;
@@ -63,30 +64,36 @@ export default function GetKomentar({ pId, }: { pId: string }) {
     useEffect(() => {
         setIsNext(dataTimeStamp);
     }, [dataTimeStamp]);
-    if (isLoading) return <div>loading</div>
+    if (isLoading) return <CommentLoader message={''}/>
     if (isError) return <div>error</div>
 
     const showMore = async () => {
         // khusus untuk komentar root 
+        setInProgress('loading root');
         const moreComment = await fetchComment(postId, isNext, true, "", limit);
-        const { nextTimeStamp, results } = moreComment.getCommentByPostId;
-        await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const getCommentByPostId = {
-                getCommentByPostId: {
-                    nextTimeStamp: nextTimeStamp,
-                    results: [...dataSet, ...results]
-                }
-            };
-            return getCommentByPostId
-        }, false)
+        if (!moreComment.getCommentByPostId) setInProgress('');
+        // console.log(moreComment.getCommentByPostId);
+        if (moreComment.getCommentByPostId) {
+            await mutate([postId, next, isParent, commentParentId, limit], async () => {
+                const { nextTimeStamp, results } = moreComment.getCommentByPostId;
+                const getCommentByPostId = {
+                    getCommentByPostId: {
+                        nextTimeStamp: nextTimeStamp,
+                        results: [...dataSet, ...results]
+                    }
+                };
+                setInProgress('');
+                return getCommentByPostId
+            }, false)
+        }
     };
     const showMoreChildren = async ({ commentId: cpId }: { commentId: any }) => {
         // khusus untuk menampilkan komentar balasan (children)
         let thisChildren = dataSet.filter(d => d.parentId === cpId);
         // jika di data cache tidak ada, kita akan cari di database;
-        // ini disedikan untuk tombol "tampilkan ... komntar lainnya" (di atas)
-        // karena itu, next timestampnya dibiarkan null tidak masalah
+        // ini disedikan untuk tombol "tampilkan (int) balasan lainnya"
         if (!thisChildren.length) {
+            setInProgress(cpId+'1');
             const moreComment = await fetchComment(postId, null, false, cpId, childShowLimit + 1);
             const { results } = moreComment.getCommentByPostId;
             if (results.length > 0) {
@@ -100,7 +107,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     parentId: x.parentId,
                     content: x.content,
                     createdAt: x.createdAt,
-                    updatedAt: !x.updatedAt?null:x.updatedAt,
+                    updatedAt: !x.updatedAt ? null : x.updatedAt,
                     postId: x.postId,
                     userId: x.userId,
                     identity: x.identity,
@@ -119,12 +126,14 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                             results: updateData
                         }
                     };
+                    setInProgress('');
                     return getCommentByPostId
                 }, false)
             }
         } else if (thisChildren.length) {
+            setInProgress(cpId+'2');
             // ini untuk tombol bawah. Karena tombol bawah hanya tampil
-            // saat cache sudah terisi data children sebelumnya
+            // saat cache sudah terisi data children sebelumnya ("tampilkan lebih banyak")
             const commentIndex = thisChildren.length - 1;
             // membuat nexttimestamp
             const nextData = parseInt(thisChildren[commentIndex].createdAt);
@@ -141,6 +150,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     parentId: x.parentId,
                     content: x.content,
                     createdAt: x.createdAt,
+                    updatedAt: !x.updatedAt ? null : x.updatedAt,
                     postId: x.postId,
                     userId: x.userId,
                     identity: x.identity,
@@ -158,6 +168,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                             results: updateData
                         }
                     };
+                    setInProgress('');
                     return getCommentByPostId
                 }, false)
             }
@@ -207,10 +218,10 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             parentChildNum: any;
             parentLoadMore: any;
         }) => {
-        setInProgress(newReplyAdded.parentCommentId+'ok');
+        setInProgress(newReplyAdded.parentCommentId + 'ok');
         const { addComment: newReply } = await addCommentToList(newReplyAdded);
         const { parentId } = newReply;
-        if(!parentId) setInProgress('');
+        if (!parentId) setInProgress('');
         if (parentId) {
             await mutate([postId, next, isParent, commentParentId, limit], async () => {
                 const {

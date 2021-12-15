@@ -1,5 +1,6 @@
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useState } from 'react';
+import {Button} from '@mui/material';
 
 export function Login({ getlogin }) {
     const [login, setIslogin] = useState(true);
@@ -17,18 +18,18 @@ export function Login({ getlogin }) {
     return (
         <>
             {
-                session ? <button onClick={() => {
+                session ? <Button size ={'medium'}  variant = "contained" sx={{ position: 'relative', right: 0 }} onClick={() => {
                     signOut({ redirect: false, callbackUrl: 'http://localhost:3000' });
                     setLogin(false);
                 }
-                }>Sign out</button> :
+                }>Sign out</Button> :
 
-                    <button onClick={() => {
+                    <Button size ={'medium'} variant = "contained" sx={{ position: 'relative', right: 0 }} onClick={() => {
                         setLogin(true);
                         signIn();
                     }
                     }
-                    >Sign in</button>
+                    >Sign in</Button>
             }
         </>
     )

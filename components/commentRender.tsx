@@ -4,6 +4,7 @@ import { AddComment, ButtonComment } from '../components/commentElement';
 import { Login } from '../lib/login';
 import { useSession } from "next-auth/react";
 import { Box, List, ListSubheader, ListItem, Divider, Skeleton } from '@mui/material';
+import {CommentLoader} from 'components/commentElement'
 
 export default function Comment({
     data,
@@ -139,7 +140,7 @@ export default function Comment({
             />
 
             {
-                <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+                <Box component="div" sx={{ p: 2, width: '100%' }}>
                     <Login
                         getlogin={setLogin}
                     />
@@ -149,11 +150,7 @@ export default function Comment({
                 session &&
                 <>
                     {inProgress === 'add root comment' ?
-                        <Box sx={{ pt: 0.5 }}>
-                            <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
-                            <Skeleton />
-                            <Skeleton width="60%" />
-                        </Box> :
+                        <CommentLoader message={'Tunggu... sedang ditambahkan!'}/> :
                         <AddComment
                             formValue={formValue}
                             onChange={onChange}
@@ -188,14 +185,18 @@ export default function Comment({
                 })
             }
             {nextComment !== 0 &&
-                <Box sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
-                    <ButtonComment
-                        disabled={false}
-                        id={333}
-                        name="show more"
-                        onClick={handleClick}
-                    />
-                </Box>
+                <>
+                    {inProgress !== 'loading root' ?
+                        <Box sx={{ '& button': { m: 1 }, p: 2, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
+                            <ButtonComment
+                                disabled={false}
+                                id={333}
+                                name="show more"
+                                onClick={handleClick}
+                            />
+                        </Box> : <CommentLoader message={'memuat ...'}/>
+                    }
+                </>
             }
 
         </>

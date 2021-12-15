@@ -7,10 +7,23 @@ import {
     TextField,
     Typography,
     ListItemText,
+    Skeleton,
     ListItemAvatar
 } from '@mui/material';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { id } from 'date-fns/locale';
+
+export function CommentLoader(props:{message:string}) {
+    return (
+        <Box sx={{ pt: 0.5 }}>
+            <Box component="span"  sx={{justifyContent: "center", alignItems: "center", display: "flex" }}>
+                {props.message}
+            </Box>
+            <Skeleton />
+            <Skeleton width="60%" />
+        </Box>
+    )
+}
 
 // KOMPONEN UNTUK REPLY, TAMPILAN KONTEN KOMENTAR DAN EDIT KOMENTAR 
 export function InputComment({ disabled, localValue: localvalue, onChange, comment, id: commentId }: {
@@ -20,8 +33,8 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
     // karena itu, timestamp hanya dibuat untuk edit komentar saja
     let timeStamp;
     if (comment) {
-        const createdAt = !comment.updatedAt ? comment.createdAt:  comment.updatedAt;
-        const time = typeof createdAt === 'string' ? parseInt(createdAt): createdAt;
+        const createdAt = !comment.updatedAt ? comment.createdAt : comment.updatedAt;
+        const time = typeof createdAt === 'string' ? parseInt(createdAt) : createdAt;
         timeStamp = formatDistanceToNow(
             new Date(time * 1000),
             { includeSeconds: true, locale: id }
@@ -77,16 +90,16 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
     )
 }
 
-export function ButtonComment({ id: commentId, onClick, name, disabled }: 
-    { id: any, onClick: any, name: string, disabled:boolean }) {
+export function ButtonComment({ id: commentId, onClick, name, disabled }:
+    { id: any, onClick: any, name: string, disabled: boolean }) {
     const buttonSize = name === 'show more' ? 'large' : name === 'submit' ? 'medium' : 'small';
     return (
 
         <Button
-            size= {buttonSize}
-            disabled = {disabled}
+            size={buttonSize}
+            disabled={disabled}
             sx={{ position: 'relative', right: 0 }}
-            variant= {buttonSize == 'small' ? 'text': 'contained'}
+            variant={buttonSize == 'small' ? 'text' : 'contained'}
             id={commentId}
             type="button"
             name={name}
@@ -121,9 +134,9 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
     formValue: string, onChange: any, handleClick: any, isLoggedIn: boolean
 }) {
     return (
-        <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+        <Box component="div" sx={{ p: 2, border: '1px solid green', width: '100%' }}>
             {isLoggedIn &&
-                <Box component="div" sx={{ p: 2, border: '1px dashed grey', width: '100%' }}>
+                <Box component="div" sx={{ p: 2, width: '100%' }}>
                     <InputMain
                         formValue={formValue}
                         onChange={onChange}
@@ -131,9 +144,9 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
                 </Box>
             }
             {isLoggedIn &&
-                <Box>
+                 <Box component="div" sx={{ pt: 0.5, pl:2, width: '100%' }}>
                     <ButtonComment
-                        disabled={!formValue?true:false}
+                        disabled={!formValue ? true : false}
                         id={2}
                         name="submit"
                         onClick={handleClick}
