@@ -21,3 +21,16 @@ SECURITY
 
 TO EXPLORE MORE: 
 - [REACT-CONTEXT](https://www.netlify.com/blog/2020/12/01/using-react-context-for-state-management-in-next.js/)
+
+
+SETUP ENVIRONMENT VARIABLES: 
+
+- [DEV VS PROD ENVIRONMENT](https://www.geeksforgeeks.org/node_env-variables-and-how-to-use-them/)
+- [ALTERNATIVE](https://seanconnolly.dev/dont-be-fooled-by-node-env) lihat juga [ini](https://jetrockets.com/blog/environment-variables-in-next-js)
+- [SETUP ENV VARIABEL](https://www.youtube.com/watch?v=vS86x_e0zBk&t=257s)
+
+SERVER BUILD
+
+-[handle error getstaticprops](https://stackoverflow.com/questions/67168743/how-to-cleanly-handle-errors-in-nextjs-getstaticprops)
+
+- [absolute url path](https://stackoverflow.com/questions/44342226/next-js-error-only-absolute-urls-are-supported)

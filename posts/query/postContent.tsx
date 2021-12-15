@@ -5,6 +5,10 @@ const getPostContent = `
       slug
       title
       content
+      author{
+        callName
+        avatar
+      }
       meta{
         commentCount
         viewCount

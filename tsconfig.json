@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es6",
+    "lib": ["es6","dom", "dom.iterable", "esnext"], // es6 bawaan mui 
+    // "noImplicitAny": true, // bawaan mui
+    // "noImplicitThis": true, // bawaan mui
+    // "strictNullChecks": true, // bawaan mui
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -13,7 +16,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "."
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

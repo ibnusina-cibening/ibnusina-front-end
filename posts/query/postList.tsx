@@ -1,4 +1,6 @@
-const postList = `
+import { gql } from 'graphql-request';
+
+const postList = gql`
 query{
   loadPosts(limit:15){
     nextPost
@@ -9,6 +11,7 @@ query{
       slug
       author{
         callName
+        avatar
       }
       meta{
         viewCount

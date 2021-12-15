@@ -17,6 +17,9 @@ mutation addComment ($postId: ID!, $content: String!, $parentUserId: ID, $parent
       callName
       avatar
     }
+    createdAt
+    postId
+    userId
   }
 }
 `;

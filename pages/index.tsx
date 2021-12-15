@@ -1,74 +1,46 @@
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css';
-import FormatDate from '../lib/fromatDate';
-import Link from 'next/link'
-import { GetStaticProps } from 'next'
-import postlist from '../posts/postList';
-import convertToKilo from '../lib/convertToKilo';
+// layouts
+import MainLayout from '../src/layouts/main';
+// material
+import { styled } from '@mui/material/styles';
+// components
+import Page from '../src/components/Page';
+import {
+  LandingHero,
+  LandingMinimal,
+  LandingHugePackElements,
+} from '../src/components/_external-pages/landing';
+import React, { FC } from 'react';
 
-export default function Home({
-  allPostsData
-}: {
-  allPostsData: {
-    createdAt: string
-    title: string
-    slug: string
-    author: {
-      callName: string
-    }
-    meta: {
-      viewCount: number
-      commentCount: number
-      shareCount: number
-    }
-  }[]
-}) {
+// ----------------------------------------------------------------------
+
+// const RootStyle = styled(Page)({
+//   height: '100%',
+// });
+const RootStyle: FC<any> = styled(Page)({
+  height: '100%',
+});
+
+const ContentStyle = styled('div')(({ theme }) => ({
+  overflow: 'hidden',
+  position: 'relative',
+  backgroundColor: theme.palette.background.default,
+}));
+
+// ----------------------------------------------------------------------
+
+export default function LandingPage() {
   return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <section className={utilStyles.headingMd}>
-        <p>Pondok Pesantren Ibnu Sina</p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ slug, createdAt, title, author, meta }) => (
-
-            <li className={utilStyles.listItem} key={slug}>
-              <Link href={`/posts/${slug}`}>
-                <a>{title}</a>
-              </Link>
-              <div>
-                <small>{'penulis: '}{author.callName}</small>
-                <small className={utilStyles.lightText}>
-                 <div>{FormatDate(createdAt)}</div>
-                </small>
-                <small>
-                  {'view: '}{convertToKilo(meta?.viewCount)}
-                  {' share: '}{convertToKilo(meta?.shareCount)}
-                  {' comment: '}{convertToKilo(meta?.commentCount)}
-                </small>
-              </div>
-              {'--------------------------------------------'}
-            </li>
-          ))}
-        </ul>
-      </section>
-    </Layout>
-  )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = await postlist();
-  postlist().catch(error => error.message);
-  const allPostsData = posts.data.loadPosts.postResult;
-  return {
-    props: {
-      allPostsData
-    },
-    revalidate: 10
-  }
+    <MainLayout>
+      <RootStyle
+        title='IBNU SINA | Islamic Boarding School'
+        id='move_top'
+      >
+        <LandingHero />
+        <ContentStyle>
+          <LandingMinimal />
+          <LandingHugePackElements />
+        </ContentStyle>
+      </RootStyle>
+    </MainLayout>
+  );
 }

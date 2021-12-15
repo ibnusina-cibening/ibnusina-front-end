@@ -3,10 +3,10 @@ import { GraphQLClient } from 'graphql-request';
 import { metaPost } from './query';
 import convertToKilo from '../lib/convertToKilo';
 
-async function fetcher(postId) {
+async function fetcher(postId: any) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
   const client = new GraphQLClient(url)
-  console.log('hi');
+  console.log('hi dari meta post');
   const requestHeaders = {
     Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhYjhiMDhlLWMwMzEtNDYyYi1hNTQ1LTVlN2IwMmYyMzg2OSIsInVzZXJuYW1lIjoiam9rbyIsInJvbGUiOiJhZG1pbiIsImF2YXRhciI6Imh0dHBzOi8vdWNhcmVjZG4uY29tLzc3OTJlMTYxLTg2N2EtNDFiYy05ZGNiLTMzOWM4ZWJlOWM3ZS8tL3ByZXZpZXcvNDAweDQwMC8iLCJjYWxsTmFtZSI6Impva28gdGluZ2tpciIsImlhdCI6MTYzNzczMDExOCwiZXhwIjoxNjM3NzY2MTE4fQ.7BcaveQLPAORCaDXvSBZOXIY8hzSvTiERzZSTjh7XBQ'
   }
@@ -15,7 +15,7 @@ async function fetcher(postId) {
   return d;
 }
 
-const useMetaPost = (postId) => {
+const useMetaPost = (postId: any) => {
   const { error, data } = useSWR<{
     getMetaPostCount: {
       commentCount: number
@@ -25,11 +25,11 @@ const useMetaPost = (postId) => {
         meLike: boolean
         meReaction: string
         mood: {
-          LIKE: string
-          SMILE: string
-          SAD: string
-          EXCITED: string
-          PRAYING: string
+          LIKE: number
+          SMILE: number
+          SAD: number
+          EXCITED: number
+          PRAYING: number
         }
       }
     }
@@ -59,7 +59,7 @@ function ViewReaction({ postId }: { postId: String }) {
   if (isError) return <div>error</div>
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  const myReaction = reaction.meReaction;
+  const myReaction = reaction?.meReaction;
   return <div>
     <span role="img" aria-label="excited">😍: {convertToKilo(mood?.EXCITED)}{myReaction === 'EXCITED' ? " Termasuk kamu" : null}</span>
     <span role="img" aria-label="praying">🙏: {convertToKilo(mood?.PRAYING)} {myReaction === 'PRAYING' ? " Termasuk kamu" : null}</span>
@@ -74,7 +74,7 @@ function ViewLike({ postId }: { postId: String }) {
   if (isError) return <div>error</div>
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  const includingYou = reaction.meLike ? " termasuk kamu" : null;
+  const includingYou = reaction?.meLike ? " termasuk kamu" : null;
   return <>
     <div>Suka: {convertToKilo(mood?.LIKE)} {includingYou}</div>
   </>
