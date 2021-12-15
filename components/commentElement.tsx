@@ -20,9 +20,10 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
     // karena itu, timestamp hanya dibuat untuk edit komentar saja
     let timeStamp;
     if (comment) {
-        const createdAt = !comment.createdAt ? comment.updatedAt : comment.createdAt;
+        const createdAt = !comment.updatedAt ? comment.createdAt:  comment.updatedAt;
+        const time = typeof createdAt === 'string' ? parseInt(createdAt): createdAt;
         timeStamp = formatDistanceToNow(
-            new Date(createdAt * 1000),
+            new Date(time * 1000),
             { includeSeconds: true, locale: id }
         )
     }

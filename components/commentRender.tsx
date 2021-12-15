@@ -90,6 +90,7 @@ export default function Comment({
         parentIdOfParent,
         parentContent,
         parentChildNum,
+        parentUpdatedAt,
         parentIdentity,
         parentCreatedAt,
         parentLoadMore }: {
@@ -99,6 +100,7 @@ export default function Comment({
             parentIdOfParent: string,
             parentContent: string,
             parentChildNum: number,
+            parentUpdatedAt: string,
             parentIdentity: string,
             parentCreatedAt: string,
             parentLoadMore: boolean
@@ -109,6 +111,7 @@ export default function Comment({
             parentUserId,
             parentCommentId,
             parentIdentity,
+            parentUpdatedAt,
             parentCreatedAt,
             token: session ? session.token : null
         };

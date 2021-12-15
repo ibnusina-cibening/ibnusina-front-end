@@ -100,6 +100,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     parentId: x.parentId,
                     content: x.content,
                     createdAt: x.createdAt,
+                    updatedAt: !x.updatedAt?null:x.updatedAt,
                     postId: x.postId,
                     userId: x.userId,
                     identity: x.identity,
@@ -193,6 +194,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             postId: string;
             parentUserId: string;
             parentCommentId: string;
+            parentUpdatedAt: string;
             parentIdentity: string;
             parentCreatedAt: string;
             content: string;
@@ -216,6 +218,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                     // content: replyContent,  //ini hanya digunakan untuk request saja
                     parentUserId,
                     parentCommentId,
+                    parentUpdatedAt,
                     parentIdentity,
                     parentCreatedAt } = newReplyAdded;
 
@@ -229,6 +232,7 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         parentId: parentIdOfParent,
                         content: parentContent,
                         createdAt: parentCreatedAt,
+                        updatedAt: parentUpdatedAt,
                         postId: postIdOfParent,
                         userId: parentUserId,
                         identity: parentIdentity,

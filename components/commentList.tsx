@@ -159,6 +159,7 @@ function CommentItem({
         parentContent,
         parentChildNum: comment.numofchildren,
         parentCreatedAt: comment.createdAt,
+        parentUpdatedAt: !comment.updatedAt?null:comment.updatedAt,
         parentIdentity: comment.identity,
         parentLoadMore: comment.loadMore
       }
@@ -325,7 +326,11 @@ function CommentItem({
                 <ListItemAvatar>
                   <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
                 </ListItemAvatar>
-                <Reply id={comment.id} inProgress={inProgress} name={comment.identity.callName} saveReplyToParent={saveReply} />
+                <Reply 
+                  id={comment.id} 
+                  inProgress={inProgress} 
+                  name={comment.identity.callName} 
+                  saveReplyToParent={saveReply} />
               </ListItem>
             </List>
           </>
