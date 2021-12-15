@@ -134,6 +134,7 @@ function CommentItem({
   const [replyThis, setReplyThis] = useState();
   const [counter, setCounter] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [replyString, setReplyString] = useState('ok');
 
   const onSelectForm = () => {
     setSelectedForm(comment.id);
@@ -165,17 +166,20 @@ function CommentItem({
       setCounter(counter + 1);
     }
     setReplyThis(undefined);
+    setReplyString(comment.id + 'ok');
   }
 
   const myComment = thisUserId === comment.userId;
   const inProgressProcess = inProgress == comment.id;
-  // console.log(deleteInProgress); 
+  // console.log(inProgressProcess); 
   if (inProgressProcess) return (
     <Box sx={{ pt: 0.5 }}>
       <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
       <Skeleton />
       <Skeleton width="60%" />
-    </Box>)
+    </Box>
+  )
+  // console.log(inProgress, replyThis);
   return (
     <>
       <ListItem
@@ -220,6 +224,14 @@ function CommentItem({
             comment={comment}
             id={comment.id}
           />
+          {
+            inProgress === replyString &&
+            <Box sx={{ pt: 0.5 }}>
+              <Box component="span" sx={{ color: "red", justifyContent: "center", alignItems: "center", display: "flex" }}> sedang proses </Box>
+              <Skeleton />
+              <Skeleton width="60%" />
+            </Box>
+          }
           {editMode &&
             /// mengedit komentar 
             <Box component="div" sx={{ justifyContent: "left", alignItems: "left", display: "flex" }}>
@@ -306,15 +318,18 @@ function CommentItem({
       {
         // jika user login dan akan berkomentar
         replyThis && thisUserId ?
-          <List >
-            <ListItem>
-              <small>balas ke {comment.identity.callName}</small>
-              <ListItemAvatar>
-                <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
-              </ListItemAvatar>
-              <Reply id={comment.id} name={comment.identity.callName} saveReplyToParent={saveReply} />
-            </ListItem>
-          </List>
+          <>
+            <List >
+              <ListItem>
+                <small>balas ke {comment.identity.callName}</small>
+                <ListItemAvatar>
+                  <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
+                </ListItemAvatar>
+                <Reply id={comment.id} inProgress={inProgress} name={comment.identity.callName} saveReplyToParent={saveReply} />
+              </ListItem>
+            </List>
+          </>
+
           :
           // user ingin berkomentar tapi tidak login
           replyThis && <span>silahkan login untuk mulai berkomentar<Login getlogin={setLogin} /></span>
@@ -323,10 +338,11 @@ function CommentItem({
   )
 }
 
-function Reply({ id, saveReplyToParent, name }: {
+function Reply({ id, saveReplyToParent, name, inProgress }: {
   id: string,
   saveReplyToParent: any,
-  name: string
+  name: string,
+  inProgress: string
 }) {
   const [localValue, setLocalValue] = useState('');
   const saveReply = ({ id, localValue, name }: {
@@ -339,6 +355,7 @@ function Reply({ id, saveReplyToParent, name }: {
   const onChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setLocalValue(e.target.value);
   }
+
   return (
     <Box component="span" sx={{ mr: -2, border: '1px dashed green', width: '100%' }}>
       <InputComment

@@ -142,16 +142,6 @@ export default function Comment({
                     />
                 </Box>
             }
-
-            {/* {!showForm &&
-                <ButtonComment
-                    disabled={false}
-                    id={1}
-                    name="show"
-                    onClick={handleClick}
-                />
-
-            } */}
             {
                 session &&
                 <>

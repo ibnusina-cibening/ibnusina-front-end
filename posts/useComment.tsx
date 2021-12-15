@@ -205,42 +205,48 @@ export default function GetKomentar({ pId, }: { pId: string }) {
             parentChildNum: any;
             parentLoadMore: any;
         }) => {
-        await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            const {
-                postId: postIdOfParent,
-                // content: replyContent,  //ini hanya digunakan untuk request saja
-                parentUserId,
-                parentCommentId,
-                parentIdentity,
-                parentCreatedAt } = newReplyAdded;
-            const { addComment: newReply } = await addCommentToList(newReplyAdded);
-            const { parentId } = newReply;
-            // numofchildren diambil dari data yang ada (cache atau state)
-            const { parentIdOfParent, parentContent, parentChildNum, parentLoadMore } = vr2;
-            // mengupdate numofchildren pada parent comment 
-            // sekaligus penambahan loadMore
-            const updatedData = dataSet.map(x => (x.id === parentId ?
-                {
-                    id: parentCommentId,
-                    parentId: parentIdOfParent,
-                    content: parentContent,
-                    createdAt: parentCreatedAt,
+        setInProgress(newReplyAdded.parentCommentId+'ok');
+        const { addComment: newReply } = await addCommentToList(newReplyAdded);
+        const { parentId } = newReply;
+        if(!parentId) setInProgress('');
+        if (parentId) {
+            await mutate([postId, next, isParent, commentParentId, limit], async () => {
+                const {
                     postId: postIdOfParent,
-                    userId: parentUserId,
-                    identity: parentIdentity,
-                    children: null,
-                    numofchildren: parentChildNum + 1,
-                    loadMore: !parentLoadMore ? false : true
-                } : x));
-            const newArrayResults = [newReply].concat(updatedData); // yang baru disimpan di bawah
-            const getCommentByPostId = {
-                getCommentByPostId: {
-                    nextTimeStamp: dataTimeStamp,
-                    results: newArrayResults
-                }
-            };
-            return getCommentByPostId;
-        }, false)
+                    // content: replyContent,  //ini hanya digunakan untuk request saja
+                    parentUserId,
+                    parentCommentId,
+                    parentIdentity,
+                    parentCreatedAt } = newReplyAdded;
+
+                // numofchildren diambil dari data yang ada (cache atau state)
+                const { parentIdOfParent, parentContent, parentChildNum, parentLoadMore } = vr2;
+                // mengupdate numofchildren pada parent comment 
+                // sekaligus penambahan loadMore
+                const updatedData = dataSet.map(x => (x.id === parentId ?
+                    {
+                        id: parentCommentId,
+                        parentId: parentIdOfParent,
+                        content: parentContent,
+                        createdAt: parentCreatedAt,
+                        postId: postIdOfParent,
+                        userId: parentUserId,
+                        identity: parentIdentity,
+                        children: null,
+                        numofchildren: parentChildNum + 1,
+                        loadMore: !parentLoadMore ? false : true
+                    } : x));
+                const newArrayResults = [newReply].concat(updatedData); // yang baru disimpan di bawah
+                const getCommentByPostId = {
+                    getCommentByPostId: {
+                        nextTimeStamp: dataTimeStamp,
+                        results: newArrayResults
+                    }
+                };
+                setInProgress('');
+                return getCommentByPostId;
+            }, false)
+        }
     };
     const saveEditedComment = async ({ id: commentId, localValue: content, numofchildren, parentId, identity, loadMore, token }: {
         id: string,
@@ -252,33 +258,38 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         loadMore: boolean,
         token: string
     }) => {
+        setInProgress(commentId);
         const editThisComment = await editCommentary({ token, commentId, content })
-        const { content: cont, updatedAt, userId } = editThisComment.updateComment;
-        // console.log(editThisComment);
-        const updatedData = dataSet.map(x => (x.id === commentId ?
-            {
-                id: commentId,
-                userId,
-                postId: pId,
-                parentId,
-                updatedAt,
-                createdAt: '',
-                identity,
-                content: cont,
-                children: null,
-                numofchildren,
-                loadMore
-            } : x));
-        await mutate([postId, next, isParent, commentParentId, limit], async () => {
-            // const nresult = dataSet.map(x => x.id === commentId ? updatedData[0] : x);
-            const getCommentByPostId = {
-                getCommentByPostId: {
-                    nextTimeStamp: dataTimeStamp,
-                    results: updatedData
-                }
-            };
-            return getCommentByPostId
-        }, false)
+        if (!editThisComment) setInProgress('');
+        if (editThisComment) {
+            const { content: cont, updatedAt, userId } = editThisComment.updateComment;
+            // console.log(editThisComment);
+            const updatedData = dataSet.map(x => (x.id === commentId ?
+                {
+                    id: commentId,
+                    userId,
+                    postId: pId,
+                    parentId,
+                    updatedAt,
+                    createdAt: '',
+                    identity,
+                    content: cont,
+                    children: null,
+                    numofchildren,
+                    loadMore
+                } : x));
+            await mutate([postId, next, isParent, commentParentId, limit], async () => {
+                // const nresult = dataSet.map(x => x.id === commentId ? updatedData[0] : x);
+                const getCommentByPostId = {
+                    getCommentByPostId: {
+                        nextTimeStamp: dataTimeStamp,
+                        results: updatedData
+                    }
+                };
+                setInProgress('');
+                return getCommentByPostId
+            }, false);
+        }
     }
     const deleteComment = async ({ token, postId, commentId, userId, parentId }: {
         token: string,
