@@ -1,19 +1,20 @@
 import { alpha, styled } from '@mui/material/styles';
-import MainLayout from '../../src/layouts/main';
+import MainLayout from 'src/layouts/main';
 import { Box, Card, Container, Typography } from '@mui/material';
-import Markdown from '../../src/components/Markdown';
-import Page from '../../src/components/Page';
-import HeaderBreadcrumbs from '../../src/components/HeaderBreadcrumbs';
+import Markdown from 'src/components/Markdown';
+import Page from 'src/components/Page';
+import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import {
   BlogPostHero,
   BlogPostCommentList
-} from '../../src/components/_external-pages/blog/blogPost';
+} from 'src/components/_external-pages/blog/blogPost';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import {fetchPostContent, fetchAllPostId} from '../../posts/fetcher/postFetcher'
+// import { fetchPostContent, fetchAllPostId } from 'posts/fetcher/postFetcher'
 import { FC } from 'react';
 // database
-import { ViewStats, ViewReaction, ViewLike } from '../../posts/useMetaPost';
-import UseComment from '../../posts/useComment';
+import { ViewStats, ViewReaction, ViewLike } from 'posts/useMetaPost';
+import UseComment from 'posts/useComment';
+import { gql, GraphQLClient } from 'graphql-request';
 import Error from '../_error';
 
 const Spacer = styled('div')(({ theme }) => ({
@@ -48,7 +49,7 @@ export default function BlogPost({
   }
 }) {
   // console.log(postData.content);
-  const id = !postData? '':postData.id;
+  const id = !postData ? '' : postData.id;
   return (
     <MainLayout>
       <Spacer>
@@ -94,9 +95,48 @@ export default function BlogPost({
 }
 
 
+
+//// SERVER SIDE 
+
 export const getStaticPaths: GetStaticPaths = async () => {
   // allPostId().catch(error => error.message);
-  const paths = await fetchAllPostId();
+  const postList = gql`
+    query{
+      loadPosts(limit:15){
+        nextPost
+        postResult{
+          id
+          title
+          createdAt
+          slug
+          author{
+            callName
+            avatar
+          }
+          meta{
+            viewCount
+            commentCount
+            shareCount
+          }
+        }
+      }
+    }
+      `;
+
+  const graphEndPoint = await process.env.GRAPH_URL;
+  // const url = "http://localhost:4000/";
+  const headers = {
+    Authorization: ''
+  }
+  const client = new GraphQLClient(graphEndPoint, { headers });
+  const res = await client.request(postList);
+  const paths = res.loadPosts.postResult.map(d => {
+    return {
+      params: {
+        slug: d.slug
+      }
+    }
+  })
   return {
     paths,
     fallback: 'blocking'
@@ -104,10 +144,37 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: { params: any }) => {
-  const res = await fetchPostContent(params.slug as string);
-  fetchPostContent(params.slug as string).catch((error) => console.error(error));
+  const postContent = `
+  query getPostContent ($slug:String!) {
+    postBySlug(slug:$slug){
+      id
+      slug
+      title
+      content
+      author{
+        callName
+        avatar
+      }
+      meta{
+        commentCount
+        viewCount
+        shareCount
+        
+      }
+    }
+  }
+  `;
+  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  // const url = "http://localhost:4000/";
+  const slug = params.slug as string;
+  const headers = {Authorization: ''};
+  const client = new GraphQLClient(url);
+  const res = await client.request(postContent, { slug }, headers);
+  // return res;
+  // const res = await fetchPostContent(params.slug as string);
+  // fetchPostContent(params.slug as string).catch((error) => console.error(error));
   if (!res) {
-    return Error({statusCode:404})
+    return Error({ statusCode: 404 })
   }
   const postData = res.postBySlug;
   return {
