@@ -164,11 +164,11 @@ export default function GetKomentar({ pId, }: { pId: string }) {
         }
     }
     const addComment = async (newCommentToAdd: {
-        postId: any;
-        content: any;
-        parentUserId: any;
-        parentCommentId: any;
-        token: any;
+        postId: string;
+        content: string;
+        parentUserId: string;
+        parentCommentId: string;
+        token: string;
     }) => {
         setInProgress('add root comment');
         const { addComment: newComment } = await addCommentToList(newCommentToAdd);
