@@ -15,6 +15,7 @@ import { FC } from 'react';
 import { ViewStats, ViewReaction, ViewLike } from 'data/useMetaPost';
 import UseComment from 'data/useComment';
 import { gql, GraphQLClient } from 'graphql-request';
+import { ParsedUrlQuery } from 'querystring';
 import Error from '../_error';
 
 const Spacer = styled('div')(({ theme }) => ({
@@ -54,7 +55,7 @@ export default function BlogPost({
     <MainLayout>
       <Spacer>
         <RootStyle
-          title={postData.title}
+          title={postData?.title}
           id='move_top'
         >
           <Container maxWidth={'lg'}>
@@ -63,7 +64,7 @@ export default function BlogPost({
               links={[
                 { name: 'Home', href: '/' },
                 { name: 'Blog', href: '/blog' },
-                { name: postData.slug }
+                { name: postData?.slug }
               ]} action={null} sx={null} />
 
             {postData && (
@@ -123,14 +124,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
       `;
 
-  const graphEndPoint = await process.env.GRAPH_URL;
+  const graphEndPoint = await process.env.GRAPH_URL!;
   // const url = "http://localhost:4000/";
   const headers = {
     Authorization: ''
   }
   const client = new GraphQLClient(graphEndPoint, { headers });
   const res = await client.request(postList);
-  const paths = res.loadPosts.postResult.map(d => {
+  const paths = res.loadPosts.postResult.map((d: { slug: string; }) => {
     return {
       params: {
         slug: d.slug
@@ -143,7 +144,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }: { params: any }) => {
+type Props = {
+  postData: object
+}
+
+interface Params extends ParsedUrlQuery {
+  slug: string,
+}
+
+export const getStaticProps: GetStaticProps <Props, Params>= async (context) => {
   const postContent = `
   query getPostContent ($slug:String!) {
     postBySlug(slug:$slug){
@@ -164,9 +173,10 @@ export const getStaticProps: GetStaticProps = async ({ params }: { params: any }
     }
   }
   `;
-  const url = await process.env.GRAPH_URL;
+  const url = await process.env.GRAPH_URL!;
   // const url = "http://localhost:4000/";
-  const slug = params.slug as string;
+  const params = context.params!;
+  const slug = params.slug;
   const headers = {Authorization: ''};
   const client = new GraphQLClient(url);
   const res = await client.request(postContent, { slug }, headers);
@@ -184,3 +194,5 @@ export const getStaticProps: GetStaticProps = async ({ params }: { params: any }
     revalidate: 10
   }
 }
+
+// referensi: https://wallis.dev/blog/nextjs-getstaticprops-and-getstaticpaths-with-typescript

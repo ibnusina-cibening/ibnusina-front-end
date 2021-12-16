@@ -69,7 +69,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   }
   `;
-  const url = process.env.GRAPH_URL; // hanya diakses di server ( tidak menggunakan prefix NEXT_PUBLIC)
+  const url = process.env.GRAPH_URL!; // hanya diakses di server ( tidak menggunakan prefix NEXT_PUBLIC)
   const headers = {Authorization: '' };
   const client = new GraphQLClient(url, { headers });
   const data = await client.request(postList);

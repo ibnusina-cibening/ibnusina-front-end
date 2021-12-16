@@ -24,7 +24,7 @@ export default function App() {
   );
 }
 
-function Toolbar({onClick, message}) {
+function Toolbar({onClick, message}:{onClick:any,message:string}) {
   // console.log(props.onClick);
   return (
     <div>
@@ -33,7 +33,7 @@ function Toolbar({onClick, message}) {
   );
 }
 
-function ThemedButton({onClick, message}) {
+function ThemedButton({onClick, message}:{onClick:any, message:string}) {
   const theme = useContext(ThemeContext);
   return (
     <button style={{ background: theme.background, color: theme.foreground }} onClick={onClick}>

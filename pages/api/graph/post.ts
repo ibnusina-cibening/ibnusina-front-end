@@ -24,7 +24,7 @@ const postList = gql`
   }
   `;
 
-const url = process.env.GRAPH_URL; // hanya diakses di server ( tidak menggunakan prefix NEXT_PUBLIC)
+const url = process.env.GRAPH_URL!; // hanya diakses di server ( tidak menggunakan prefix NEXT_PUBLIC)
 const headers = {
     Authorization: ''
 }

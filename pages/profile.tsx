@@ -20,7 +20,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-function handleClick(event) {
+function handleClick(event: { preventDefault: () => void; }) {
   event.preventDefault();
   console.info('You clicked a breadcrumb.');
 }

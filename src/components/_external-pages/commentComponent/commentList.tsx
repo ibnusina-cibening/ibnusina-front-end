@@ -339,7 +339,7 @@ function CommentItem({
           replyThis &&
           <Alert severity="warning"
             action={
-              <Login getlogin={setLogin} />
+              <Login getLogin={setLogin} />
             }
           >
             Silahkan login untuk membalas komentar

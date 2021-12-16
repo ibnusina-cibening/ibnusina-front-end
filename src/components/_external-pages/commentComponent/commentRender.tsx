@@ -142,7 +142,7 @@ export default function Comment({
             {
                 <Box component="div" sx={{ p: 2, width: '100%' }}>
                     <Login
-                        getlogin={setLogin}
+                        getLogin={setLogin}
                     />
                 </Box>
             }
