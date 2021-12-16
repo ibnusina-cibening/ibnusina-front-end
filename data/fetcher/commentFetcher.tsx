@@ -1,5 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { getComment, addComment, editComment, deleteComment} from '../query';
+const url = process.env.GRAPH_URL;
 
 export async function fetchComment(postId: string, 
     next: number | null, 
@@ -7,7 +8,7 @@ export async function fetchComment(postId: string,
     commentParentId: string, 
     limit: number) {
     console.log('hi dari fetchComent');
-    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     const headers = {
         Authorization: ''
     }
@@ -24,7 +25,7 @@ export async function addCommentToList({ postId, content, parentUserId, parentCo
     parentCommentId:string, 
     token:string}) {
     console.log('hai dari addCommenttoList');
-    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     const headers = {
         Authorization: token
     }
@@ -35,7 +36,7 @@ export async function addCommentToList({ postId, content, parentUserId, parentCo
 }
 
 export async function editCommentary ({token, commentId, content}:{token:string, commentId:string, content:string}){
-    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/"
     const headers = {
         Authorization: token
@@ -53,7 +54,7 @@ export async function removeComment ({token, postId, commentId, userId, parentUs
     userId:string,
     parentUserId:string
 }){
-    const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+    // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
     // const url = "http://localhost:4000/"
     const headers = {
         Authorization: token
