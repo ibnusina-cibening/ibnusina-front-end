@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { arrayToTree } from 'performant-array-to-tree';
 import useSWR, { useSWRConfig } from "swr";
-import Comment from "components/commentRender";
+import Comment from "src/components/_external-pages/commentComponent/commentRender";
 import { fetchComment, addCommentToList, editCommentary, removeComment } from "./fetcher/commentFetcher";
-import { CommentLoader } from 'components/commentElement'; 
+import { CommentLoader } from 'src/components/_external-pages/commentComponent/commentElement'; 
 
 function useComment(commentVariable: {
     postId: string; next: number; isParent: boolean; commentParentId: string; limit: number;
