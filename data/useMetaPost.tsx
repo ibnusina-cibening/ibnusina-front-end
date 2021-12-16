@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { GraphQLClient } from 'graphql-request';
 import { metaPost } from './query';
-import convertToKilo from '../lib/convertToKilo';
+import convertToKilo from '../lib/convertToKilo'; 
 
 async function fetcher(postId: any) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
