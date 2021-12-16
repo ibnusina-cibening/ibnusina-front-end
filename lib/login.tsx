@@ -15,7 +15,7 @@ export function Login({ getlogin }) {
         getlogin(e);
 
     }
-    const theUrl = process.env.NODE_ENV !== 'production'? 'http://localhost:3000': 'https://ibs-dev-5a4fnx2q0-ramajedd.vercel.app';
+    const theUrl = process.env.NODE_ENV !== 'production'? 'http://localhost:3000': 'https://ibs-web-dev.vercel.app';
     return (
         <>
             {

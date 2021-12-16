@@ -1,3 +1,4 @@
 export default function (number: number){
-   return  (number>900? Math.round(number/ 1000).toFixed(1)+" k":number ?? 0);
+   const num = number === null? 0:number;
+   return  (num>900? Math.round(num/ 1000).toFixed(1)+" k":num ?? 0);
 }

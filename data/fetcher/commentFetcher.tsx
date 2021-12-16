@@ -8,7 +8,6 @@ export async function fetchComment(postId: string,
     limit: number) {
     console.log('hi dari fetchComent');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
-    // const url = "http://localhost:4000/";
     const headers = {
         Authorization: ''
     }
@@ -26,7 +25,6 @@ export async function addCommentToList({ postId, content, parentUserId, parentCo
     token:string}) {
     console.log('hai dari addCommenttoList');
     const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
-    // const url = "http://localhost:4000/"
     const headers = {
         Authorization: token
     }
