@@ -164,7 +164,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: { params: any }
     }
   }
   `;
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  const url = await process.env.GRAPH_URL;
   // const url = "http://localhost:4000/";
   const slug = params.slug as string;
   const headers = {Authorization: ''};

@@ -1,8 +1,9 @@
 import { GraphQLClient } from 'graphql-request';
 import { postList, postContent, } from '../query';
+const url = process.env.GRAPH_URL;
 
 export async function fetchPostList() {
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
   // const url = "http://localhost:4000/";
   const headers = {
     Authorization: ''
@@ -12,7 +13,7 @@ export async function fetchPostList() {
   return res;
 }
 export async function fetchPostContent(slug: String) {
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
   // const url = "http://localhost:4000/";
   const headers = {
     Authorization: ''
@@ -23,7 +24,7 @@ export async function fetchPostContent(slug: String) {
 }
 
 export async function fetchAllPostId() {
-  const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
+  // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
   // const url = "http://localhost:4000/";
   const headers = {
     Authorization: ''

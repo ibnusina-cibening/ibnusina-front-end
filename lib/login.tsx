@@ -15,11 +15,12 @@ export function Login({ getlogin }) {
         getlogin(e);
 
     }
+    const theUrl = process.env.NODE_ENV !== 'production'? 'http://localhost:3000': 'https://ibs-web-dev.vercel.app';
     return (
         <>
             {
                 session ? <Button size ={'medium'}  variant = "contained" sx={{ position: 'relative', right: 0 }} onClick={() => {
-                    signOut({ redirect: false, callbackUrl: 'http://localhost:3000' });
+                    signOut({ redirect: false, callbackUrl: theUrl });
                     setLogin(false);
                 }
                 }>Sign out</Button> :

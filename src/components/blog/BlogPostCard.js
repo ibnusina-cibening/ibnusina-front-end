@@ -12,8 +12,8 @@ import { alpha, styled } from '@mui/material/styles';
 import { Box, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
 import SvgIconStyle from '../SvgIconStyle';
 // library 
-import convertToKilo from '../../../lib/convertToKilo';
-import FormatDate from '../../../lib/fromatDate';
+import convertToKilo from 'lib/convertToKilo';
+import FormatDate from 'lib/fromatDate';
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({

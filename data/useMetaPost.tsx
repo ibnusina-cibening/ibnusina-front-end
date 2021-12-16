@@ -1,14 +1,14 @@
 import useSWR from "swr";
 import { GraphQLClient } from 'graphql-request';
 import { metaPost } from './query';
-import convertToKilo from '../lib/convertToKilo';
+import convertToKilo from 'lib/convertToKilo'; 
 
 async function fetcher(postId: any) {
   const url = await process.env.NEXT_PUBLIC_GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
-  const client = new GraphQLClient(url)
+  const client = new GraphQLClient(url);
   console.log('hi dari meta post');
   const requestHeaders = {
-    Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhYjhiMDhlLWMwMzEtNDYyYi1hNTQ1LTVlN2IwMmYyMzg2OSIsInVzZXJuYW1lIjoiam9rbyIsInJvbGUiOiJhZG1pbiIsImF2YXRhciI6Imh0dHBzOi8vdWNhcmVjZG4uY29tLzc3OTJlMTYxLTg2N2EtNDFiYy05ZGNiLTMzOWM4ZWJlOWM3ZS8tL3ByZXZpZXcvNDAweDQwMC8iLCJjYWxsTmFtZSI6Impva28gdGluZ2tpciIsImlhdCI6MTYzNzczMDExOCwiZXhwIjoxNjM3NzY2MTE4fQ.7BcaveQLPAORCaDXvSBZOXIY8hzSvTiERzZSTjh7XBQ'
+    Authorization: ''
   }
   const res = client.request(metaPost, { postId }, requestHeaders);
   const d = await res;
