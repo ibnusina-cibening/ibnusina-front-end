@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { arrayToTree } from 'performant-array-to-tree';
 import useSWR, { useSWRConfig } from "swr";
-import Comment from "../components/commentRender";
+import Comment from "components/commentRender";
 import { fetchComment, addCommentToList, editCommentary, removeComment } from "./fetcher/commentFetcher";
 import { CommentLoader } from 'components/commentElement'; 
 
@@ -121,7 +121,6 @@ export default function GetKomentar({ pId, }: { pId: string }) {
                         getCommentByPostId: {
                             // timestamp dibiarkan tidak berubah,
                             // karena kita akan membutuhkannya untuk komentar root (show more)
-
                             nextTimeStamp: dataTimeStamp,
                             results: updateData
                         }

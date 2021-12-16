@@ -26,7 +26,7 @@ mutation fLogin($username:String!, $email:String!, $avatar: String){
 `;
 
 async function fetcher(name, email, picture) {
-  const url = await process.env.GRAPH_URL; // HARUS MENGGUNAKAN PREFIX NEXT_PUBLIC agar berfungsi
+  const url = await process.env.GRAPH_URL;
   const headers = {
     Authorization: ''
   }
@@ -40,8 +40,8 @@ async function fetcher(name, email, picture) {
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
       async profile(profile) {
         const { name, email, picture } = profile;
         const fLogin = await fetcher(name.replace(/\s/g, "").toLowerCase(), email, picture);

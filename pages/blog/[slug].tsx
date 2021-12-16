@@ -12,8 +12,8 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 // import { fetchPostContent, fetchAllPostId } from 'posts/fetcher/postFetcher'
 import { FC } from 'react';
 // database
-import { ViewStats, ViewReaction, ViewLike } from 'posts/useMetaPost';
-import UseComment from 'posts/useComment';
+import { ViewStats, ViewReaction, ViewLike } from 'data/useMetaPost';
+import UseComment from 'data/useComment';
 import { gql, GraphQLClient } from 'graphql-request';
 import Error from '../_error';
 
