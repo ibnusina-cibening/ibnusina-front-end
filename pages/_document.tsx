@@ -11,6 +11,7 @@ import palette from 'src/theme/palette';
 // ----------------------------------------------------------------------
 
 export default class MyDocument extends Document {
+  static getInitialProps: (ctx: any) => Promise<any>;
   render() {
     return (
       <Html>
