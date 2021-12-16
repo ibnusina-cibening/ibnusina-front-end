@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputComment, ButtonComment, CommentLoader } from './commentElement';
-import { Login } from '../../../../lib/login';
+import { Login } from 'lib/login';
 import {
   Box,
   Card,

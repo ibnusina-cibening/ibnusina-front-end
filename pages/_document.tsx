@@ -4,9 +4,9 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 // emotion
 import createEmotionServer from '@emotion/server/create-instance';
 // utils
-import createEmotionCache from '../src/utils/createEmotionCache';
+import createEmotionCache from 'src/utils/createEmotionCache';
 // theme
-import palette from '../src/theme/palette';
+import palette from 'src/theme/palette';
 
 // ----------------------------------------------------------------------
 

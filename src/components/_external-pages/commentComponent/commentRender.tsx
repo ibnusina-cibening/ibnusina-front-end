@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import CommentList from './commentList';
 import { AddComment, ButtonComment } from './commentElement';
-import { Login } from '../../../../lib/login';
+import { Login } from 'lib/login';
 import { useSession } from "next-auth/react";
 import { Box, List, ListSubheader, ListItem, Divider, Skeleton } from '@mui/material';
-import {CommentLoader} from 'src/components/_external-pages/commentComponent/commentElement'
+import {CommentLoader} from './commentElement';
 
 export default function Comment({
     data,

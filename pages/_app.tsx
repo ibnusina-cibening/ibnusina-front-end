@@ -10,19 +10,19 @@ import { CacheProvider } from '@emotion/react';
 // material
 import { NoSsr } from '@mui/material';
 // contexts
-import { SettingsProvider } from '../src/contexts/SettingsContext';
-import { CollapseDrawerProvider } from '../src/contexts/CollapseDrawerContext';
+import { SettingsProvider } from 'src/contexts/SettingsContext';
+import { CollapseDrawerProvider } from 'src/contexts/CollapseDrawerContext';
 // theme
-import ThemeConfig from '../src/theme';
-import GlobalStyles from '../src/theme/globalStyles';
+import ThemeConfig from 'src/theme';
+import GlobalStyles from 'src/theme/globalStyles';
 // utils
-import createEmotionCache from '../src/utils/createEmotionCache';
+import createEmotionCache from 'src/utils/createEmotionCache';
 // components
-import Settings from '../src/components/settings';
-import RtlLayout from '../src/components/RtlLayout';
-import ProgressBar from '../src/components/ProgressBar';
-import LoadingScreen from '../src/components/LoadingScreen';
-import ThemePrimaryColor from '../src/components/ThemePrimaryColor';
+import Settings from 'src/components/settings';
+import RtlLayout from 'src/components/RtlLayout';
+import ProgressBar from 'src/components/ProgressBar';
+import LoadingScreen from 'src/components/LoadingScreen';
+import ThemePrimaryColor from 'src/components/ThemePrimaryColor';
 // import { AuthProvider } from '../src/db/auth';
 import { SnackbarProvider } from 'notistack';
 

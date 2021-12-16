@@ -1,14 +1,14 @@
 // layouts
-import MainLayout from '../src/layouts/main';
+import MainLayout from 'src/layouts/main';
 // material
 import { styled } from '@mui/material/styles';
 // components
-import Page from '../src/components/Page';
+import Page from 'src/components/Page';
 import {
   LandingHero,
   LandingMinimal,
   LandingHugePackElements,
-} from '../src/components/_external-pages/landing';
+} from 'src/components/_external-pages/landing';
 import React, { FC } from 'react';
 
 // ----------------------------------------------------------------------
