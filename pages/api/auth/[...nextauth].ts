@@ -27,6 +27,7 @@ mutation fLogin($username:String!, $email:String!, $avatar: String){
 
 async function fetcher(name: string, email: string, picture: string) {
   const url = await process.env.GRAPH_URL!;
+  // const url = 'http://localhost:4000/';
   const headers = {
     Authorization: ''
   }
@@ -45,12 +46,13 @@ export default NextAuth({
       async profile(profile) {
         const { name, email, picture } = profile;
         const fLogin = await fetcher(name.replace(/\s/g, "").toLowerCase(), email, picture);
+        // console.log(fLogin);
         return {
           id: fLogin?.myData.id,
           token: fLogin?.token,
           callName: fLogin?.myData.callName,
           email: profile.email,
-          avatar: profile.picture,
+          avatar: fLogin?.myData.avatar,
           role: fLogin?.myData.role
         }
       },
@@ -99,7 +101,7 @@ export default NextAuth({
     secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60 * 60 * 24 * 1,
     // You can define your own encode/decode functions for signing and encryption
     // if you want to override the default behaviour.
     // async encode({ secret, token, maxAge }) {
@@ -117,7 +119,7 @@ export default NextAuth({
     // strategy: "database",
     // strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 30 * 24 * 60 * 60, // 30 days 
+    maxAge: 1 * 24 * 60 * 60, // 30 days 
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
