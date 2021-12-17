@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { postList, postContent, } from '../query';
-const url = process.env.GRAPH_URL;
+const url = process.env.GRAPH_URL!;
 
 export async function fetchPostList() {
   // const url = await process.env.NEXT_PUBLIC_GRAPH_URL;
@@ -31,7 +31,7 @@ export async function fetchAllPostId() {
   }
   const client = new GraphQLClient(url, { headers });
   const res = await client.request(postList);
-  return res.loadPosts.postResult.map(d => {
+  return res.loadPosts.postResult.map((d: { slug: string; }) => {
     return {
       params: {
         slug: d.slug

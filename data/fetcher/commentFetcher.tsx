@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { getComment, addComment, editComment, deleteComment} from '../query';
-const url = process.env.GRAPH_URL;
+const url = process.env.NEXT_PUBLIC_GRAPH_URL!;
 
 export async function fetchComment(postId: string, 
     next: number | null, 

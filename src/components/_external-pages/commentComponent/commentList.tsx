@@ -25,7 +25,7 @@ export default function CommentList({
   saveCommentEdited,
   deleteComment,
   saveReplyToParent,
-  thisUserId,
+  thisUser,
   showMoreChildren,
   setLogin,
   inProgress }: {
@@ -33,7 +33,7 @@ export default function CommentList({
     saveCommentEdited: any,
     deleteComment: any,
     saveReplyToParent: any,
-    thisUserId: any,
+    thisUser: any,
     showMoreChildren: any,
     setLogin: any,
     inProgress: string
@@ -51,7 +51,7 @@ export default function CommentList({
         parentContent={comment.content}
         numofchildren={comment.numofchildren}
         showMoreChildren={showMoreChildren}
-        thisUserId={thisUserId}
+        thisUser={thisUser}
         setLogin={setLogin}
         inProgress={inProgress}
       />
@@ -74,7 +74,7 @@ export default function CommentList({
                     deleteComment={deleteComment}
                     saveReplyToParent={saveReplyToParent}
                     showMoreChildren={showMoreChildren}
-                    thisUserId={thisUserId}
+                    thisUser={thisUser}
                     setLogin={setLogin}
                     inProgress={inProgress}
                   />
@@ -116,7 +116,7 @@ function CommentItem({
   saveReplyToParent,
   parentContent,
   showMoreChildren,
-  thisUserId,
+  thisUser,
   numofchildren,
   inProgress,
   setLogin }: {
@@ -126,7 +126,7 @@ function CommentItem({
     saveReplyToParent: any,
     parentContent: string,
     showMoreChildren: any,
-    thisUserId: string,
+    thisUser: any,
     numofchildren: number,
     setLogin: any,
     inProgress: string
@@ -173,7 +173,7 @@ function CommentItem({
     setReplyString(comment.id + 'ok');
   }
 
-  const myComment = thisUserId === comment.userId;
+  const myComment = thisUser?.id === comment.userId;
   const inProgressProcess = inProgress == comment.id;
   // console.log(inProgressProcess); 
   if (inProgressProcess) return (
@@ -317,13 +317,13 @@ function CommentItem({
       />
       {
         // jika user login dan akan berkomentar
-        replyThis && thisUserId ?
+        replyThis && thisUser?.id ?
           <>
             <List >
               <ListItem>
                 <small>balas ke {comment.identity.callName}</small>
                 <ListItemAvatar>
-                  <Avatar alt={comment.identity.callName} src={comment.identity.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
+                  <Avatar alt={thisUser.callName} src={thisUser.avatar} sx={{ ml: -3, width: 48, height: 48 }} />
                 </ListItemAvatar>
                 <Reply
                   id={comment.id}
@@ -339,12 +339,11 @@ function CommentItem({
           replyThis &&
           <Alert severity="warning"
             action={
-              <Login getlogin={setLogin} />
+              <Login getLogin={setLogin} />
             }
           >
             Silahkan login untuk membalas komentar
           </Alert>
-
       }
     </>
   )

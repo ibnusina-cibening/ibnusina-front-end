@@ -142,7 +142,7 @@ export default function Comment({
             {
                 <Box component="div" sx={{ p: 2, width: '100%' }}>
                     <Login
-                        getlogin={setLogin}
+                        getLogin={setLogin}
                     />
                 </Box>
             }
@@ -178,7 +178,7 @@ export default function Comment({
                             inProgress={inProgress}
                             saveReplyToParent={saveReply}
                             showMoreChildren={showMoreChildren}
-                            thisUserId={!session ? undefined : session.id}
+                            thisUser={!session ? null : session}
                             setLogin={setLogin}
                         />
                     </div>

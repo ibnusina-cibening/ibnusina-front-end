@@ -2,7 +2,7 @@ import { useSession, signOut, signIn } from 'next-auth/react';
 import { useState } from 'react';
 import {Button} from '@mui/material';
 
-export function Login({ getlogin }) {
+export function Login({ getLogin }:{getLogin:any}) {
     const [login, setIslogin] = useState(true);
     // console.log('hello dari library login')
     const { status, data: session } = useSession({
@@ -11,8 +11,8 @@ export function Login({ getlogin }) {
             setIslogin(false);
         }
     });
-    const setLogin = (e) => {
-        getlogin(e);
+    const setLogin = (e: boolean) => {
+        getLogin(e);
 
     }
     const theUrl = process.env.NODE_ENV !== 'production'? 'http://localhost:3000': 'https://ibs-web-dev.vercel.app';

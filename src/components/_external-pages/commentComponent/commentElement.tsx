@@ -81,7 +81,7 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
                 sx={{
                     '& fieldset': {
                         borderWidth: `1px !important`,
-                        borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
+                        borderColor: (theme:{palette:{grey:any}}) => `${theme.palette.grey[500_32]} !important`
                     }
                 }}
             />
@@ -123,7 +123,7 @@ export function InputMain({ formValue: formvalue, onChange }: { formValue: strin
             sx={{
                 '& fieldset': {
                     borderWidth: `1px !important`,
-                    borderColor: (theme) => `${theme.palette.grey[500_32]} !important`
+                    borderColor: (theme:{palette:{grey:any}}) => `${theme.palette.grey[500_32]} !important`
                 }
             }}
         />

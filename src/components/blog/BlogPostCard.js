@@ -81,13 +81,14 @@ const myLoader = () => {
 export default function BlogPostCard({ post, index }) {
   const { imageUrl, author, title, meta, createdAt, slug } = post;
   const linkTo = `/blog/${slug}`;
+  
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
   
   const POST_INFO = [
-    { number: meta != null ? convertToKilo(meta.commentCount) : 0, icon: messageCircleFill },
-    { number: meta != null ? convertToKilo(meta.viewCount) : 0, icon: eyeFill },
-    { number: meta != null ? convertToKilo(meta.shareCount) : 0, icon: shareFill }
+    { number: !meta.commentCount ?0: convertToKilo({number:meta.commentCount}), icon: messageCircleFill },
+    { number: !meta.viewCount ?0: convertToKilo({number:meta.viewCount}), icon: eyeFill },
+    { number: !meta.shareCount ?0: convertToKilo({number:meta.shareCount}), icon: shareFill }
   ];
 
   return (
