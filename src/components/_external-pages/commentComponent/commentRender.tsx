@@ -178,7 +178,7 @@ export default function Comment({
                             inProgress={inProgress}
                             saveReplyToParent={saveReply}
                             showMoreChildren={showMoreChildren}
-                            thisUserId={!session ? undefined : session.id}
+                            thisUser={!session ? null : session}
                             setLogin={setLogin}
                         />
                     </div>
