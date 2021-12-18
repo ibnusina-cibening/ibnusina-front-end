@@ -1,14 +1,13 @@
 import useSWR, { useSWRConfig } from "swr";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import convertToKilo from 'lib/convertToKilo';
-import { Box, Card, Container, Typography, CardHeader, IconButton, CardActions } from '@mui/material';
+import { Box, Typography, Button, Alert, IconButton, CardActions } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import BadgeUnstyled from '@mui/base/BadgeUnstyled';
 import { styled } from '@mui/material/styles';
 import { useState } from "react";
 import { fetchMetaPost, actionToThisPost } from "./fetcher/metaPostFetcher";
-import { Session } from "types/metaPost";
 
 const StyledBadge = styled(BadgeUnstyled)`
   box-sizing: border-box;
@@ -80,7 +79,10 @@ const useMetaPost = (postId: string, token: string) => {
         }
       }
     }
-  }>([postId, token], fetchMetaPost, { revalidateOnFocus: false });
+  }>([postId, token], fetchMetaPost, {
+    revalidateOnFocus: false,
+    revalidateOnMount: true
+  });
   return {
     metaPost: data?.getMetaPostCount,
     isLoading: !error && !data,
@@ -127,38 +129,104 @@ function ViewReaction({ postId }: { postId: string }) {
 }
 // referensi emoticon in react: https://medium.com/@seanmcp/%EF%B8%8F-how-to-use-emojis-in-react-d23bbf608bf7
 function LikeAndShare({ postId }: { postId: string }) {
+  // memeriksa apakah user login 
   const { data: session, status }: { data: any, status: string } = useSession();
+  const { mutate } = useSWRConfig();
   const token = session ? session.token : '';
+  // mengambil data 
   const { metaPost, isLoading, isError } = useMetaPost(postId, token);
-  const [likeIt, setLikeIt] = useState(false);
+  // MENAMBAHKAN SUKA 
+  const [showLogInForm, setShowLogInForm] = useState(false);
+  // console.log(metaPost?.reaction.meLike); 
+  const [myReaction, setMyReaction] = useState(metaPost?.reaction.meLike);
+  const setLikeIt = async () => {
+    // jika belum login
+    if (session) {
+      const { actionToPost } = await actionToThisPost('LIKE', postId, token);
+      const { added, removed } = actionToPost;
+      let addLike: number;
+      addLike = added && 1;
+      addLike = removed && -1;
+      // console.log(added);
+      await mutate([postId], async () => {
+        // metaPost?.reaction.meLike! = added;
+        const newData = {
+          metaPost: {
+            commentCount: metaPost?.commentCount,
+            viewCount: metaPost?.viewCount,
+            shareCount: metaPost?.shareCount,
+            reaction: {
+              meLike: added,
+              meReaction: metaPost?.reaction.meReaction,
+              mood: {
+                LIKE: metaPost?.reaction.mood.LIKE! + addLike,
+                SMILE: metaPost?.reaction.mood.SMILE,
+                SAD: metaPost?.reaction.mood.SAD,
+                EXCITED: metaPost?.reaction.mood.EXCITED,
+                PRAYING: metaPost?.reaction.mood.PRAYING,
+              },
+            },
+          }
+        }
+        // console.log(newData);
+        if (added) setMyReaction(true);
+        if (removed) setMyReaction(false);
+        return newData;
+      }, false)
+
+    } else {
+      setShowLogInForm(true);
+    }
+  }
+
   if (isLoading) return <div>loading</div>
   if (isError) return <div>error</div>
   const shareCount = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
   const reaction = metaPost?.reaction;
   const mood = reaction?.mood;
-  const includingMe = reaction?.meLike ? `Kamu dan ${mood?.LIKE} orang lainnya menyukai postingan ini` : 'Suka dan bagikan';
-  const like = !mood?.LIKE ? 0 : mood.LIKE;
-  // console.log(likeIt);
-  const myColor = reaction?.meLike ? 'green' : '';
+  const numOfLike = !mood?.LIKE ? 0 : mood.LIKE;
+  const includingMe = myReaction ? `Kamu dan ${numOfLike > 1 ? numOfLike - 1 : numOfLike} orang lainnya menyukai postingan ini` : 'Suka dan bagikan';
+  const addLike = myReaction ? 0 : -1;
+  const like = !mood?.LIKE ? 0 : mood.LIKE + addLike;
+  // console.log(myReaction);
+  const myColor = myReaction ? 'green' : '';
   return (
-    <CardActions>
-      <StyledBadge badgeContent={convertToKilo({ number: like })} overlap="circular">
-        <IconButton aria-label="add to favorites" onClick={() => {
-          setLikeIt(!likeIt)
+    <>
+      <Box component="span" sx={{ width: '100%' }}>
+        <CardActions>
+          <StyledBadge badgeContent={convertToKilo({ number: like })} overlap="circular">
+            <IconButton aria-label="add to favorites" onClick={setLikeIt}>
+              <FavoriteIcon sx={{ fontSize: 25, color: myColor }} />
+            </IconButton>
+          </StyledBadge>
+          <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
+            <IconButton aria-label="share">
+              <ShareIcon sx={{ fontSize: 25 }} />
+            </IconButton>
+          </StyledBadge>
+          <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
+            {includingMe}
+          </Typography>
+        </CardActions>
+
+        {showLogInForm &&
+          <Box component="div">
+            <Alert severity="warning"
+              action={
+                <Button size={'medium'} variant="text" sx={{ position: 'relative', right: 0 }} onClick={() => {
+                  setShowLogInForm(false);
+                  signIn();
+                }
+                }
+                >Masuk</Button>
+              }
+            >
+              Silahkan login untuk membalas komentar
+            </Alert>
+          </Box>
         }
-        }>
-          <FavoriteIcon sx={{ fontSize: 25, color: myColor }} />
-        </IconButton>
-      </StyledBadge>
-      <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
-        <IconButton aria-label="share">
-          <ShareIcon sx={{ fontSize: 25 }} />
-        </IconButton>
-      </StyledBadge>
-      <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
-        {includingMe}
-      </Typography>
-    </CardActions>
+      </Box>
+    </>
   )
 }
 

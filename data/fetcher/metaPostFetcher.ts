@@ -15,7 +15,7 @@ export async function fetchMetaPost(postId: string, token: string) {
 
 export async function actionToThisPost (action:string, postId: string, token: string) {
   const client = new GraphQLClient(url);
-  console.log('hi dari action to post');
+  console.log('hi dari action to this post');
   const requestHeaders = {
     Authorization: token
   }
