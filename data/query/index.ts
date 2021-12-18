@@ -1,11 +1,11 @@
 import postList from './postList';
 import postContent from './postContent';
 import metaPost from './metaPost';
-// import fLogin from './fLogin';
 import getComment from './getComment';
 import addComment from './addComment';
 import editComment from './editComment';
 import deleteComment from './deleteComment';
+import actionToPost from './actionToPost'
 
 const headers = {
     'Content-Type': 'application/json',
@@ -18,8 +18,8 @@ export {
     postList, 
     postContent, 
     metaPost,
-    getComment, 
-    // fLogin, 
+    getComment,  
+    actionToPost,
     headers, 
     url,
     addComment,

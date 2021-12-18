@@ -4,7 +4,7 @@ import { AddComment, ButtonComment } from './commentElement';
 import { Login } from 'lib/login';
 import { useSession } from "next-auth/react";
 import { Box, List, ListSubheader, ListItem, Divider, Skeleton } from '@mui/material';
-import {CommentLoader} from './commentElement';
+import { CommentLoader } from './commentElement';
 
 export default function Comment({
     data,
@@ -150,7 +150,7 @@ export default function Comment({
                 session &&
                 <>
                     {inProgress === 'add root comment' ?
-                        <CommentLoader message={'Tunggu... sedang ditambahkan!'}/> :
+                        <CommentLoader message={'Tunggu... sedang ditambahkan!'} /> :
                         <AddComment
                             formValue={formValue}
                             onChange={onChange}
@@ -194,7 +194,7 @@ export default function Comment({
                                 name="show more"
                                 onClick={handleClick}
                             />
-                        </Box> : <CommentLoader message={'memuat ...'}/>
+                        </Box> : <CommentLoader message={'memuat ...'} />
                     }
                 </>
             }
