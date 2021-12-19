@@ -1,4 +1,8 @@
 function Error({ statusCode }:{statusCode:any}) {
+    // error di sini dapat terjadi juga karena user login di satu device
+    // kemudian logout di device lain. Session pada device sebelumnya "expired"
+    // Sehingga aktivitas interaktif seperti mengirim komentar mengalami error. 
+    // Nanti perlu dipikirkan cara mengupdate session secara otomatis ketika session di device lain expired. 
     return (
       <p>
         {statusCode
