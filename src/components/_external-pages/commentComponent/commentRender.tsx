@@ -3,7 +3,7 @@ import CommentList from './commentList';
 import { AddComment, ButtonComment } from './commentElement';
 import { Login } from 'lib/login';
 import { useSession } from "next-auth/react";
-import { Box, List, ListSubheader, ListItem, Divider, Skeleton } from '@mui/material';
+import { Box, List, ListSubheader, ListItem, Divider, Skeleton, Typography } from '@mui/material';
 import { CommentLoader } from './commentElement';
 
 export default function Comment({
@@ -130,6 +130,7 @@ export default function Comment({
         removeComment({ token: session ? session.token : null, postId, commentId, userId, parentId });
     };
     // console.log(session.id);
+    const loginMessage = !session ? 'Silahkan login untuk berkomentar': `Selamat datang ${session.callName}`;
     return (
         <>
             <Divider
@@ -140,10 +141,13 @@ export default function Comment({
             />
 
             {
-                <Box component="div" sx={{ p: 2, width: '100%' }}>
-                    <Login
-                        getLogin={setLogin}
-                    />
+                <Box component="div" sx={{mt:2, mb:2, p:1, backgroundColor:'rgba(255, 255, 128, .5)'}}>
+                    <Typography variant ={'caption'} sx={{justifyContent:"center", width:'100%', alignItems: "center", display: "flex"}}>{loginMessage}</Typography>
+                    <Box component="div" sx={{p: -3, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
+                        <Login
+                            getLogin={setLogin}
+                        />
+                    </Box>
                 </Box>
             }
             {

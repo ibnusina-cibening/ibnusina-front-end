@@ -195,30 +195,29 @@ function LikeAndShare({ postId }: { postId: string }) {
     }
   }
   const shareCount = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
-  const message = meLike ? `Terima kasih ${session.callName}` : 'suka dan bagikan';
+  const message = meLike && session ? `Terima kasih ${session.callName}` : 'suka dan bagikan';
   const iconColor = meLike ? 'green' : '';
   return (
     <>
       <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>
-      <Box component="div">
-        <CardActions>
-          {!inProgress ? <StyledBadge badgeContent={convertToKilo({ number: numOfLike })} overlap="circular">
-            <IconButton aria-label="add to favorites" onClick={setLikeIt}>
-              <FavoriteIcon sx={{ fontSize: 25, color: iconColor }} />
-            </IconButton>
-          </StyledBadge> : <CircularProgress size={20} />}
-          <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
-            <IconButton aria-label="share" onClick={() => { setShowShareOption(!showShareOption) }}>
-              <ShareIcon sx={{ fontSize: 25 }} />
-            </IconButton>
-          </StyledBadge>
-          <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
-            {message}
-          </Typography>
-        </CardActions>
-      
-        {showLogInForm &&
-          // <Box component="div">
+        <Box component="div">
+          <CardActions>
+            {!inProgress ? <StyledBadge badgeContent={convertToKilo({ number: numOfLike })} overlap="circular">
+              <IconButton aria-label="add to favorites" onClick={setLikeIt}>
+                <FavoriteIcon sx={{ fontSize: 25, color: iconColor }} />
+              </IconButton>
+            </StyledBadge> : <CircularProgress size={20} />}
+            <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
+              <IconButton aria-label="share" onClick={() => { setShowShareOption(!showShareOption) }}>
+                <ShareIcon sx={{ fontSize: 25 }} />
+              </IconButton>
+            </StyledBadge>
+            <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
+              {message}
+            </Typography>
+          </CardActions>
+          {showLogInForm &&
+            // <Box component="div">
             <Alert severity="warning"
               action={
                 <Button size={'medium'} variant="text" sx={{ position: 'relative', right: 0 }} onClick={() => {
@@ -231,18 +230,17 @@ function LikeAndShare({ postId }: { postId: string }) {
             >
               Silahkan login untuk memberi suka
             </Alert>
-          // </Box>
-        }
-        {showShareOption &&
-          <Box component="div">
-            <Alert severity="warning">
-              Fitur ini masih dalam pengembangan
-            </Alert>
-          </Box>
-        }
+            // </Box>
+          }
+          {showShareOption &&
+            <Box component="div">
+              <Alert severity="warning">
+                Fitur ini masih dalam pengembangan
+              </Alert>
+            </Box>
+          }
         </Box>
       </Box>
-
     </>
   )
 }
