@@ -96,7 +96,7 @@ function ViewStats({ postId }: { postId: string }) {
   const { data: session, status }: { data: any, status: string } = useSession();
   const token = session ? session.token : '';
   const { metaPost, isLoading, isError } = useMetaPost(postId, token);
-  if (isLoading) return <div>loading</div>
+  if (isLoading) return <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>loading</Box>
   if (isError) return <div>error</div>
   const vc = !metaPost?.viewCount ? 0 : metaPost?.viewCount;
   const cc = !metaPost?.commentCount ? 0 : metaPost?.commentCount;
@@ -155,7 +155,7 @@ function LikeAndShare({ postId }: { postId: string }) {
     setMeLike(myLike);
     setNumOfLike(numberOfLike);
   }, [myLike, numberOfLike]);
-  if (isLoading) return <div>loading</div>
+  if (isLoading) return <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>loading</Box>
   if (isError) return <div>error</div>
   const setLikeIt = async () => {
     // jika belum login
