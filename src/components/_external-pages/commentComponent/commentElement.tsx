@@ -92,7 +92,7 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
 
 export function ButtonComment({ id: commentId, onClick, name, disabled }:
     { id: any, onClick: any, name: string, disabled: boolean }) {
-    const buttonSize = name === 'show more' ? 'large' : name === 'submit' ? 'medium' : 'small';
+    const buttonSize = name === 'show more' ? 'large' : name === 'submit' ? 'small' : 'small';
     return (
 
         <Button
@@ -134,9 +134,9 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
     formValue: string, onChange: any, handleClick: any, isLoggedIn: boolean
 }) {
     return (
-        <Box component="div" sx={{ p: 2, border: '1px solid green', width: '100%' }}>
+        <Box component="div" sx={{border: '1px dashed green', width: '100%' }}>
             {isLoggedIn &&
-                <Box component="div" sx={{ p: 2, width: '100%' }}>
+                <Box component="div" sx={{ width: '100%' }}>
                     <InputMain
                         formValue={formValue}
                         onChange={onChange}
@@ -144,7 +144,7 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
                 </Box>
             }
             {isLoggedIn &&
-                 <Box component="div" sx={{ pt: 0.5, pl:2, width: '100%' }}>
+                 <Box component="div" sx={{ pt: 0.5, pl:1, width: '100%' }}>
                     <ButtonComment
                         disabled={!formValue ? true : false}
                         id={2}
