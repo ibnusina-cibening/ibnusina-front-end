@@ -1,18 +1,17 @@
 import { alpha, styled } from '@mui/material/styles';
 import MainLayout from 'src/layouts/main';
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Container, Divider } from '@mui/material';
 import Markdown from 'src/components/Markdown';
 import Page from 'src/components/Page';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import {
-  BlogPostHero,
-  BlogPostCommentList
+  BlogPostHero
 } from 'src/components/_external-pages/blog/blogPost';
 import { GetStaticProps, GetStaticPaths } from 'next';
-// import { fetchPostContent, fetchAllPostId } from 'posts/fetcher/postFetcher'
 import { FC } from 'react';
+
 // database
-import { ViewStats, ViewReaction, ViewLike } from 'data/useMetaPost';
+import { ViewStats, ViewReaction, LikeAndShare } from 'data/useMetaPost';
 import UseComment from 'data/useComment';
 import { gql, GraphQLClient } from 'graphql-request';
 import { ParsedUrlQuery } from 'querystring';
@@ -26,7 +25,6 @@ const Spacer = styled('div')(({ theme }) => ({
       } 100%)`
       : 'none',
 }));
-
 // const RootStyle = styled(Page)({
 //   height: '100%',
 // });
@@ -73,19 +71,25 @@ export default function BlogPost({
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
                   <Markdown children={postData.content} />
                 </Box>
-                <Box sx={{ p: { xs: 3, md: 5 } }}>
-                  -------- statistik ------------
+                <Divider
+                  sx={{
+                    ml: 'auto',
+                    // width: (theme) => `calc(100% - ${theme.spacing(7)})`
+                  }}
+                />
+                <Box component="span" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>
+                  {/* -------- statistik ------------
                   <ViewStats postId={id} />
                   --------- reaksi ---------------
                   <ViewReaction postId={id} />
                   ---------- suka ----------------
                   <ViewLike postId={id} />
                   ---------- tindakan -----------
-                  komentar, bagikan, suka
+                  komentar, bagikan, suka */}
+                  <LikeAndShare postId={id} />
                 </Box>
               </Card>
             )}
-            {/* <BlogPostCommentList /> */}
             <UseComment pId={id} />
           </Container>
         </RootStyle>
@@ -100,7 +104,6 @@ export default function BlogPost({
 //// SERVER SIDE 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // allPostId().catch(error => error.message);
   const postList = gql`
     query{
       loadPosts(limit:15){
@@ -152,7 +155,7 @@ interface Params extends ParsedUrlQuery {
   slug: string,
 }
 
-export const getStaticProps: GetStaticProps <Props, Params>= async (context) => {
+export const getStaticProps: GetStaticProps<Props, Params> = async (context) => {
   const postContent = `
   query getPostContent ($slug:String!) {
     postBySlug(slug:$slug){
@@ -177,12 +180,9 @@ export const getStaticProps: GetStaticProps <Props, Params>= async (context) => 
   // const url = "http://localhost:4000/";
   const params = context.params!;
   const slug = params.slug;
-  const headers = {Authorization: ''};
+  const headers = { Authorization: '' };
   const client = new GraphQLClient(url);
   const res = await client.request(postContent, { slug }, headers);
-  // return res;
-  // const res = await fetchPostContent(params.slug as string);
-  // fetchPostContent(params.slug as string).catch((error) => console.error(error));
   if (!res) {
     return Error({ statusCode: 404 })
   }
