@@ -2,6 +2,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { useSession, signIn } from "next-auth/react";
 import convertToKilo from 'lib/convertToKilo';
 import { Box, Typography, Button, Alert, IconButton, CardActions } from '@mui/material';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import BadgeUnstyled from '@mui/base/BadgeUnstyled';
@@ -95,15 +96,19 @@ function ViewStats({ postId }: { postId: string }) {
   const { data: session, status }: { data: any, status: string } = useSession();
   const token = session ? session.token : '';
   const { metaPost, isLoading, isError } = useMetaPost(postId, token);
-  if (isLoading) return <div>loading</div>
+  if (isLoading) return <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>loading</Box>
   if (isError) return <div>error</div>
   const vc = !metaPost?.viewCount ? 0 : metaPost?.viewCount;
   const cc = !metaPost?.commentCount ? 0 : metaPost?.commentCount;
   const sc = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
+  const textVC = convertToKilo({ number: vc });
   return <>
-    <div>{convertToKilo({ number: vc })} kali dilihat</div>
-    <div>{convertToKilo({ number: cc })} komentar</div>
-    <div>{convertToKilo({ number: sc })} kali dibagikan</div>
+    <Box component="span" sx={{ pb: 2, pl: 5, justifyContent: "left", alignItems: "left", display: "flex" }}>
+      <VisibilityRoundedIcon />
+      <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
+        {textVC} kali dilihat
+      </Typography>
+    </Box>
   </>
 }
 
@@ -142,6 +147,7 @@ function LikeAndShare({ postId }: { postId: string }) {
   const myLike = !metaPost?.reaction.meLike ? false : metaPost.reaction.meLike;
   const numberOfLike = !metaPost?.reaction.mood.LIKE ? 0 : metaPost.reaction.mood.LIKE;
   const [showLogInForm, setShowLogInForm] = useState(false);
+  const [showShareOption, setShowShareOption] = useState(false);
   const [meLike, setMeLike] = useState(myLike);
   const [numOfLike, setNumOfLike] = useState(numberOfLike);
   const [inProgress, setInProgress] = useState(false);
@@ -149,7 +155,7 @@ function LikeAndShare({ postId }: { postId: string }) {
     setMeLike(myLike);
     setNumOfLike(numberOfLike);
   }, [myLike, numberOfLike]);
-  if (isLoading) return <div>loading</div>
+  if (isLoading) return <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>loading</Box>
   if (isError) return <div>error</div>
   const setLikeIt = async () => {
     // jika belum login
@@ -158,7 +164,7 @@ function LikeAndShare({ postId }: { postId: string }) {
       const { actionToPost } = await actionToThisPost('LIKE', postId, token);
       const { added } = actionToPost;
       if (!actionToPost) setInProgress(false);
-      let addLike = added ? metaPost?.reaction.mood.LIKE! +1:  metaPost?.reaction.mood.LIKE!-1 ;
+      let addLike = added ? metaPost?.reaction.mood.LIKE! + 1 : metaPost?.reaction.mood.LIKE! - 1;
       await mutate([postId, token], async () => {
         const newData = {
           getMetaPostCount: {
@@ -185,25 +191,24 @@ function LikeAndShare({ postId }: { postId: string }) {
 
     } else {
       // jika belum login, maka pesan login ditampilkan 
-      setShowLogInForm(true);
+      setShowLogInForm(!showLogInForm);
     }
   }
   const shareCount = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
   const message = meLike ? `Terima kasih ${session.callName}` : 'suka dan bagikan';
   const iconColor = meLike ? 'green' : '';
-  // console.log(inProgress);
-  // console.log(session.callName);
   return (
     <>
-      <Box component="span" sx={{ width: '100%' }}>
+      <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>
+      <Box component="div">
         <CardActions>
           {!inProgress ? <StyledBadge badgeContent={convertToKilo({ number: numOfLike })} overlap="circular">
             <IconButton aria-label="add to favorites" onClick={setLikeIt}>
               <FavoriteIcon sx={{ fontSize: 25, color: iconColor }} />
             </IconButton>
-          </StyledBadge> : <CircularProgress size={20}/>}
+          </StyledBadge> : <CircularProgress size={20} />}
           <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
-            <IconButton aria-label="share">
+            <IconButton aria-label="share" onClick={() => { setShowShareOption(!showShareOption) }}>
               <ShareIcon sx={{ fontSize: 25 }} />
             </IconButton>
           </StyledBadge>
@@ -211,13 +216,13 @@ function LikeAndShare({ postId }: { postId: string }) {
             {message}
           </Typography>
         </CardActions>
-
+      
         {showLogInForm &&
-          <Box component="div">
+          // <Box component="div">
             <Alert severity="warning"
               action={
                 <Button size={'medium'} variant="text" sx={{ position: 'relative', right: 0 }} onClick={() => {
-                  setShowLogInForm(false);
+                  // setShowLogInForm(!showLogInForm);
                   signIn();
                 }
                 }
@@ -226,9 +231,18 @@ function LikeAndShare({ postId }: { postId: string }) {
             >
               Silahkan login untuk memberi suka
             </Alert>
+          // </Box>
+        }
+        {showShareOption &&
+          <Box component="div">
+            <Alert severity="warning">
+              Fitur ini masih dalam pengembangan
+            </Alert>
           </Box>
         }
+        </Box>
       </Box>
+
     </>
   )
 }

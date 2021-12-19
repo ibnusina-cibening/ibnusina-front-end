@@ -71,23 +71,9 @@ export default function BlogPost({
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
                   <Markdown children={postData.content} />
                 </Box>
-                <Divider
-                  sx={{
-                    ml: 'auto',
-                    // width: (theme) => `calc(100% - ${theme.spacing(7)})`
-                  }}
-                />
-                <Box component="span" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>
-                  {/* -------- statistik ------------
-                  <ViewStats postId={id} />
-                  --------- reaksi ---------------
-                  <ViewReaction postId={id} />
-                  ---------- suka ----------------
-                  <ViewLike postId={id} />
-                  ---------- tindakan -----------
-                  komentar, bagikan, suka */}
+                <ViewStats postId={id} />
+                <Divider/>
                   <LikeAndShare postId={id} />
-                </Box>
               </Card>
             )}
             <UseComment pId={id} />
