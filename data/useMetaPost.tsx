@@ -6,8 +6,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import BadgeUnstyled from '@mui/base/BadgeUnstyled';
 import { styled } from '@mui/material/styles';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchMetaPost, actionToThisPost } from "./fetcher/metaPostFetcher";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StyledBadge = styled(BadgeUnstyled)`
   box-sizing: border-box;
@@ -128,30 +129,39 @@ function ViewReaction({ postId }: { postId: string }) {
   </div>
 }
 // referensi emoticon in react: https://medium.com/@seanmcp/%EF%B8%8F-how-to-use-emojis-in-react-d23bbf608bf7
+
+
 function LikeAndShare({ postId }: { postId: string }) {
   // memeriksa apakah user login 
   const { data: session, status }: { data: any, status: string } = useSession();
-  const { mutate } = useSWRConfig();
   const token = session ? session.token : '';
   // mengambil data 
   const { metaPost, isLoading, isError } = useMetaPost(postId, token);
+  const { mutate } = useSWRConfig();
   // MENAMBAHKAN SUKA 
+  const myLike = !metaPost?.reaction.meLike ? false : metaPost.reaction.meLike;
+  const numberOfLike = !metaPost?.reaction.mood.LIKE ? 0 : metaPost.reaction.mood.LIKE;
   const [showLogInForm, setShowLogInForm] = useState(false);
-  // console.log(metaPost?.reaction.meLike); 
-  const [myReaction, setMyReaction] = useState(metaPost?.reaction.meLike);
+  const [meLike, setMeLike] = useState(myLike);
+  const [numOfLike, setNumOfLike] = useState(numberOfLike);
+  const [inProgress, setInProgress] = useState(false);
+  useEffect(() => {
+    setMeLike(myLike);
+    setNumOfLike(numberOfLike);
+  }, [myLike, numberOfLike]);
+  if (isLoading) return <div>loading</div>
+  if (isError) return <div>error</div>
   const setLikeIt = async () => {
     // jika belum login
     if (session) {
+      setInProgress(true);
       const { actionToPost } = await actionToThisPost('LIKE', postId, token);
-      const { added, removed } = actionToPost;
-      let addLike: number;
-      addLike = added && 1;
-      addLike = removed && -1;
-      // console.log(added);
-      await mutate([postId], async () => {
-        // metaPost?.reaction.meLike! = added;
+      const { added } = actionToPost;
+      if (!actionToPost) setInProgress(false);
+      let addLike = added ? metaPost?.reaction.mood.LIKE! +1:  metaPost?.reaction.mood.LIKE!-1 ;
+      await mutate([postId, token], async () => {
         const newData = {
-          metaPost: {
+          getMetaPostCount: {
             commentCount: metaPost?.commentCount,
             viewCount: metaPost?.viewCount,
             shareCount: metaPost?.shareCount,
@@ -159,7 +169,7 @@ function LikeAndShare({ postId }: { postId: string }) {
               meLike: added,
               meReaction: metaPost?.reaction.meReaction,
               mood: {
-                LIKE: metaPost?.reaction.mood.LIKE! + addLike,
+                LIKE: addLike,
                 SMILE: metaPost?.reaction.mood.SMILE,
                 SAD: metaPost?.reaction.mood.SAD,
                 EXCITED: metaPost?.reaction.mood.EXCITED,
@@ -168,44 +178,37 @@ function LikeAndShare({ postId }: { postId: string }) {
             },
           }
         }
-        // console.log(newData);
-        if (added) setMyReaction(true);
-        if (removed) setMyReaction(false);
+        // console.log(numOfLike === numberOfLike);
+        setInProgress(false);
         return newData;
       }, false)
 
     } else {
+      // jika belum login, maka pesan login ditampilkan 
       setShowLogInForm(true);
     }
   }
-
-  if (isLoading) return <div>loading</div>
-  if (isError) return <div>error</div>
   const shareCount = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
-  const reaction = metaPost?.reaction;
-  const mood = reaction?.mood;
-  const numOfLike = !mood?.LIKE ? 0 : mood.LIKE;
-  const includingMe = myReaction ? `Kamu dan ${numOfLike > 1 ? numOfLike - 1 : numOfLike} orang lainnya menyukai postingan ini` : 'Suka dan bagikan';
-  const addLike = myReaction ? 0 : -1;
-  const like = !mood?.LIKE ? 0 : mood.LIKE + addLike;
-  // console.log(myReaction);
-  const myColor = myReaction ? 'green' : '';
+  const message = meLike ? `Terima kasih ${session.callName}` : 'suka dan bagikan';
+  const iconColor = meLike ? 'green' : '';
+  // console.log(inProgress);
+  // console.log(session.callName);
   return (
     <>
       <Box component="span" sx={{ width: '100%' }}>
         <CardActions>
-          <StyledBadge badgeContent={convertToKilo({ number: like })} overlap="circular">
+          {!inProgress ? <StyledBadge badgeContent={convertToKilo({ number: numOfLike })} overlap="circular">
             <IconButton aria-label="add to favorites" onClick={setLikeIt}>
-              <FavoriteIcon sx={{ fontSize: 25, color: myColor }} />
+              <FavoriteIcon sx={{ fontSize: 25, color: iconColor }} />
             </IconButton>
-          </StyledBadge>
+          </StyledBadge> : <CircularProgress size={20}/>}
           <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
             <IconButton aria-label="share">
               <ShareIcon sx={{ fontSize: 25 }} />
             </IconButton>
           </StyledBadge>
           <Typography gutterBottom variant="subtitle2" component="div" sx={{ pl: 2, mb: -1 }}>
-            {includingMe}
+            {message}
           </Typography>
         </CardActions>
 
@@ -221,7 +224,7 @@ function LikeAndShare({ postId }: { postId: string }) {
                 >Masuk</Button>
               }
             >
-              Silahkan login untuk membalas komentar
+              Silahkan login untuk memberi suka
             </Alert>
           </Box>
         }
