@@ -217,11 +217,11 @@ function LikeAndShare({ postId }: { postId: string }) {
             </Typography>
           </CardActions>
           {showLogInForm &&
-            // <Box component="div">
-            <Alert severity="warning"
+            // PERLU PENAMBAHAN KOMPONEN LOADER SAAT TOMBOL LOGIN DITEKAN 
+            !inProgress ? <Alert severity="warning"
               action={
                 <Button size={'medium'} variant="text" sx={{ position: 'relative', right: 0 }} onClick={() => {
-                  // setShowLogInForm(!showLogInForm);
+                  setInProgress(true);
                   signIn();
                 }
                 }
@@ -229,8 +229,8 @@ function LikeAndShare({ postId }: { postId: string }) {
               }
             >
               Silahkan login untuk memberi suka
-            </Alert>
-            // </Box>
+            </Alert>: inProgress && <CircularProgress/>
+            
           }
           {showShareOption &&
             <Box component="div">
