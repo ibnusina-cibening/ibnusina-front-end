@@ -37,9 +37,9 @@ export default function Body(){
                         <CardContent>
                             <p>Kami beritahukan bahwa selama masa wabah korona belum mereda, pedaftaran dapat dilakukan secara online. Caranya silahkan klik dan isi formulir online di bawah. Selanjutnya, silahkan hubungi nomor: <b>081283946572 (Sidiq herdiansyah)</b> untuk langkah selanjutnya.</p>
                         </CardContent>
-                        <CardActions sx={{padding: '24px'}}>
+                        <CardActions sx={{padding: '24px', paddingTop: 0}}>
                             <Button variant='contained'>
-                                <a href='https://forms.gle/wBdm89C4fEGncBic7' target='_blank' style={{textDecoration: 'none', color: 'white'}}>Test</a>
+                                <a href='https://forms.gle/wBdm89C4fEGncBic7' target='_blank' style={{textDecoration: 'none', color: 'white'}}>Daftar</a>
                             </Button>
                         </CardActions>
                     </Card>
