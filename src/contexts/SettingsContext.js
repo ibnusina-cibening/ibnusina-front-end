@@ -108,7 +108,7 @@ function SetColor(themeColor) {
 }
 
 const initialState = {
-  themeMode: 'light',
+  themeMode: 'dark',
   themeDirection: 'ltr',
   themeColor: 'default',
   themeStretch: false,

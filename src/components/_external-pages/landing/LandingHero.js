@@ -124,7 +124,7 @@ export default function LandingHero() {
               variants={varFadeInRight}
               direction='row'
               spacing={1}
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              justifycontent={{ xs: 'center', md: 'flex-start' }}
             >
               <img
                 alt='sketch icon'
@@ -159,7 +159,7 @@ export default function LandingHero() {
               height='60px !important'
               direction='row'
               spacing={2}
-              justifyContent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
+              justifycontent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
             >
               {/* <IconsStyle sx={{height:'50px'}}> */}
                 <motion.img 

@@ -314,7 +314,7 @@ export default function BlogNewPostForm() {
                 </Stack>
               </Card>
 
-              <Stack direction="row" justifyContent="flex-end" sx={{ mt: 3 }}>
+              <Stack direction="row" justifycontent="flex-end" sx={{ mt: 3 }}>
                 <Button
                   fullWidth
                   type="button"
