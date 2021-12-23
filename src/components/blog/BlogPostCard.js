@@ -9,7 +9,7 @@ import shareFill from '@iconify/icons-eva/share-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Box, Card, Grid, Avatar, Typography, CardContent, useMediaQuery, useTheme } from '@mui/material';
 import SvgIconStyle from '../SvgIconStyle';
 // library 
 import convertToKilo from 'lib/convertToKilo';
@@ -74,13 +74,16 @@ BlogPostCard.propTypes = {
   index: PropTypes.number
 };
 
-const myLoader = () => {
-  return `/public/static/loader/loading.svg`
-}
+// const myLoader = () => {
+//   return `/public/static/loader/loading.svg`
+// }
+
 
 export default function BlogPostCard({ post, index }) {
   const { imageUrl, author, title, meta, createdAt, slug } = post;
   const linkTo = `/blog/${slug}`;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
@@ -96,7 +99,7 @@ export default function BlogPostCard({ post, index }) {
       <Card sx={{ position: 'relative' }}>
         <CardMediaStyle
           sx={{
-            ...((latestPostLarge || latestPost) && {
+            ...((latestPostLarge || latestPost && !isMobile) && {
               pt: 'calc(100% * 4 / 3)',
               '&:after': {
                 top: 0,
@@ -107,7 +110,7 @@ export default function BlogPostCard({ post, index }) {
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
               }
             }),
-            ...(latestPostLarge && {
+            ...((latestPostLarge && !isMobile) && {
               pt: {
                 xs: 'calc(100% * 4 / 3)',
                 sm: 'calc(100% * 3 / 4.66)'
@@ -124,14 +127,14 @@ export default function BlogPostCard({ post, index }) {
               zIndex: 9,
               bottom: -15,
               position: 'absolute',
-              ...((latestPostLarge || latestPost) && { display: 'none' })
+              ...(((latestPostLarge || latestPost) && !isMobile) && { display: 'none' })
             }}
           />
           <AvatarStyle
             alt={author?.callName}
             src={author?.avatar}
             sx={{
-              ...((latestPostLarge || latestPost) && {
+              ...(((latestPostLarge || latestPost) && !isMobile) && {
                 zIndex: 9,
                 top: 24,
                 left: 24,
@@ -147,7 +150,7 @@ export default function BlogPostCard({ post, index }) {
         <CardContent
           sx={{
             pt: 4,
-            ...((latestPostLarge || latestPost) && {
+            ...(((latestPostLarge || latestPost) && !isMobile) && {
               bottom: 0,
               width: '100%',
               position: 'absolute'

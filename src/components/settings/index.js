@@ -111,7 +111,7 @@ export default function Settings() {
           <Stack
             direction='row'
             alignItems='center'
-            justifyContent='space-between'
+            justifycontent='space-between'
             sx={{ py: 2, pr: 1, pl: 2.5 }}
           >
             <Typography variant='subtitle1'>Settings</Typography>

@@ -4,7 +4,7 @@
 
 module.exports = {
     images: {
-        domains: ['ucarecdn.com', 'asset.kompas.com']
+        domains: ['ucarecdn.com', 'asset.kompas.com', 'web.kominfo.go.id']
     },
     swcMinify: true,
     experimental: {
