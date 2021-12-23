@@ -105,7 +105,7 @@ export default function LandingHugePackElements() {
         </MotionInView>
       </Container>
       <Container maxWidth='lg' sx={{ marginTop:'90px'}}>
-        <Grid container spacing={5} justifyContent='center'>
+        <Grid container spacing={5} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -155,8 +155,8 @@ Setiap anak dibekali berbagai potensi yang perlu diarahkan dan dibina sehingga t
         </MotionInView>
       </Container>
       
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -207,8 +207,8 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -328,14 +328,14 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
       
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
       
       </Container>
 
 
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -438,8 +438,8 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -541,8 +541,8 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{
@@ -644,8 +644,8 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
+        <Grid container spacing={5} justifycontent='center'>
           <Grid item xs={12} md={4} dir='ltr'>
             <Box 
               sx={{

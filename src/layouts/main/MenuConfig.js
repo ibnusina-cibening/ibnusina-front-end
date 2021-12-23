@@ -28,9 +28,9 @@ const menuConfig = [
     icon: <Icon icon={fileFill} {...ICON_SIZE} />,
   },
   {
-    title: 'News',
+    title: 'Pendaftaran',
     // path: PATH_DASHBOARD.root,
-    path: '/#2',
+    path: '/pendaftaran',
     icon: <Icon icon={fileFill} {...ICON_SIZE} />,
   },
   // {
@@ -45,12 +45,12 @@ const menuConfig = [
   //   path: '/#3',
   //   icon: <Icon icon={fileFill} {...ICON_SIZE} />,
   // },
-  {
-    title: 'Daftar',
-    // path: PATH_DASHBOARD.root,
-    path: '/#4',
-    icon: <Icon icon={fileFill} {...ICON_SIZE} />,
-  },
+  // {
+  //   title: 'Daftar',
+  //   // path: PATH_DASHBOARD.root,
+  //   path: '/#4',
+  //   icon: <Icon icon={fileFill} {...ICON_SIZE} />,
+  // },
 ];
 
 export default menuConfig;

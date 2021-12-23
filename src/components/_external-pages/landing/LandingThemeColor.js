@@ -79,7 +79,7 @@ export default function LandingThemeColor() {
         >
           <Stack
             direction={{ xs: 'row', lg: 'column' }}
-            justifyContent='center'
+            justifycontent='center'
             spacing={1}
             sx={{
               position: { lg: 'absolute' },

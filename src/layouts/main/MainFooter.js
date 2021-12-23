@@ -68,7 +68,7 @@ export default function MainFooter() {
       <Container maxWidth='lg' sx={{ pt: 10 }}>
         <Grid
           container
-          justifyContent={{ xs: 'center', md: 'space-between' }}
+          justifycontent={{ xs: 'center', md: 'space-between' }}
           sx={{ textAlign: { xs: 'center', md: 'left' } }}
         >
           <Grid item xs={12} sx={{ mb: 3 }}>
@@ -84,7 +84,7 @@ export default function MainFooter() {
             <Stack
               spacing={1.5}
               direction='row'
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              justifycontent={{ xs: 'center', md: 'flex-start' }}
               sx={{ mt: 5, mb: { xs: 5, md: 0 } }}
             >
               {SOCIALS.map((social) => (
@@ -99,7 +99,7 @@ export default function MainFooter() {
             <Stack
               spacing={5}
               direction={{ xs: 'column', md: 'row' }}
-              justifyContent='space-between'
+              justifycontent='space-between'
             >
               {LINKS.map((list) => {
                 const { headline, children } = list;
