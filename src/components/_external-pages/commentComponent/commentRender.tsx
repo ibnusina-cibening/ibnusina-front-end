@@ -133,15 +133,8 @@ export default function Comment({
     const loginMessage = !session ? 'Silahkan login untuk berkomentar': `Selamat datang ${session.callName}`;
     return (
         <>
-            <Divider
-                sx={{
-                    ml: 'auto',
-                    width: (theme) => `calc(100% - ${theme.spacing(7)})`
-                }}
-            />
-
             {
-                <Box component="div" sx={{mt:2, mb:2, p:1, backgroundColor:'rgba(255, 255, 128, .5)'}}>
+                <Box component="div" sx={{mt:2, mb:2, p:1, backgroundColor:'rgba(255, 255, 128, .5)', borderRadius: 2}}>
                     <Typography variant ={'caption'} sx={{justifyContent:"center", width:'100%', alignItems: "center", display: "flex"}}>{loginMessage}</Typography>
                     <Box component="div" sx={{p: -3, width: '100%', justifyContent: "center", alignItems: "center", display: "flex" }}>
                         <Login

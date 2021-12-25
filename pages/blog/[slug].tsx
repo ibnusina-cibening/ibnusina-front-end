@@ -1,6 +1,6 @@
 import { alpha, styled } from '@mui/material/styles';
 import MainLayout from 'src/layouts/main';
-import { Box, Card, Container, Divider } from '@mui/material';
+import { Box, Card, Container, Divider, Grid } from '@mui/material';
 import Markdown from 'src/components/Markdown';
 import Page from 'src/components/Page';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
@@ -57,26 +57,31 @@ export default function BlogPost({
           id='move_top'
         >
           <Container maxWidth={'lg'}>
-            <HeaderBreadcrumbs
-              heading="Post Details"
-              links={[
-                { name: 'Home', href: '/' },
-                { name: 'Blog', href: '/blog' },
-                { name: postData?.slug }
-              ]} action={null} sx={null} />
+            <Grid container justifyContent='center'>
+              <Grid item lg={8}>
+              
+                <HeaderBreadcrumbs
+                  heading="Post Details"
+                  links={[
+                    { name: 'Home', href: '/' },
+                    { name: 'Blog', href: '/blog' },
+                    { name: postData?.slug }
+                  ]} action={null} sx={null} />
 
-            {postData && (
-              <Card>
-                <BlogPostHero post={postData} />
-                <Box sx={{ p: { xs: 3, md: 5 } }}>
-                  <Markdown children={postData.content} />
-                </Box>
-                <ViewStats postId={id} />
-                <Divider/>
-                  <LikeAndShare postId={id} />
-              </Card>
-            )}
-            <UseComment pId={id} />
+                {postData && (
+                  <Card>
+                    <BlogPostHero post={postData} />
+                    <Box sx={{ p: { xs: 3, md: 5 } }}>
+                      <Markdown children={postData.content} />
+                    </Box>
+                    <ViewStats postId={id} />
+                    <Divider/>
+                      <LikeAndShare postId={id} />
+                  </Card>
+                )}
+                <UseComment pId={id} />
+              </Grid>
+            </Grid>
           </Container>
         </RootStyle>
       </Spacer>

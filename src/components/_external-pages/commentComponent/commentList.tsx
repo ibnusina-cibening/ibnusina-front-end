@@ -309,12 +309,12 @@ function CommentItem({
           Apakah anda yakin ingin menghapus komentar ini?
         </Alert>
       }
-      <Divider
+      {/* <Divider
         sx={{
           ml: 'auto',
           width: (theme) => `calc(100% - ${theme.spacing(7)})`
         }}
-      />
+      /> */}
       {
         // jika user login dan akan berkomentar
         replyThis && thisUser?.id ?
@@ -368,7 +368,7 @@ function Reply({ id, saveReplyToParent, name, inProgress }: {
   }
 
   return (
-    <Box component="span" sx={{ mr: -2, border: '1px dashed green', width: '100%' }}>
+    <Box component="span" sx={{ mr: -2, width: '100%' }}>
       <InputComment
         id={id}
         disabled={false}
