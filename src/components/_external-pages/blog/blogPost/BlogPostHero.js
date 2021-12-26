@@ -62,7 +62,7 @@ const TitleStyle = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(3),
   color: theme.palette.common.white,
   [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(10)
+    padding: theme.spacing(3)
   }
 }));
 
@@ -82,7 +82,7 @@ const FooterStyle = styled('div')(({ theme }) => ({
     paddingRight: theme.spacing(3)
   },
   [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(10)
+    padding: theme.spacing(3)
   }
 }));
 
@@ -111,7 +111,7 @@ export default function BlogPostHero({ post, ...other }) {
     <RootStyle {...other}>
       <CoverImgStyle alt="post cover" layout='fill' src={imageUrl ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} />
 
-      <TitleStyle variant="h2" component="h1">
+      <TitleStyle variant="h2">
         {title}
       </TitleStyle>
 
@@ -128,7 +128,7 @@ export default function BlogPostHero({ post, ...other }) {
           </Box>
         </Box>
 
-        <SpeedDial
+        {/* <SpeedDial
           direction={isMobile ? 'up' : 'left'}
           ariaLabel="Share post"
           icon={<Icon icon={shareFill} />}
@@ -143,7 +143,7 @@ export default function BlogPostHero({ post, ...other }) {
               FabProps={{ color: 'default' }}
             />
           ))}
-        </SpeedDial>
+        </SpeedDial> */}
       </FooterStyle>
     </RootStyle>
   );
