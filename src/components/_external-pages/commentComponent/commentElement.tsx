@@ -81,7 +81,7 @@ export function InputComment({ disabled, localValue: localvalue, onChange, comme
                 sx={{
                     '& fieldset': {
                         borderWidth: `1px !important`,
-                        borderColor: (theme:{palette:{grey:any}}) => `${theme.palette.grey[500_32]} !important`
+                        // borderColor: (theme:{palette:{grey:any}}) => `${theme.palette.grey[500_32]} !important`
                     }
                 }}
             />
@@ -134,7 +134,7 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
     formValue: string, onChange: any, handleClick: any, isLoggedIn: boolean
 }) {
     return (
-        <Box component="div" sx={{border: '1px dashed green', width: '100%' }}>
+        <Box component="div" sx={{width: '100%' }}>
             {isLoggedIn &&
                 <Box component="div" sx={{ width: '100%' }}>
                     <InputMain
@@ -144,7 +144,7 @@ export function AddComment({ formValue, onChange, handleClick, isLoggedIn }: {
                 </Box>
             }
             {isLoggedIn &&
-                 <Box component="div" sx={{ pt: 0.5, pl:1, width: '100%' }}>
+                 <Box component="div" sx={{ pt: 0.5, pl:1, width: '100%', pb: 5}}>
                     <ButtonComment
                         disabled={!formValue ? true : false}
                         id={2}
