@@ -1,6 +1,6 @@
 import { alpha, styled } from '@mui/material/styles';
 import MainLayout from 'src/layouts/main';
-import { Box, Card, Container, Divider, Grid } from '@mui/material';
+import { Box, Card, Container, Divider, Grid, Typography } from '@mui/material';
 import Markdown from 'src/components/Markdown';
 import Page from 'src/components/Page';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
@@ -24,6 +24,9 @@ const Spacer = styled('div')(({ theme }) => ({
       ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${theme.palette.grey[300]
       } 100%)`
       : 'none',
+  [theme.breakpoints.down('md')]:{
+    padding: theme.spacing(10,0)
+  }
 }));
 // const RootStyle = styled(Page)({
 //   height: '100%',
@@ -31,6 +34,30 @@ const Spacer = styled('div')(({ theme }) => ({
 const RootStyle: FC<any> = styled(Page)({
   height: '100%',
 });
+
+const TitleStyle = styled(Box)(({theme}) => {
+  return {
+    fontFamily: 'Roboto',
+    fontSize: 30,
+    lineHeight: 1.2,
+    margin: theme.spacing(3),
+    fontWeight: 'bold',
+    [theme.breakpoints.up('sm')]: {
+      margin: theme.spacing(5,5,1,5)
+    }
+  }
+});
+
+// const TitleStyle = styled(Typography)(({theme})=>{
+//   return {
+//     fontFamily: 'Roboto',
+//     fontSize: 30,
+//     lineHeight: 1.2,
+//     margin: 25,
+    // textAlign: 'justify'
+  // }
+    
+
 
 export default function BlogPost({
   postData
@@ -71,6 +98,9 @@ export default function BlogPost({
                 {postData && (
                   <Card>
                     <BlogPostHero post={postData} />
+                    <TitleStyle component='p'>
+                      {postData.title}
+                    </TitleStyle>
                     <Box sx={{ p: { xs: 3, md: 5 } }}>
                       <Markdown children={postData.content} />
                     </Box>

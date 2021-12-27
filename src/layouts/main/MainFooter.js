@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
-import googleFill from '@iconify/icons-eva/google-fill';
+import youtubeFill from '@iconify/icons-ant-design/youtube-filled';
+import instagramFill from '@iconify/icons-ant-design/instagram-filled';
 import twitterFill from '@iconify/icons-eva/twitter-fill';
 import facebookFill from '@iconify/icons-eva/facebook-fill';
 import linkedinFill from '@iconify/icons-eva/linkedin-fill';
@@ -22,11 +23,20 @@ import Logo from '../../components/Logo';
 
 // ----------------------------------------------------------------------
 
+const TextBottom = styled(Typography)(({theme})=>{
+  return {
+    marginTop: 0,
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 20
+    }
+  }
+})
+
 const SOCIALS = [
-  { name: 'FaceBook', icon: facebookFill },
-  { name: 'Google', icon: googleFill },
-  { name: 'Linkedin', icon: linkedinFill },
-  { name: 'Twitter', icon: twitterFill },
+  { name: 'FaceBook', icon: facebookFill, link: '//www.facebook.com/ibnusinamedia' },
+  { name: 'Instagram', icon: instagramFill, link: '//www.instagram.com/ponpes_ibnusina' },
+  { name: 'Youtube', icon: youtubeFill, link: '//www.youtube.com/c/ibnusinamedia' },
+  // { name: 'Twitter', icon: twitterFill },
 ];
 
 const LINKS = [
@@ -67,17 +77,18 @@ export default function MainFooter() {
       <Divider />
       <Container maxWidth='lg' sx={{ pt: 10 }}>
         <Grid
+          direction='column'
           container
-          justifycontent={{ xs: 'center', md: 'space-between' }}
+          alignItems='center'
           sx={{ textAlign: { xs: 'center', md: 'left' } }}
         >
-          <Grid item xs={12} sx={{ mb: 3 }}>
+          <Grid item sx={{ mb: 3 }}>
             <ScrollLink to='move_top' spy smooth>
               <Logo sx={{ mx: { xs: 'auto', md: 'inherit' } }} />
             </ScrollLink>
           </Grid>
-          <Grid item xs={8} md={3}>
-            <Typography variant='body2' sx={{ pr: { md: 5 } }}>
+          <Grid item>
+            <Typography variant='body2' sx={{ pr: { md: 5 }, textAlign: 'center', padding: '0 !important'}}>
               Lorem Ipsum Dorom
             </Typography>
 
@@ -85,17 +96,19 @@ export default function MainFooter() {
               spacing={1.5}
               direction='row'
               justifycontent={{ xs: 'center', md: 'flex-start' }}
-              sx={{ mt: 5, mb: { xs: 5, md: 0 } }}
+              sx={{ mt: 2, mb: { xs: 5, md: 0 } }}
             >
               {SOCIALS.map((social) => (
                 <IconButton key={social.name} color='primary' sx={{ p: 1 }}>
-                  <Icon icon={social.icon} width={16} height={16} />
+                  <a href={social.link} target='__blank' style={{textDecoration: 'none', color: '#00AB55'}}>
+                    <Icon icon={social.icon} width={16} height={16} />
+                  </a>
                 </IconButton>
               ))}
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={7}>
+          {/* <Grid item xs={12} md={7}>
             <Stack
               spacing={5}
               direction={{ xs: 'column', md: 'row' }}
@@ -123,21 +136,20 @@ export default function MainFooter() {
                 );
               })}
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
 
-        <Typography
+        <TextBottom
           component='p'
           variant='body2'
           sx={{
-            mt: 10,
             pb: 5,
             fontSize: 13,
-            textAlign: { xs: 'center', md: 'left' },
+            textAlign: 'center',
           }}
         >
           © 2021. All rights reserved
-        </Typography>
+        </TextBottom>
       </Container>
     </RootStyle>
   );

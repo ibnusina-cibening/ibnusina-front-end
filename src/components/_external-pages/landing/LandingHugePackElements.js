@@ -84,7 +84,7 @@ const YoutubeEmbed = dynamic(()=>import('../../YoutubePlay'))
 export default function LandingHugePackElements() {
   const {ref, inView} = useInView({
     threshold: 0,
-    triggerOnce: false
+    triggerOnce: true
   });
 
   const theme = useTheme();
