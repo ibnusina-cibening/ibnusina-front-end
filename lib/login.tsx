@@ -17,7 +17,7 @@ export function Login({ getLogin }: { getLogin: any }) {
         getLogin(e);
 
     }
-    const theUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://ibs-web-dev.vercel.app';
+    const theUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://ibnusina-dev.vercel.app';
     return (
         <>
             {
