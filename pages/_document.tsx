@@ -51,7 +51,7 @@ export default class MyDocument extends Document {
             name='keywords'
             content='pesantren,ibnu sina,pondok,boarding school,islamic school,babah,kh. tatang haetami'
           />
-          <meta name='author' content='Ryan' />
+          <meta name='author' content='ibnusinamedia' />
         </Head>
         <body>
           <Main />
