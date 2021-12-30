@@ -140,7 +140,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar, myData
         <Stack
           direction='row'
           alignItems='center'
-          justifycontent='space-between'
+          justifyContent='space-between'
         >
           <NextLink href='/'>
             <Box sx={{ display: 'inline-flex' }}>

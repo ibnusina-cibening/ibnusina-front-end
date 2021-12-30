@@ -46,6 +46,9 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(
       margin: 'unset',
       textAlign: 'left',
     },
+    [theme.breakpoints.down('md')]:{
+      paddingTop: theme.spacing(15)
+    }
   })
 );
 
@@ -122,47 +125,12 @@ export default function LandingHero() {
               </Typography>
             </motion.div>
 
-            {/* <Stack
-              component={motion.div}
-              variants={varFadeInRight}
-              direction='row'
-              spacing={1}
-              justifycontent={{ xs: 'center', md: 'flex-start' }}
-            >
-              <img
-                alt='sketch icon'
-                src='/static/home/ic_sketch_small.svg'
-                width={20}
-                height={20}
-              />
-              <Link
-                underline='always'
-                href='https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0'
-                target='_blank'
-                sx={{ color: 'common.white' }}
-              >
-                Preview in Sketch Cloud
-              </Link>
-            </Stack> */}
-
-            {/* <motion.div variants={varFadeInRight}>
-              <NextLink href={PATH_DASHBOARD.root}>
-                <Button
-                  size='large'
-                  variant='contained'
-                  startIcon={<Icon icon={flashFill} width={20} height={20} />}
-                >
-                  Live Preview
-                </Button>
-              </NextLink>
-            </motion.div> */}
-
             <Stack
               marginTop='0px !important'
               height='60px !important'
               direction='row'
               spacing={2}
-              justifycontent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
+              justifyContent={{ xs: 'center', sm: 'center', md: 'flex-start', lg: 'flex-start'}}
             >
               {/* <IconsStyle sx={{height:'50px'}}> */}
                 <motion.img 

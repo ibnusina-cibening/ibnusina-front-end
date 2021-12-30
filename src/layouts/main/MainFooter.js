@@ -95,7 +95,7 @@ export default function MainFooter() {
             <Stack
               spacing={1.5}
               direction='row'
-              justifycontent={{ xs: 'center', md: 'flex-start' }}
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
               sx={{ mt: 2, mb: { xs: 5, md: 0 } }}
             >
               {SOCIALS.map((social) => (
@@ -112,7 +112,7 @@ export default function MainFooter() {
             <Stack
               spacing={5}
               direction={{ xs: 'column', md: 'row' }}
-              justifycontent='space-between'
+              justifyContent='space-between'
             >
               {LINKS.map((list) => {
                 const { headline, children } = list;

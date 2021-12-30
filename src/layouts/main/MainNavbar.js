@@ -73,7 +73,7 @@ export default function MainNavbar() {
           <NextLink href='/'>
             <Logo />
           </NextLink>
-            <Typography color='primary.main' borderColor='common.white' variant='h4' sx={{ml: 2}}>PESANTREN IBNU SINA</Typography>
+            <Typography color='primary.main' borderColor='common.white' variant='h4' sx={{ml: 2}}>IBNU SINA</Typography>
           {/* <Label color='info' sx={{ ml: 1 }}>
           </Label> */}
           <Box sx={{ flexGrow: 1 }} />

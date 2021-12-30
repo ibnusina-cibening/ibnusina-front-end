@@ -99,7 +99,7 @@ export default function LandingHugePackElements() {
   return (
     <RootStyle>
       <Container maxWidth='lg'>
-        <Grid container spacing={5} justifycontent='center'>
+        <Grid container spacing={5} justifyContent='center'>
           <Grid
             item
             xs={12}
@@ -196,7 +196,7 @@ export default function LandingHugePackElements() {
         </Grid>
       </Container>
       <Container maxWidth='lg' sx={{ marginTop:'100px'}}>
-        <Grid container spacing={5} justifycontent='center'>
+        <Grid container spacing={5} justifyContent='center'>
           <Grid item xs={12} md={8} dir='ltr'>
             <Box 
               sx={{
