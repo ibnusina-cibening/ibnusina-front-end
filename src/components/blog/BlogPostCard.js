@@ -83,7 +83,7 @@ export default function BlogPostCard({ post, index }) {
   const { imageUrl, author, title, meta, createdAt, slug } = post;
   const linkTo = `/blog/${slug}`;
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
@@ -99,8 +99,7 @@ export default function BlogPostCard({ post, index }) {
       <Card sx={{ position: 'relative' }}>
         <CardMediaStyle
           sx={{
-            ...((latestPostLarge || latestPost && !isMobile) && {
-              pt: 'calc(100% * 4 / 3)',
+            ...(((latestPostLarge || latestPost) && !isMobile) && {
               '&:after': {
                 top: 0,
                 content: "''",
@@ -110,6 +109,7 @@ export default function BlogPostCard({ post, index }) {
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
               }
             }),
+            ...((!isMobile) && {pt: 'calc(100% * 4 / 3)',}),
             ...((latestPostLarge && !isMobile) && {
               pt: {
                 xs: 'calc(100% * 4 / 3)',
