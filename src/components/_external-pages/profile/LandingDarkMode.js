@@ -182,29 +182,33 @@ const dataKegiatan = {
   ]
 }
 
-const CardsMedia = ({data}) => (
-  dataKegiatan[data].map(v=>(
-    <Grid item xs={12} md={6}>
-      <Card>
-        <CardHeader 
-          title={v.title}
-          sx={{paddingBottom: 3}}
-        />
-        <CardMedia
-          component='img'
-          height='194'
-          image={v.img}
-          alt={v.title}
-        />
-        <CardContent>
-          <Typography>
-            {v.desc}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-
-  ))
+const CardsMedia = ({data, spacing=7}) => (
+  <Grid container spacing={spacing}>
+    {
+      dataKegiatan[data].map(v=>(
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader 
+              title={v.title}
+              sx={{paddingBottom: 3}}
+            />
+            <CardMedia
+              component='img'
+              height='194'
+              image={v.img}
+              alt={v.title}
+            />
+            <CardContent>
+              <Typography>
+                {v.desc}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+    
+      ))
+    }
+  </Grid>
   
 )
  
@@ -342,8 +346,8 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
-        <Grid container spacing={5} justifyContent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px',}} justifyContent='center'>
+        <Grid container spacing={5} justifyContent='center' sx={{marginBottom: '20px'}}>
           <Grid item xs={12} md={12}>
             <Box 
               sx={{
@@ -497,91 +501,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={{xs: 5, md:5}}>
-                  <CardsMedia data='pembentukan' />
-                  {/* {
-                    dataKegiatan.pembentukan.map(v=>(
-                        <Grid item xs={12} md={6} sx={{padding: !isMobile ? '0 20px' : '0'}}>
-                          <Grid container spacing={3} direction='column'>
-                            <Grid item md={7}>
-                              <Grid container direction='row' justifyContent='center'>
-                                <Grid item>
-                                  <Typography variant='h5' sx={{ mb: 3}}>
-                                    {v.title}
-                                  </Typography>
-                                </Grid>
-                                  <Grid item>
-                                    <img src={v.img}/>
-                                  </Grid>
-                                <Grid item>
-                                  <Typography
-                                    sx={{
-                                      mb: 5,
-                                      color: isLight ? 'text.secondary' : 'common.white',
-                                      // textAlign: 'justify',
-                                      paddingBottom: '5px'
-                                    }}
-                                  >
-                                    {v.desc}
-                                  </Typography>
-                                </Grid>
-
-                              </Grid>
-
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                    
-                      )
-                    )
-                  } */}
-                  
-
-                  {/* <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Pramuka
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Pembinaan pramuka merupakan salah satu kegiatan informal yang wajib diikuti oleh seluruh santri, sebagai wadah pembentukan karakterk sosial dan kepemimpinan.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Life-Skill
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Setidaknya ada lima kegiatan life-skill yang diajarkan kepada para santri Ibnu Sina yang berorientasi pada pembentukan karakter kemandirian dan wirausaha.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Pembinaan Bakat
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Selain kegiatan-kegiatan ex-school yang bersifat rutin, para santri juga diberi kesempatan untuk menampilkan bakat-bakat mereka dalam berbagai even kegiatan bulanan.
-                    </Typography>
-
-                  </Grid> */}
-                </Grid>
+                <CardsMedia data='pembentukan' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -622,67 +542,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={5}>
-                  <CardsMedia data='program' />
-                  {/* <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tahfizul Quran
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Ponpes Ibnu Sina bukan pesantren tahfizh. Namun demikian, ada target minimal hafalan yang harus dicapai santri selama enam tahun, yaitu enam juz, atau satu juz per tahun.
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Fiqh Amaliah
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Program ini adalah program penguasaan praktek-praktek ibadah dasar secara komprehensif dan bertahap, meliputi: baca tulis quran, tajwid, imla, praktek solat, doa-doa, khutbah, dzikir dll.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Bahasa Asing
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Dari tahun ke tahun, kami terus menyempurnakan program-program pembinaan bahasa asing, Arab dan Inggris, baik dalam ranah kurikulum atau pun kesiswaan.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Kepemimpinan
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Selain pramuka, karakter kepemimpinan santri dibentuk melalui kegiatan-kegiatan kepengurusan dan LDK (Latihan Dasar Kepemimpinan).
-                    </Typography>
-
-                  </Grid> */}
-                </Grid>
+                <CardsMedia data='program' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -722,67 +582,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={5}>
-                  <CardsMedia data='event' />
-                  {/* <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tahfizul Quran
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Kegiatan wisuda santri diperuntukan bagi para santri yang telah menuntaskan pendidikan pesantrennya, yaitu santri yang telah menyelsaikan jenjang SMA.
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tabligh Akbar
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Diselenggarakan dalam rangka memperingati milad ponpes Ibnu Sina, yang diawali dengan serangkaian kegiatan pengabdian dan perlombaan.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Festival Film Akhir Tahun
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Penayangan film-film dokumenter kegiatan tahunan dan film-film pendek karya kreatif anak-anak santri.
-                    </Typography>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Pagelaran Seni
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Diselenggarkaan di permulaan tahun pelajaran. Sebuah ajang para santri menampilkan kebolehannya: paduan suara, drama, tarian daerah dll.
-                    </Typography>
-
-                  </Grid> */}
-                </Grid>
+                <CardsMedia data='event' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -794,7 +594,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
+      {/* <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
         <Grid container spacing={5} justifyContent='center'>
           <Grid item xs={12} md={12} dir='ltr'>
             <Box 
@@ -860,7 +660,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         <MotionInView variants={varFadeInUp}>
         <Divider variant='middle' />
         </MotionInView>
-      </Container>
+      </Container> */}
       
       
     </RootStyle>

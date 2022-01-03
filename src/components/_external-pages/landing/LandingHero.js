@@ -47,6 +47,7 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(
       textAlign: 'left',
     },
     [theme.breakpoints.down('md')]:{
+      paddingBottom: 0,
       paddingTop: theme.spacing(15)
     }
   })
@@ -78,6 +79,12 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
     height: '100vh'
   }
 }));
+
+const Footer = styled('div')(({theme})=>({
+  [theme.breakpoints.down('md')]:{
+    paddingTop: 60
+  }
+}))
 
 // ----------------------------------------------------------------------
 
@@ -119,70 +126,41 @@ export default function LandingHero() {
               </Typography>
             </motion.div>
 
-            <motion.div variants={varFadeInRight} marginTop='0px !important'>
-              <Typography sx={{ color: 'common.white' }}>
-                Jl. Cikampak Segog km. 9, Desa Cibening, Kec. Pamijahan. Bogor
-              </Typography>
-            </motion.div>
+            <Footer>
 
-            <Stack
-              marginTop='0px !important'
-              height='60px !important'
-              direction='row'
-              spacing={2}
-              justifyContent={{ xs: 'center', sm: 'center', md: 'flex-start', lg: 'flex-start'}}
-            >
-              {/* <IconsStyle sx={{height:'50px'}}> */}
-                <motion.img 
-                  width='40px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/youtube.svg'
-                />
-                <motion.img
-                  width='30px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/Instagram.svg'
-                />
-                <motion.img
-                  width='30px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                />
-                {/* <motion.img
-                  width='40px !important'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                />
-                <motion.img
-                  width='40px !important'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                /> */}
-              {/* </IconsStyle> */}
-              {/* <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_figma.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_material.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_react.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_js.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_ts.svg'
-              /> */}
-            </Stack>
+              <motion.div variants={varFadeInRight} >
+                <Typography sx={{ color: 'common.white' }}>
+                  Jl. Cikampak Segog km. 9, Desa Cibening, Kec. Pamijahan. Bogor
+                </Typography>
+              </motion.div>
+
+              <Stack
+                marginTop='0px !important'
+                height='60px !important'
+                direction='row'
+                spacing={2}
+                justifyContent={{ xs: 'center', sm: 'center', md: 'flex-start', lg: 'flex-start'}}
+              >
+                  <motion.img 
+                    width='40px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/youtube.svg'
+                  />
+                  <motion.img
+                    width='30px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/Instagram.svg'
+                  />
+                  <motion.img
+                    width='30px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/facebook.svg'
+                  />
+              </Stack>
+            </Footer>
           </ContentStyle>
         </Container>
       </RootStyle>

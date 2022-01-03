@@ -24,10 +24,9 @@ const RootStyle = styled('div')(({ theme }) => ({
 const ContentStyle = styled('div')(({ theme }) => ({
   width: '100%',
   textAlign: 'center',
-  marginBottom: theme.spacing(10),
+  marginBottom: theme.spacing(0),
   [theme.breakpoints.up('md')]: {
     textAlign: 'left',
-    marginBottom: 0,
   },
 }));
 
@@ -102,6 +101,7 @@ export default function LandingHugePackElements() {
         <Grid container spacing={5} justifyContent='center'>
           <Grid
             item
+            order={{xs: 2, md: 1}}
             xs={12}
             md={4}
             sx={{ display: 'flex', alignItems: 'center' }}
@@ -142,7 +142,7 @@ export default function LandingHugePackElements() {
             </ContentStyle>
           </Grid>
 
-          <Grid item xs={12} md={8} dir='ltr' sx={{paddingTop: isMobile ? '5px !important' : '100px'}}>
+          <Grid item order={{xs: 1, md: 2}} xs={12} md={8} dir='ltr' sx={{paddingTop: isMobile ? '5px !important' : '100px'}}>
             <Box 
               sx={{
                 display: 'flex',
@@ -195,7 +195,7 @@ export default function LandingHugePackElements() {
           </Grid>
         </Grid>
       </Container>
-      <Container maxWidth='lg' sx={{ marginTop:'100px'}}>
+      <Container maxWidth='lg' sx={{...(isMobile ? {marginTop:'20px'} : {marginTop: '100px'})}}>
         <Grid container spacing={5} justifyContent='center'>
           <Grid item xs={12} md={8} dir='ltr'>
             <Box 
@@ -253,20 +253,27 @@ export default function LandingHugePackElements() {
       </Container>
 
       
-      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '20px' : '200px', justifyContent:'center'}}>
+      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '0' : '200px', justifyContent:'center'}}>
         <MotionInView variants={varFadeInUp}>
           <Grid
               item
               lg={12}
               sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-            <Grid item lg={4}>
-              <Card sx={{ padding:'40px' }}>
-                <Typography variant='h3' sx={{ paddingBottom:'20px'}}>Info Pendaftaran 2021/2022</Typography>
-                <Typography paddingBottom='40px'>Pendaftaran gelombang satu dibuka mulai Desember 2020 s.d. Februari 2021. Untuk gelombang dua, Maret s.d. April 2021; Gelombang tiga, Mei s.d. Juni 2021. Update terus informasi dari kami dengan mengikuti media-media resmi Pondok Pesantren Ibnu Sina.</Typography>
-                <Button variant='contained'>Test</Button>
+            
+              <Card sx={{ padding:'40px'}}>
+                <Grid container direction='row' justifyContent='center' alignItems='center'>
+                  <Grid item md={10}>
+                    <Typography variant='h3'>Informasi Pendaftaran</Typography>
+                  </Grid>
+                  <Grid item md={2}>
+                    <Button variant='contained'>Klik disini</Button>
+                  </Grid>
+                  {/* <Typography paddingBottom='40px'>Pendaftaran gelombang satu dibuka mulai Desember 2020 s.d. Februari 2021. Untuk gelombang dua, Maret s.d. April 2021; Gelombang tiga, Mei s.d. Juni 2021. Update terus informasi dari kami dengan mengikuti media-media resmi Pondok Pesantren Ibnu Sina.</Typography> */}
+
+                </Grid>
               </Card>
-            </Grid>
+            
           </Grid>
         </MotionInView>
       </Container>
