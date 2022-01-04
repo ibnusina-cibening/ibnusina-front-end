@@ -89,7 +89,7 @@ export default function MainFooter() {
           </Grid>
           <Grid item>
             <Typography variant='body2' sx={{ pr: { md: 5 }, textAlign: 'center', padding: '0 !important'}}>
-              Lorem Ipsum Dorom
+              Pesantren Ibnu Sina
             </Typography>
 
             <Stack

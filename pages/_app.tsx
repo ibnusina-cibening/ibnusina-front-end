@@ -52,15 +52,9 @@ export default function MyApp({
                         <ThemeConfig>
                             <ThemePrimaryColor>
                                 <RtlLayout>
-                                    {
-                                        (typeof window === 'undefined') ?
-                                        <NoSsr>
-                                            <Settings />
-                                        </NoSsr>
-                                        :
+                                    <NoSsr>
                                         <Settings />
-
-                                    }
+                                    </NoSsr>
                                     <GlobalStyles />
                                     <ProgressBar />
                                     <LoadingScreen />
