@@ -34,7 +34,7 @@ const SOCIALS = [
 ];
 
 const RootStyle = styled('div')(({ theme }) => ({
-  height: 480,
+  height: '202px',
   position: 'relative',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
@@ -89,7 +89,7 @@ const FooterStyle = styled('div')(({ theme }) => ({
 const CoverImgStyle = styled(Image)({
   top: 0,
   zIndex: 8,
-  width: '100%',
+  width: '100vw',
   height: '100%',
   objectFit: 'cover',
   position: 'absolute'
@@ -111,11 +111,11 @@ export default function BlogPostHero({ post, ...other }) {
     <RootStyle {...other}>
       <CoverImgStyle alt="post cover" layout='fill' src={imageUrl+'/-/format/jpeg/-/quality/smart/' ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} />
 
-      <TitleStyle variant="h2">
+      {/* <TitleStyle variant="h2">
         {title}
-      </TitleStyle>
+      </TitleStyle> */}
 
-      <FooterStyle>
+      {/* <FooterStyle>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Avatar src={author?.avatar} sx={{ width: 48, height: 48 }} />
           <Box sx={{ ml: 2 }}>  
@@ -126,7 +126,7 @@ export default function BlogPostHero({ post, ...other }) {
               {createdAt} 
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
 
         {/* <SpeedDial
           direction={isMobile ? 'up' : 'left'}
@@ -144,7 +144,7 @@ export default function BlogPostHero({ post, ...other }) {
             />
           ))}
         </SpeedDial> */}
-      </FooterStyle>
+      {/* </FooterStyle> */}
     </RootStyle>
   );
 }

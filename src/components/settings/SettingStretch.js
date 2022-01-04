@@ -23,7 +23,7 @@ export default function SettingStretch() {
         <Stack
           direction='row'
           alignItems='center'
-          justifycontent='space-between'
+          justifyContent='space-between'
           sx={{
             px: 1,
             mx: 'auto',

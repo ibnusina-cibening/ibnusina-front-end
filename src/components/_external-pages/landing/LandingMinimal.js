@@ -15,25 +15,25 @@ import { varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
 
 const CARDS = [
   {
-    icon: '/static/icons/ic_design.svg',
+    icon: '/static/icons/visioner2.png',
     title: 'Visioner',
     description:
       'Keputusan hari ini selalu disadari sebagai persiapan di masa depan',
   },
   {
-    icon: '/static/icons/ic_code.svg',
+    icon: '/static/icons/modern2.png',
     title: 'Modern',
     description:
       'Bertumpu pada prinsip pengelolaan yang transparan & terbuka',
   },
   {
-    icon: '/static/brand/logo_single.svg',
+    icon: '/static/icons/innovative.png',
     title: 'Inovatif',
     description:
       'Mengembangkan gagasan pendidikan dalam konteks kekinian',
   },
   {
-    icon: '/static/brand/logo_single.svg',
+    icon: '/static/icons/islami.png',
     title: 'Islami',
     description:
       'Berpedoman pada nilai-nilai dan ajaran quran dan sunnah',
@@ -161,12 +161,12 @@ export default function LandingMinimalHelps() {
                     src={card.icon}
                     alt={card.title}
                     sx={{
-                      ...(index === 0 && {
-                        filter: (theme) => shadowIcon(theme.palette.info.main),
-                      }),
-                      ...(index === 1 && {
-                        filter: (theme) => shadowIcon(theme.palette.error.main),
-                      }),
+                      filter: (theme) => shadowIcon(theme.palette.info.main),
+                      // ...(index === 0 && {
+                      // }),
+                      // ...(index === 1 && {
+                      //   filter: (theme) => shadowIcon(theme.palette.error.main),
+                      // }),
                     }}
                   />
                   <Typography variant='h5' paragraph>

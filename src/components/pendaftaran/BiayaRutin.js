@@ -18,7 +18,7 @@ export default function BiayaRutin(){
                             <CardContent variant='outlined' sx={{backgroundColor: '#ffffff1f', color: '#d4e2f1'}}>
                                 <Typography component='div' sx={{pl: 2}}>
                                     <ul>
-                                        <li>SPP & Makan, Laundry & Kegiatan : Rp. 700.0000 (bulanan)</li>
+                                        <li>SPP, Makan, Laundry & Biaya Kegiatan : Rp. 700.0000 (bulanan)</li>
                                         <li>Daftar ulang (Khusus untuk santri lama. Bervariasi setiap tingkatan. Sudah termasuk sarpras, makan bulan pertama, buku paket, kitab dll.)</li>
                                         <li>Biaya perpisahan dan kenaikan kelas : Rp. 100.000 (akhir tahun pelajaran, semua santri)</li>
                                         <li>Rihlah ilmiah (study tour): Rp. 200.000 (untuk santri kelas 7, 8, 10, 11, pertengahan tahun)</li>
@@ -26,39 +26,24 @@ export default function BiayaRutin(){
                                         <li>Khusus untuk pengurus (kelas 11), dibebankan biaya pembuatan seragam pengurus. Besarannya disesuaikan dengan model dan bahan seragam.</li>
                                     </ul>
                                 </Typography>
-
-                            </CardContent>
-
-                            <Accordions
-                                title='Keterangan'
-                                isExpand
-                                icon={<ExpandMore/>}
-                            >
-                                <Typography component='div' sx={{fontStyle: 'italic'}}>
+                                <br/><br/>
+                                <Typography component='p' sx={{fontStyle: 'italic', backgroundColor: '#2d3136', padding: 2}}>
+                                    Keterangan<br/><br/>
                                     Beberapa item pembiayaan di atas dapat berubah sewaktu-waktu menyesuaikan perubahan kondisi yang terjadi. Perubahan-perubahan tersebut akan disampaikan melalui surat edaran atau pun melalui rapat wali santri.
                                 </Typography>
-                            </Accordions>
+                            </CardContent>
 
-                            <Accordions
-                                title='Pembiayaan diatas sudah termasuk'
-                                isExpand
-                                icon={<ExpandMore/>}
-                            >
-                                <Typography component='div' sx={{fontStyle: 'italic', pl: 2}}>
-                                    <ol>
-                                        <li>Lemari (milik pesantren)</li>
-                                        <li>Kasur dan bantal (milik sendiri)</li>
-                                        <li>SPP bulanan sudah termasuk : makan 3 kali sehari, laundry, SPP sekolah, Biaya kegiatan dll.</li>
-                                    </ol>
-                                </Typography>
-                            </Accordions>
-                            
-                            <Typography component='p' sx={{fontStyle: 'italic'}}>
-                                Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru.
-                            </Typography>
 
                         </Grid>
                     </CardContent>
+                </Card>
+            </Grid>
+            <Grid item>
+                <Card variant='outlined' sx={{padding: 2, backgroundColor: '#ffb100', color: '#000'}}>
+                    <Typography component='p' sx={{ fontSize: 18, textAlign: 'center'}}>
+                        Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru.
+                    </Typography>
+                    
                 </Card>
             </Grid>
             
