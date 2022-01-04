@@ -39,7 +39,7 @@ export default function BiayaRutin(){
                 </Card>
             </Grid>
             <Grid item>
-                <Card variant='outlined' sx={{padding: 2, backgroundColor: '#ffb100', color: '#000'}}>
+                <Card variant='outlined' sx={{padding: 2, backgroundColor: '#ffb100', color: '#000', borderRadius: 0}}>
                     <Typography component='p' sx={{ fontSize: 18, textAlign: 'center'}}>
                         Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru.
                     </Typography>
