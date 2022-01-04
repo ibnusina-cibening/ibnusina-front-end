@@ -68,6 +68,7 @@ export default function BlogPost({
     createdAt: string
     content: string
     slug: string
+    imageUrl: string
     author: {
       avatar: string,
       callName: string
@@ -184,6 +185,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (context) => 
       slug
       title
       content
+      imageUrl
       author{
         callName
         avatar

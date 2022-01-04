@@ -7,8 +7,8 @@ module.exports = {
         domains: ['ucarecdn.com', 'asset.kompas.com', 'web.kominfo.go.id']
     },
     swcMinify: true,
-    experimental: {
+    // experimental: {
         // ssr and displayName are configured by default
-        styledComponents: true
-    }
+    //     styledComponents: true
+    // }
 }

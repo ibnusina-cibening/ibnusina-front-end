@@ -5,6 +5,7 @@ const getPostContent = `
       slug
       title
       content
+      imageUrl
       author{
         callName
         avatar

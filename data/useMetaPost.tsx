@@ -158,14 +158,14 @@ function LikeAndShare({ postId }: { postId: string }) {
   if (isLoading) return <Box component="div" sx={{ pt: 2, pb: 2, pl: 3, justifyContent: "left", alignItems: "left", display: "flex" }}>loading</Box>
   if (isError) return <div>error</div>
   const setLikeIt = async () => {
-    // jika belum login
+    // jika sudah login
     if (session) {
       setInProgress(true);
       const { actionToPost } = await actionToThisPost('LIKE', postId, token);
       const { added } = actionToPost;
       if (!actionToPost) setInProgress(false);
       let addLike = added ? metaPost?.reaction.mood.LIKE! + 1 : metaPost?.reaction.mood.LIKE! - 1;
-      await mutate([postId, token], async () => {
+      actionToPost && await mutate([postId, token], async () => {
         const newData = {
           getMetaPostCount: {
             commentCount: metaPost?.commentCount,
@@ -192,6 +192,7 @@ function LikeAndShare({ postId }: { postId: string }) {
     } else {
       // jika belum login, maka pesan login ditampilkan 
       setShowLogInForm(!showLogInForm);
+      setShowShareOption(false);
     }
   }
   const shareCount = !metaPost?.shareCount ? 0 : metaPost?.shareCount;
@@ -208,7 +209,10 @@ function LikeAndShare({ postId }: { postId: string }) {
               </IconButton>
             </StyledBadge> : <CircularProgress size={20} />}
             <StyledBadge badgeContent={convertToKilo({ number: shareCount })} overlap="circular">
-              <IconButton aria-label="share" onClick={() => { setShowShareOption(!showShareOption) }}>
+              <IconButton aria-label="share" onClick={() => {
+                setShowShareOption(!showShareOption);
+                setShowLogInForm(false);
+              }}>
                 <ShareIcon sx={{ fontSize: 25 }} />
               </IconButton>
             </StyledBadge>
@@ -228,9 +232,9 @@ function LikeAndShare({ postId }: { postId: string }) {
                 >Masuk</Button>
               }
             >
-              Silahkan login untuk memberi suka
-            </Alert>: inProgress && <CircularProgress/>
-            
+            Silahkan login untuk memberi suka
+          </Alert> : inProgress && <CircularProgress />
+
           }
           {showShareOption &&
             <Box component="div">
