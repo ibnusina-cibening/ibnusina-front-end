@@ -109,7 +109,8 @@ export default function BlogPostCard({ post, index }) {
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
               }
             }),
-            ...((!isMobile) && {pt: 'calc(100% * 4 / 3)',}),
+            ...((!isMobile) && {pt: 'calc(100% * 4 / 3)'}),
+            ...((!isMobile && !latestPost && !latestPostLarge) && {pt: 'calc(100% * 3 / 4)'}),
             ...((latestPostLarge && !isMobile) && {
               pt: {
                 xs: 'calc(100% * 4 / 3)',
@@ -144,7 +145,8 @@ export default function BlogPostCard({ post, index }) {
             }}
           />
 
-          <CoverImgStyle alt={title} src={imageUrl+'/-/format/jpeg/-/quality/smart/' ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} layout='fill' placeholder='blur' blurDataURL={imageUrl ? imageUrl.replace('/png','/jpeg').replace('/smart', '/lightest') :  'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/lightest/amaliahtadris1024x576.png'} />
+          {/* <CoverImgStyle alt={title} src={imageUrl+'/-/format/jpeg/-/quality/smart/'} layout='fill' placeholder='blur' blurDataURL={imageUrl ? imageUrl.replace('/png','/jpeg').replace('/smart', '/lightest') :  'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/lightest/amaliahtadris1024x576.png'} /> */}
+          <CoverImgStyle alt={title} src={imageUrl} layout='fill' placeholder='blur' blurDataURL={imageUrl.replace('/png','/jpeg').replace('/smart', '/lightest')} />
         </CardMediaStyle>
 
         <CardContent

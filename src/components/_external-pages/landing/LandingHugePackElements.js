@@ -261,25 +261,28 @@ export default function LandingHugePackElements() {
       
       <Container maxWidth='lg' sx={{ marginTop: isMobile ? '0' : '200px', justifyContent:'center'}}>
         <MotionInView variants={varFadeInUp}>
-          <Grid
-              item
-              lg={12}
-              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-            
-              <Card sx={{ ...(!isMobile ? {padding:'40px'} : {padding: '40px 10px'})}}>
-                <Grid container direction='row' justifyContent='center' alignItems='center'>
-                  <Grid item md={10} xs={12} sx={{...(isMobile && {textAlign: 'center', pb: 2})}}>
-                    <Typography variant='h3'>Informasi Pendaftaran</Typography>
-                  </Grid>
-                  <Grid item md={2}>
-                    <Button onClick={()=>{pathPendaftaran('/pendaftaran')}} variant='contained'>Klik disini</Button>
-                  </Grid>
-                  
+          <Grid container justifyContent='center'>
+          
+            <Grid
+                item
+                xs={12}
+                md={7}
+              >
+              
+                <Card sx={{ width:'100%', ...(!isMobile ? {padding:'40px'} : {padding: '40px 10px'})}}>
+                  <Grid container direction='row' justifyContent='center' alignItems='center'>
+                    <Grid item md={9} xs={12} sx={{...(isMobile && {textAlign: 'center', pb: 2})}}>
+                      <Typography variant='h3'>Informasi Pendaftaran</Typography>
+                    </Grid>
+                    <Grid item md={3}>
+                      <Button onClick={()=>{pathPendaftaran('/pendaftaran')}} variant='contained'>Klik disini</Button>
+                    </Grid>
+                    
 
-                </Grid>
-              </Card>
-            
+                  </Grid>
+                </Card>
+              
+            </Grid>
           </Grid>
         </MotionInView>
       </Container>

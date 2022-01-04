@@ -50,7 +50,7 @@ const RootStyle = styled('div')(({ theme }) => ({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    backgroundColor: alpha(theme.palette.grey[900], 0.72)
+    // backgroundColor: alpha(theme.palette.grey[900], 0.72)
   }
 }));
 
@@ -104,12 +104,13 @@ BlogPostHero.propTypes = {
 export default function BlogPostHero({ post, ...other }) {
   // console.log(post);
   const { imageUrl, title, author, createdAt } = post;
+  // console.log(imageUrl)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <RootStyle {...other}>
-      <CoverImgStyle alt="post cover" layout='fill' src={imageUrl+'/-/format/jpeg/-/quality/smart/' ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} />
+      <CoverImgStyle alt="post cover" layout='fill' src={imageUrl} />
 
       {/* <TitleStyle variant="h2">
         {title}

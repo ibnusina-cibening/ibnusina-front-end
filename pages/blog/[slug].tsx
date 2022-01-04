@@ -1,6 +1,6 @@
 import { alpha, styled } from '@mui/material/styles';
 import MainLayout from 'src/layouts/main';
-import { Box, Card, Container, Divider, Grid, Typography } from '@mui/material';
+import { Box, Card, Container, Divider, Grid, Typography, Chip } from '@mui/material';
 import Markdown from 'src/components/Markdown';
 import Page from 'src/components/Page';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
@@ -102,6 +102,8 @@ export default function BlogPost({
                     <TitleStyle component='p'>
                       {postData.title}
                     </TitleStyle>
+                    <Chip sx={{ml: { xs: 3, md: 5 }}} size='small' label={`Oleh ${postData?.author?.callName}`} />
+                    {/* <Typography sx={{pl: { xs: 3, md: 5 }}}>Oleh : {postData?.author?.callName}</Typography> */}
                     <Box sx={{ p: { xs: 3, md: 5 } }}>
                       <Markdown children={postData.content} />
                     </Box>

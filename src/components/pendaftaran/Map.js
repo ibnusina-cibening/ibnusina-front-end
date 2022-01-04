@@ -34,6 +34,11 @@ export default function Map(){
                             </Grid>
                         </Grid>
                     </Grid>
+                    {/* <Typography>
+                        Email: 
+                        Whatsapp:
+                         (Ust. Sidiq) /  (Ust. Saepullah) /  (Ustzh. Handayani)
+                    </Typography> */}
                 </Grid>
             </Grid>
         </Grid>
