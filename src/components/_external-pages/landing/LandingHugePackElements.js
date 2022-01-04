@@ -6,7 +6,7 @@ import { varFadeInUp, varFadeInLeft, MotionInView } from '../../animate';
 import { useMediaQuery } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
 import dynamic from 'next/dynamic';
-
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +81,12 @@ const YoutubeEmbed = dynamic(()=>import('../../YoutubePlay'))
 // ----------------------------------------------------------------------
 
 export default function LandingHugePackElements() {
+  const router = useRouter();
+
+  const pathPendaftaran = (path) => {
+    router.push(path)
+  }
+
   const {ref, inView} = useInView({
     threshold: 0,
     triggerOnce: true
@@ -261,15 +267,15 @@ export default function LandingHugePackElements() {
               sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
             
-              <Card sx={{ padding:'40px'}}>
+              <Card sx={{ ...(!isMobile ? {padding:'40px'} : {padding: '40px 10px'})}}>
                 <Grid container direction='row' justifyContent='center' alignItems='center'>
-                  <Grid item md={10}>
+                  <Grid item md={10} xs={12} sx={{...(isMobile && {textAlign: 'center', pb: 2})}}>
                     <Typography variant='h3'>Informasi Pendaftaran</Typography>
                   </Grid>
                   <Grid item md={2}>
-                    <Button variant='contained'>Klik disini</Button>
+                    <Button onClick={()=>{pathPendaftaran('/pendaftaran')}} variant='contained'>Klik disini</Button>
                   </Grid>
-                  {/* <Typography paddingBottom='40px'>Pendaftaran gelombang satu dibuka mulai Desember 2020 s.d. Februari 2021. Untuk gelombang dua, Maret s.d. April 2021; Gelombang tiga, Mei s.d. Juni 2021. Update terus informasi dari kami dengan mengikuti media-media resmi Pondok Pesantren Ibnu Sina.</Typography> */}
+                  
 
                 </Grid>
               </Card>
@@ -279,7 +285,7 @@ export default function LandingHugePackElements() {
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '20px' : '200px', justifyContent:'center'}}>
+      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '50px' : '200px', justifyContent:'center'}}>
         
           <Grid
             item

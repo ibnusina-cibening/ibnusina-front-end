@@ -1,12 +1,44 @@
 import { ExpandMore } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Divider, Grid, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader, Divider, Grid, Typography, styled, Table, TableBody, TableContainer, Paper, TableHead, TableRow, tableCellClasses, TableCell, Box, useTheme, useMediaQuery } from "@mui/material";
 import Accordions from "../Accordion";
+
+const StyledTable = styled(Table)(({theme}) => ({
+    // display: 'block',
+    overflowX: 'scroll',
+    whiteSpace: 'nowrap',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffff1f !important',
+    [theme.breakpoints.up('md')]: {
+        overflowX: 'hidden'
+    },
+    '& tbody': {
+    },
+    '& .MuiTableCell-root': {
+        boxShadow: 'none !important',
+    }
+}))
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+        margin: 0
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+    }));
 
 
 export default function InfoPendaftaran(){
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <>
-            <Grid item>
+            <Grid item xs={12}>
                 <Card variant='outlined'>
                     <CardHeader
                         title='BIAYA PENDAFTARAN'
@@ -14,46 +46,54 @@ export default function InfoPendaftaran(){
                     />
                     <Divider/>
                     <CardContent>
-                        <Grid container gap={2} direction='column'>
-                            <CardContent variant='outlined' sx={{backgroundColor: '#ffffff1f', color: '#d4e2f1'}}>
-                                <Typography component='div' sx={{pl: 2}}>
-                                    <ol>
-                                        <li>Gelombang 1 (1 Desember 2020 s.d. 31 Januari 2022 ) : Rp. 6.600.000 ( untuk kelas 7 ), Rp. 6.750.000 ( untuk kelas 10 baru )</li>
-                                        <li>Gelombang 2 (1 Februari 2022 s.d. 30 April 2022 ) : Rp. 7.100.000 ( untuk kelas 7 ), Rp. 7.250.000 ( untuk kelas 10 baru )</li>
-                                        <li>Gelombang 3 ( 1 Mei 2022 s.d 10 Juli 2022 ) : Rp. 7.600.000 ( untuk kelas 7 ), Rp. 7.750.000 ( untuk kelas 10 baru )</li>
-                                    </ol>
-                                </Typography>
-                            </CardContent>
+                        <Grid container spacing={2}>
+                                <Grid item md={6}>
+                                    <TableContainer component={Paper} sx={{margin: 0, height: '100%', ...(isMobile ? {width: 'calc(100vw - 82px)'} : {width: '100%'})}}>
+                                        <StyledTable>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <StyledTableCell width='40%'>Gelombang</StyledTableCell>
+                                                    <StyledTableCell width='30%'>Kelas 7</StyledTableCell>
+                                                    <StyledTableCell width='30%'>Kelas 10</StyledTableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>Gelombang 1</TableCell>
+                                                    <TableCell>Rp. 6.600.000</TableCell>
+                                                    <TableCell>Rp. 6.750.000</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Gelombang 2</TableCell>
+                                                    <TableCell>Rp. 7.100.000</TableCell>
+                                                    <TableCell>Rp. 7.250.000</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Gelombang 3</TableCell>
+                                                    <TableCell>Rp. 7.600.000</TableCell>
+                                                    <TableCell>Rp. 7.750.000</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </StyledTable>
+                                    </TableContainer>
+                                </Grid>
+                            <Grid item md={6}>
 
-                            <Accordions
-                                title='Keterangan'
-                                isExpand
-                                icon={<ExpandMore/>}
-                            >
-                                <Typography component='div' sx={{fontStyle: 'italic'}}>
-                                    Disetiap gelombang akan ada tambahan biaya dari item bangunan, gelombang 1 Rp. 3.500.000 gelombang ke 2 Rp. 4.000.000 gelombang ke 3 Rp. 4.500.000
-                                </Typography>
-                            </Accordions>
-                            
-                            <Accordions
-                                title='Pembiayaan diatas sudah termasuk'
-                                isExpand
-                                icon={<ExpandMore/>}
-                            >
-                                <Typography component='div' sx={{fontStyle: 'italic', pl: 2}}>
-                                    <ol>
-                                        <li>Lemari (milik pesantren)</li>
-                                        <li>Kasur dan bantal (milik sendiri)</li>
-                                        <li>SPP bulanan sudah termasuk : makan 3 kali sehari, laundry, SPP sekolah, Biaya kegiatan dll.</li>
-                                    </ol>
-                                    
-                                </Typography>
-                            </Accordions>
-                            
+                                <CardContent variant='outlined' sx={{backgroundColor: '#ffffff1f', color: '#d4e2f1', height: '100%'}}>
+                                    <Typography component='p' sx={{fontStyle: 'italic'}}>
+                                        Biaya pendaftaran sudah termasuk<br/><br/>
+                                    </Typography>
+                                    <Typography component='div' sx={{fontStyle: 'italic', pl: 2}}>
+                                        <ol>
+                                            <li>Lemari (milik pesantren)</li>
+                                            <li>Kasur dan bantal (milik sendiri)</li>
+                                            <li>SPP bulan Juli</li>
+                                        </ol>
+                                    </Typography>
 
-                            <Typography component='p' sx={{fontStyle: 'italic'}}>
-                                Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru.
-                            </Typography>
+
+                                </CardContent>
+                            </Grid>
 
                         </Grid>
                     </CardContent>
