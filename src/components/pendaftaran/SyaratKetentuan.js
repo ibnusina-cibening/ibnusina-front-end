@@ -1,6 +1,7 @@
 import { ExpandMore } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Divider, Grid, Typography, Chip, styled, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Card, CardContent, CardHeader, Divider, Grid, Typography, styled } from "@mui/material";
 import Accordions from '../Accordion';
+
 
 export default function SyaratKetentuan(){
     return(

@@ -46,6 +46,10 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(
       margin: 'unset',
       textAlign: 'left',
     },
+    [theme.breakpoints.down('md')]:{
+      paddingBottom: 0,
+      paddingTop: theme.spacing(15)
+    }
   })
 );
 
@@ -75,6 +79,12 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
     height: '100vh'
   }
 }));
+
+const Footer = styled('div')(({theme})=>({
+  [theme.breakpoints.down('md')]:{
+    paddingTop: 60
+  }
+}))
 
 // ----------------------------------------------------------------------
 
@@ -116,105 +126,41 @@ export default function LandingHero() {
               </Typography>
             </motion.div>
 
-            <motion.div variants={varFadeInRight} marginTop='0px !important'>
-              <Typography sx={{ color: 'common.white' }}>
-                Jl. Cikampak Segog km. 9, Desa Cibening, Kec. Pamijahan. Bogor
-              </Typography>
-            </motion.div>
+            <Footer>
 
-            {/* <Stack
-              component={motion.div}
-              variants={varFadeInRight}
-              direction='row'
-              spacing={1}
-              justifycontent={{ xs: 'center', md: 'flex-start' }}
-            >
-              <img
-                alt='sketch icon'
-                src='/static/home/ic_sketch_small.svg'
-                width={20}
-                height={20}
-              />
-              <Link
-                underline='always'
-                href='https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0'
-                target='_blank'
-                sx={{ color: 'common.white' }}
+              <motion.div variants={varFadeInRight} >
+                <Typography sx={{ color: 'common.white' }}>
+                  Jl. Cikampak Segog km. 9, Desa Cibening, Kec. Pamijahan. Bogor
+                </Typography>
+              </motion.div>
+
+              <Stack
+                marginTop='0px !important'
+                height='60px !important'
+                direction='row'
+                spacing={2}
+                justifyContent={{ xs: 'center', sm: 'center', md: 'flex-start', lg: 'flex-start'}}
               >
-                Preview in Sketch Cloud
-              </Link>
-            </Stack> */}
-
-            {/* <motion.div variants={varFadeInRight}>
-              <NextLink href={PATH_DASHBOARD.root}>
-                <Button
-                  size='large'
-                  variant='contained'
-                  startIcon={<Icon icon={flashFill} width={20} height={20} />}
-                >
-                  Live Preview
-                </Button>
-              </NextLink>
-            </motion.div> */}
-
-            <Stack
-              marginTop='0px !important'
-              height='60px !important'
-              direction='row'
-              spacing={2}
-              justifycontent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
-            >
-              {/* <IconsStyle sx={{height:'50px'}}> */}
-                <motion.img 
-                  width='40px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/youtube.svg'
-                />
-                <motion.img
-                  width='30px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/Instagram.svg'
-                />
-                <motion.img
-                  width='30px !important'
-                  height='auto'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                />
-                {/* <motion.img
-                  width='40px !important'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                />
-                <motion.img
-                  width='40px !important'
-                  variants={varFadeInRight}
-                  src='/icon/facebook.svg'
-                /> */}
-              {/* </IconsStyle> */}
-              {/* <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_figma.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_material.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_react.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_js.svg'
-              />
-              <motion.img
-                variants={varFadeInRight}
-                src='/static/home/ic_ts.svg'
-              /> */}
-            </Stack>
+                  <motion.img 
+                    width='40px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/youtube.svg'
+                  />
+                  <motion.img
+                    width='30px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/Instagram.svg'
+                  />
+                  <motion.img
+                    width='30px !important'
+                    height='auto'
+                    variants={varFadeInRight}
+                    src='/icon/facebook.svg'
+                  />
+              </Stack>
+            </Footer>
           </ContentStyle>
         </Container>
       </RootStyle>

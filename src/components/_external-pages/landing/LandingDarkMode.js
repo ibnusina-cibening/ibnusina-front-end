@@ -51,7 +51,7 @@ export default function LandingDarkMode() {
           container
           spacing={5}
           direction='row-reverse'
-          justifycontent='space-between'
+          justifyContent='space-between'
         >
           <Grid item xs={12} md={4}>
             <ContentStyle>

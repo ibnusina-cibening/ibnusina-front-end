@@ -118,7 +118,7 @@ export default function CoverHero() {
               height='60px !important'
               direction='row'
               spacing={2}
-              justifycontent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
+              justifyContent={{ xs: 'center', md: 'flex-start', lg: 'flex-start'}}
             >
                 <motion.img 
                   width='40px !important'

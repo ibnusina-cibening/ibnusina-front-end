@@ -1,6 +1,6 @@
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
-import { Box, Grid, Collapse, Container, Typography, Divider, Button } from '@mui/material';
+import { Box, Grid, Collapse, Container, Typography, Divider, Button, Card, CardHeader, CardContent, CardMedia } from '@mui/material';
 // import { ExpandLess, ExpandMore } from '@mui/icons-material';
 //
 import { varFadeInUp, varFadeInLeft, MotionInView } from '../../animate';
@@ -19,15 +19,41 @@ const RootStyle = styled('div')(({ theme }) => ({
           theme.palette.grey[300]
         } 100%)`
       : 'none',
+  '& h3' : {
+    marginBottom: 0,
+    paddingBottom: '10px',
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]:{
+      paddingBottom: '10px',
+    }
+  },
+  '& .MuiGrid-item': {
+    paddingTop: 10
+  },
+  '& .MuiCardHeader-content > span': {
+    textAlign: 'center'
+  },
+  '& .MuiCardContent-root': {
+    [theme.breakpoints.up('md')]:{
+      height: '144px',
+    }
+  },
+  '& .MuiCardContent-root > p': {
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden'
+  }
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
   width: '100%',
-  textAlign: 'center',
+  textAlign: 'left',
   marginBottom: theme.spacing(10),
   [theme.breakpoints.up('md')]: {
-    textAlign: 'left',
     marginBottom: 0,
+  },
+  '& h5': {
+    marginBottom: 0
   },
 }));
 
@@ -74,6 +100,119 @@ const variantScreenRight = {
   animate: { ...COMMON, translateX: '50%', translateY: -40, opacity: 1 },
 };
 
+const BoxImg = styled(Box)({
+  paddingBottom: '45px',
+  paddingTop: '15px',
+  height: '100%',
+  width: '100%',
+  '& > img': {
+    objectFit: 'cover',
+    height: '100%',
+    width: '100%'
+  }
+})
+
+
+const dataKegiatan = {
+  pembentukan: [
+    {
+      title: 'Pengabdian',
+      desc: 'Pengabdian merupakan salah satu program pendidikan karakter untuk para santri dalam bentuk kegiatan-kegiatan sosial dan keagamaan.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Pramuka',
+      desc: 'Pembinaan pramuka merupakan salah satu kegiatan informal yang wajib diikuti oleh seluruh santri, sebagai wadah pembentukan karakterk sosial dan kepemimpinan.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Life-Skill',
+      desc: 'Setidaknya ada lima kegiatan life-skill yang diajarkan kepada para santri Ibnu Sina yang berorientasi pada pembentukan karakter kemandirian dan wirausaha.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Pembinaan Bakat',
+      desc: 'Selain kegiatan-kegiatan ex-school yang bersifat rutin, para santri juga diberi kesempatan untuk menampilkan bakat-bakat mereka dalam berbagai even kegiatan bulanan.',
+      img: '/img/santriawati.jpg'
+    },
+  ],
+  program: [
+    {
+      title: 'Tahfizul Qur\'an',
+      desc: 'Ponpes Ibnu Sina bukan pesantren tahfizh. Namun demikian, ada target minimal hafalan yang harus dicapai santri selama enam tahun, yaitu enam juz, atau satu juz per tahun.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Fiqih Amaliah',
+      desc: 'Program ini adalah program penguasaan praktek-praktek ibadah dasar secara komprehensif dan bertahap, meliputi: baca tulis quran, tajwid, imla, praktek solat, doa-doa, khutbah, dzikir dll.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Bahasa Asing',
+      desc: 'Dari tahun ke tahun, kami terus menyempurnakan program-program pembinaan bahasa asing, Arab dan Inggris, baik dalam ranah kurikulum atau pun kesiswaan.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Kepemimpinan',
+      desc: 'Selain pramuka, karakter kepemimpinan santri dibentuk melalui kegiatan-kegiatan kepengurusan dan LDK (Latihan Dasar Kepemimpinan).',
+      img: '/img/santriawati.jpg'
+    }
+  ],
+  event: [
+    {
+      title: 'Tahfizul Quran',
+      desc: 'Kegiatan wisuda santri diperuntukan bagi para santri yang telah menuntaskan pendidikan pesantrennya, yaitu santri yang telah menyelsaikan jenjang SMA.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Tabligh Akbar',
+      desc: 'Diselenggarakan dalam rangka memperingati milad ponpes Ibnu Sina, yang diawali dengan serangkaian kegiatan pengabdian dan perlombaan.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Festival Film Akhir Tahun',
+      desc: 'Penayangan film-film dokumenter kegiatan tahunan dan film-film pendek karya kreatif anak-anak santri.',
+      img: '/img/santriawati.jpg'
+    },
+    {
+      title: 'Pagelaran Seni',
+      desc: 'Diselenggarkaan di permulaan tahun pelajaran. Sebuah ajang para santri menampilkan kebolehannya: paduan suara, drama, tarian daerah dll.',
+      img: '/img/santriawati.jpg'
+    }
+  ]
+}
+
+const CardsMedia = ({data, spacing=7}) => (
+  <Grid container spacing={spacing}>
+    {
+      dataKegiatan[data].map(v=>(
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader 
+              title={v.title}
+              sx={{paddingBottom: 3}}
+            />
+            <CardMedia
+              component='img'
+              height='194'
+              image={v.img}
+              alt={v.title}
+            />
+            <CardContent>
+              <Typography>
+                {v.desc}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+    
+      ))
+    }
+  </Grid>
+  
+)
+ 
+
 // ----------------------------------------------------------------------
 
 export default function LandingHugePackElements() {
@@ -89,7 +228,7 @@ export default function LandingHugePackElements() {
     });
   };
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isLight = theme.palette.mode === 'light';
   const isRTL = theme.direction === 'rtl';
 
@@ -101,22 +240,22 @@ export default function LandingHugePackElements() {
     <RootStyle>
       <Container maxWidth='lg'>
         <MotionInView variants={varFadeInLeft}>
-          <Box component='img' src='/img/kelas.jpg' sx={{minWidth: !isMobile ? '400px' : '90vw', height: 'auto'}}></Box>
+          <Box component='img' src='/img/kelas.jpg' sx={{minWidth: '100%', height: 'auto'}}></Box>
         </MotionInView>
       </Container>
       <Container maxWidth='lg' sx={{ marginTop:'90px'}}>
-        <Grid container spacing={5} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+        <Grid container spacing={5} justifyContent='center'>
+          <Grid item md={12}>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3'>
                   Latar Belakang
                 </Typography>
               </MotionInView>
@@ -155,19 +294,19 @@ Setiap anak dibekali berbagai potensi yang perlu diarahkan dan dibina sehingga t
         </MotionInView>
       </Container>
       
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
+        <Grid container spacing={5} justifyContent='center'>
+          <Grid item xs={12} md={12}>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3'>
                   Sejarah
                 </Typography>
               </MotionInView>
@@ -207,19 +346,19 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px',}} justifyContent='center'>
+        <Grid container spacing={5} justifyContent='center' sx={{marginBottom: '20px'}}>
+          <Grid item xs={12} md={12}>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3'>
                 Pertanyaan Umum
                 </Typography>
               </MotionInView>
@@ -328,25 +467,25 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
       
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
+      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
       
       </Container>
 
 
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+          <Grid item xs={12} md={12} dir='ltr'>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3' sx={{pb: 5}}>
                   Pembentukan Karakter & Bakat
                 </Typography>
               </MotionInView>
@@ -362,70 +501,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Pengabdian
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Pengabdian merupakan salah satu program pendidikan karakter untuk para santri dalam bentuk kegiatan-kegiatan sosial dan keagamaan.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Pramuka
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Pembinaan pramuka merupakan salah satu kegiatan informal yang wajib diikuti oleh seluruh santri, sebagai wadah pembentukan karakterk sosial dan kepemimpinan.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Life-Skill
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Setidaknya ada lima kegiatan life-skill yang diajarkan kepada para santri Ibnu Sina yang berorientasi pada pembentukan karakter kemandirian dan wirausaha.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                      Pembinaan Bakat
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Selain kegiatan-kegiatan ex-school yang bersifat rutin, para santri juga diberi kesempatan untuk menampilkan bakat-bakat mereka dalam berbagai even kegiatan bulanan.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-                </Grid>
+                <CardsMedia data='pembentukan' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -438,19 +514,19 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+          <Grid item xs={12} md={12} dir='ltr'>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3' sx={{pb: 5}}>
                 Program Unggulan
                 </Typography>
               </MotionInView>
@@ -466,70 +542,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tahfizul Quran
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Ponpes Ibnu Sina bukan pesantren tahfizh. Namun demikian, ada target minimal hafalan yang harus dicapai santri selama enam tahun, yaitu enam juz, atau satu juz per tahun.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Fiqh Amaliah
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Program ini adalah program penguasaan praktek-praktek ibadah dasar secara komprehensif dan bertahap, meliputi: baca tulis quran, tajwid, imla, praktek solat, doa-doa, khutbah, dzikir dll.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Bahasa Asing
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Dari tahun ke tahun, kami terus menyempurnakan program-program pembinaan bahasa asing, Arab dan Inggris, baik dalam ranah kurikulum atau pun kesiswaan.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Kepemimpinan
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Selain pramuka, karakter kepemimpinan santri dibentuk melalui kegiatan-kegiatan kepengurusan dan LDK (Latihan Dasar Kepemimpinan).
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-                </Grid>
+                <CardsMedia data='program' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -541,19 +554,19 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
 
-      <Container maxWidth='lg' sx={{ mt:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} sx={{mb:'50px'}} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      <Container maxWidth='lg' sx={{ mt:'90px'}} justifyContent='center'>
+        <Grid container spacing={5} sx={{mb:'50px'}} justifyContent='center'>
+          <Grid item xs={12} md={12} dir='ltr'>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3' sx={{pb: 5}}>
                 Even Tahunan
                 </Typography>
               </MotionInView>
@@ -569,70 +582,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
               
 
               <MotionInView variants={varFadeInUp}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tahfizul Quran
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Kegiatan wisuda santri diperuntukan bagi para santri yang telah menuntaskan pendidikan pesantrennya, yaitu santri yang telah menyelsaikan jenjang SMA.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Tabligh Akbar
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Diselenggarakan dalam rangka memperingati milad ponpes Ibnu Sina, yang diawali dengan serangkaian kegiatan pengabdian dan perlombaan.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Festival Film Akhir Tahun
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Penayangan film-film dokumenter kegiatan tahunan dan film-film pendek karya kreatif anak-anak santri.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-
-                  <Grid item xs={12} md={6} dir='ltr'>
-                    <Typography variant='h5' sx={{ mb: 3}}>
-                    Pagelaran Seni
-                    </Typography>
-                      <Typography
-                        sx={{
-                          mb: 5,
-                          color: isLight ? 'text.secondary' : 'common.white',
-                        }}
-                      >
-                      Diselenggarkaan di permulaan tahun pelajaran. Sebuah ajang para santri menampilkan kebolehannya: paduan suara, drama, tarian daerah dll.
-                    </Typography>
-                    <Button sx={{marginBottom: 10}} variant='contained'>Selengkapnya</Button>
-
-                  </Grid>
-                </Grid>
+                <CardsMedia data='event' />
               </MotionInView>
             </ContentStyle>
           </Grid>
@@ -644,19 +594,19 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         </MotionInView>
       </Container>
 
-      <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifycontent='center'>
-        <Grid container spacing={5} justifycontent='center'>
-          <Grid item xs={12} md={4} dir='ltr'>
+      {/* <Container maxWidth='lg' sx={{ marginTop:'90px'}} justifyContent='center'>
+        <Grid container spacing={5} justifyContent='center'>
+          <Grid item xs={12} md={12} dir='ltr'>
             <Box 
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 position: 'relative',
-                justifyContent: isMobile ? 'center' : 'right',
+                justifyContent: 'center',
               }}
             >
               <MotionInView variants={varFadeInUp}>
-                <Typography variant='h3' sx={{ mb: 3, mr: isMobile ? '0' : '50px' }}>
+                <Typography variant='h3'>
                 Penghargaan
                 </Typography>
               </MotionInView>
@@ -710,7 +660,7 @@ Lembaga formal yang pertama kali berdiri adalah Madrasah Ibtidaiyah (MI), kemudi
         <MotionInView variants={varFadeInUp}>
         <Divider variant='middle' />
         </MotionInView>
-      </Container>
+      </Container> */}
       
       
     </RootStyle>

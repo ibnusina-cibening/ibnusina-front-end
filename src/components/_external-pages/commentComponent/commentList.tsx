@@ -309,12 +309,12 @@ function CommentItem({
           Apakah anda yakin ingin menghapus komentar ini?
         </Alert>
       }
-      {/* <Divider
+      <Divider
         sx={{
           ml: 'auto',
           width: (theme) => `calc(100% - ${theme.spacing(7)})`
         }}
-      /> */}
+      />
       {
         // jika user login dan akan berkomentar
         replyThis && thisUser?.id ?

@@ -165,7 +165,7 @@ function PlanCard({ plan, cardIndex }) {
           })}
         </Stack>
 
-        <Stack direction='row' justifycontent='flex-end'>
+        <Stack direction='row' justifyContent='flex-end'>
           <Link
             color='text.secondary'
             underline='always'

@@ -9,6 +9,7 @@ query{
       title
       createdAt
       slug
+      imageUrl
       author{
         callName
         avatar
