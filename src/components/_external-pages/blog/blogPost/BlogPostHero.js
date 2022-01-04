@@ -109,7 +109,7 @@ export default function BlogPostHero({ post, ...other }) {
 
   return (
     <RootStyle {...other}>
-      <CoverImgStyle alt="post cover" layout='fill' src={imageUrl ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} />
+      <CoverImgStyle alt="post cover" layout='fill' src={imageUrl+'/-/format/jpeg/-/quality/smart/' ?? 'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/smart/amaliahtadris1024x576.png'} />
 
       <TitleStyle variant="h2">
         {title}

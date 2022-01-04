@@ -23,6 +23,7 @@ export default function BlogPage({
     createdAt: string
     title: string
     slug: string
+    imageUrl: string
     author: {
       callName: string
       avatar: string
@@ -34,6 +35,7 @@ export default function BlogPage({
     }
   }[]
 }) {
+  // console.log(allPostsData);
   return (
     <MainLayout>
       <RootStyle
@@ -56,6 +58,7 @@ export const getStaticProps: GetStaticProps = async () => {
         title
         createdAt
         slug
+        imageUrl
         author{
           callName
           avatar
