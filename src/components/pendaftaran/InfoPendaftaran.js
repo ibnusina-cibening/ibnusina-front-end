@@ -32,7 +32,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }));
 
 const Chip = styled(Chips)({
-    fontSize: 9,
     fontWeight: 'bold'
 })
 
@@ -65,24 +64,30 @@ export default function InfoPendaftaran(){
                                             <TableBody>
                                                 <TableRow>
                                                     <TableCell>
-                                                        Gelombang 1<br/>
-                                                        <Chip color='warning' label='1 Des 2021 - 31 Jan 2022' size='small' />
+                                                        <Chip color='warning' label='Gelombang 1' size='small' /><br/>
+                                                        <Typography sx={{fontStyle: 'italic', fontSize: 10, paddingTop: 1}}>
+                                                            1 Des 2021 - 31 Jan 2022
+                                                        </Typography>
                                                     </TableCell>
                                                     <TableCell>Rp. 6.600.000</TableCell>
                                                     <TableCell>Rp. 6.750.000</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>
-                                                        Gelombang 2<br/>
-                                                        <Chip color='warning' label='1 Feb 2021 - 30 Apr 2022' size='small' />
+                                                        <Chip color='warning' label='Gelombang 2' size='small' /><br/>
+                                                        <Typography sx={{fontStyle: 'italic', fontSize: 10, paddingTop: 1}}>
+                                                            1 Feb 2021 - 30 Apr 2022
+                                                        </Typography>
                                                     </TableCell>
                                                     <TableCell>Rp. 7.100.000</TableCell>
                                                     <TableCell>Rp. 7.250.000</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>
-                                                        Gelombang 3<br/>
-                                                        <Chip color='warning' label='1 Mei 2021 - 31 Jul 2022' size='small' />
+                                                        <Chip color='warning' label='Gelombang 3' size='small' /><br/>
+                                                        <Typography sx={{fontStyle: 'italic', fontSize: 10, paddingTop: 1}}>
+                                                            1 Mei 2021 - 31 Jul 2022
+                                                        </Typography>
                                                     </TableCell>
                                                     <TableCell>Rp. 7.600.000</TableCell>
                                                     <TableCell>Rp. 7.750.000</TableCell>
