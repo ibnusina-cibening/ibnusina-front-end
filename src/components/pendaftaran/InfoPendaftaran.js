@@ -1,5 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Divider, Grid, Typography, styled, Table, TableBody, TableContainer, Paper, TableHead, TableRow, tableCellClasses, TableCell, Box, useTheme, useMediaQuery } from "@mui/material";
+import { Card, CardContent, CardHeader, Divider, Grid, Typography, styled, Table, TableBody, TableContainer, Paper, TableHead, TableRow, tableCellClasses, TableCell, Box, useTheme, useMediaQuery , Chip as Chips} from "@mui/material";
 import Accordions from "../Accordion";
 
 const StyledTable = styled(Table)(({theme}) => ({
@@ -31,6 +31,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
     }));
 
+const Chip = styled(Chips)({
+    fontSize: 9,
+    fontWeight: 'bold'
+})
+
 
 export default function InfoPendaftaran(){
     const theme = useTheme();
@@ -59,17 +64,26 @@ export default function InfoPendaftaran(){
                                             </TableHead>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Gelombang 1</TableCell>
+                                                    <TableCell>
+                                                        Gelombang 1<br/>
+                                                        <Chip color='warning' label='1 Des 2021 - 31 Jan 2022' size='small' />
+                                                    </TableCell>
                                                     <TableCell>Rp. 6.600.000</TableCell>
                                                     <TableCell>Rp. 6.750.000</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Gelombang 2</TableCell>
+                                                    <TableCell>
+                                                        Gelombang 2<br/>
+                                                        <Chip color='warning' label='1 Feb 2021 - 30 Apr 2022' size='small' />
+                                                    </TableCell>
                                                     <TableCell>Rp. 7.100.000</TableCell>
                                                     <TableCell>Rp. 7.250.000</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Gelombang 3</TableCell>
+                                                    <TableCell>
+                                                        Gelombang 3<br/>
+                                                        <Chip color='warning' label='1 Mei 2021 - 31 Jul 2022' size='small' />
+                                                    </TableCell>
                                                     <TableCell>Rp. 7.600.000</TableCell>
                                                     <TableCell>Rp. 7.750.000</TableCell>
                                                 </TableRow>
