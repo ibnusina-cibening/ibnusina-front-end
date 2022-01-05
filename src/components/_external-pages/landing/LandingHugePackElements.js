@@ -259,7 +259,7 @@ export default function LandingHugePackElements() {
       </Container>
 
       
-      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '0' : '200px', justifyContent:'center'}}>
+      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '0' : '70px', justifyContent:'center'}}>
         <MotionInView variants={varFadeInUp}>
           <Grid container justifyContent='center'>
           
@@ -275,7 +275,7 @@ export default function LandingHugePackElements() {
                       <Typography variant='h3'>Informasi Pendaftaran</Typography>
                     </Grid>
                     <Grid item md={3}>
-                      <Button onClick={()=>{pathPendaftaran('/pendaftaran')}} variant='contained'>Klik disini</Button>
+                      <Button sx={{width: '100%'}} onClick={()=>{pathPendaftaran('/pendaftaran')}} variant='outlined'>Klik disini</Button>
                     </Grid>
                     
 
@@ -288,7 +288,7 @@ export default function LandingHugePackElements() {
       </Container>
 
 
-      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '50px' : '200px', justifyContent:'center'}}>
+      <Container maxWidth='lg' sx={{ marginTop: isMobile ? '50px' : '70px', justifyContent:'center'}}>
         
           <Grid
             item

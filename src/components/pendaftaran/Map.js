@@ -15,7 +15,7 @@ export default function Map(){
                     <Typography sx={{paddingBottom: 3, textAlign: 'center'}}>
                         Jl. Cikampak-Segog km. 09, Kampung Pasar Kemis, Samping Kompleks Rindam Jaya, Ds. Cibening, Kec. Pamijahan, Kabupaten Bogor.
                     </Typography>
-                    <Grid container direction='row' alignItems='center'>
+                    <Grid container direction='row' alignItems='center' spacing={3}>
 
                         <Grid item md={6} xs={12}>
                             <Grid container alignItems='center' direction='column'>

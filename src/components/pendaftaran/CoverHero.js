@@ -96,7 +96,7 @@ export default function CoverHero() {
             <motion.div variants={varFadeInRight}>
               
               <Typography variant='h2' sx={{ color: 'common.white' }}>
-                PENDAFTARAN SANTRI BARU TAHUN PELAJARAN 2022/2023 KEMBALI DIBUKA.
+                INFORMASI PENDAFTARAN SANTRI BARU
               </Typography>
               {/* <Typography
                 
@@ -140,8 +140,13 @@ export default function CoverHero() {
                 />
             </Stack> */}
             <motion.div variants={varFadeIn}>
-                <Button variant='contained' sx={{padding: 0}}>
-                    <a href='https://forms.gle/wBdm89C4fEGncBic7' target='_blank' style={{textDecoration: 'none', color: 'white', display: 'block', width: '100%', height: '100%', margin: '5px'}}>Daftar</a>
+                <Button variant='outlined' sx={{pl: 2, pr: 2}}>
+                    <a href='https://forms.gle/wBdm89C4fEGncBic7' target='_blank' style={{textDecoration: 'none', color: 'white', display: 'block', width: '100%', height: '100%', margin: '5px'}}>
+                    <Typography variant='h4' sx={{ color: 'common.white' }}>
+                      {/* PENDAFTARAN SANTRI BARU TAHUN PELAJARAN 2022/2023 KEMBALI DIBUKA. */}
+                      FORMULIR ONLINE
+                    </Typography>
+                    </a>
                 </Button>
             </motion.div>
           </ContentStyle>

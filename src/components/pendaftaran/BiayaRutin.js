@@ -41,7 +41,7 @@ export default function BiayaRutin(){
             <Grid item>
                 <Card variant='outlined' sx={{padding: 2, backgroundColor: '#ffb100', color: '#000', borderRadius: 0}}>
                     <Typography component='p' sx={{ fontSize: 18, textAlign: 'center'}}>
-                        Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru.
+                        Info selengkapnya dapat menghubungi nomor panitia atau sekretariat pendaftaran santri baru. Untuk mengisi formulir online silahkan ikuti tautan berikut, <a href='https://forms.gle/wBdm89C4fEGncBic7' target='_blank'>klik disini</a>
                     </Typography>
                     
                 </Card>
