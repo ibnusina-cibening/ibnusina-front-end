@@ -3,18 +3,18 @@ import { InputComment, ButtonComment, CommentLoader } from './commentElement';
 import { Login } from 'lib/login';
 import {
   Box,
-  Card,
+  // Card,
   Avatar,
   Divider,
-  Chip,
+  // Chip,
   ListItem,
-  TextField,
-  Typography,
-  ListItemText,
-  Skeleton,
+  // TextField,
+  // Typography,
+  // ListItemText,
+  // Skeleton,
   Alert,
   Button,
-  ListItemSecondaryAction,
+  // ListItemSecondaryAction,
   ButtonGroup,
   ListItemAvatar,
   List
@@ -175,11 +175,10 @@ function CommentItem({
 
   const myComment = thisUser?.id === comment.userId;
   const inProgressProcess = inProgress == comment.id;
-  // console.log(inProgressProcess); 
   if (inProgressProcess) return (
     <CommentLoader message={'Tunggu sebentar yah.. !'} />
   )
-  // console.log(inProgress, replyThis);
+  // gambar avatar perlu diperiksa apakah berasal dari uploadcare cdn. Jika ya, maka dibuat webp
   return (
     <>
       <ListItem

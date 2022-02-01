@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import shareFill from '@iconify/icons-eva/share-fill';
+// import shareFill from '@iconify/icons-eva/share-fill';
 import twitterFill from '@iconify/icons-eva/twitter-fill';
 import linkedinFill from '@iconify/icons-eva/linkedin-fill';
 import facebookFill from '@iconify/icons-eva/facebook-fill';
@@ -104,13 +104,15 @@ BlogPostHero.propTypes = {
 export default function BlogPostHero({ post, ...other }) {
   // console.log(post);
   const { imageUrl, title, author, createdAt } = post;
+  const defaultImage = "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80";
   // console.log(imageUrl)
+  const thisImage = !imageUrl?defaultImage:imageUrl;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <RootStyle {...other}>
-      <CoverImgStyle alt="post cover" layout='fill' src={imageUrl} />
+      <CoverImgStyle alt="post cover" layout='fill' src={thisImage} priority />
 
       {/* <TitleStyle variant="h2">
         {title}
