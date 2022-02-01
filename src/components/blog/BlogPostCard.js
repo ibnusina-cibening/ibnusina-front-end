@@ -87,6 +87,7 @@ export default function BlogPostCard({ post, index }) {
   
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
+  const defaultImage = "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80";
   
   const POST_INFO = [
     { number: !meta?.commentCount ?0: convertToKilo({number:meta.commentCount}), icon: messageCircleFill },
@@ -146,7 +147,7 @@ export default function BlogPostCard({ post, index }) {
           />
 
           {/* <CoverImgStyle alt={title} src={imageUrl+'/-/format/jpeg/-/quality/smart/'} layout='fill' placeholder='blur' blurDataURL={imageUrl ? imageUrl.replace('/png','/jpeg').replace('/smart', '/lightest') :  'https://ucarecdn.com/aec5aa94-6669-4e36-b411-3672ff33fd7b/-/format/jpeg/-/quality/lightest/amaliahtadris1024x576.png'} /> */}
-          <CoverImgStyle alt={title} src={imageUrl} layout='fill' placeholder='blur' blurDataURL={imageUrl.replace('/png','/jpeg').replace('/smart', '/lightest')} />
+          <CoverImgStyle alt={title} src={!imageUrl? defaultImage:imageUrl} layout='fill' priority />
         </CardMediaStyle>
 
         <CardContent
