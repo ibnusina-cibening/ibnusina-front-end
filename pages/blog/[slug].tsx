@@ -12,6 +12,7 @@ import { FC } from 'react';
 
 // database
 import { ViewStats, ViewReaction, LikeAndShare } from 'data/useMetaPost';
+import { SlateEditor } from 'src/components/editor'
 import UseComment from 'data/useComment';
 import { gql, GraphQLClient } from 'graphql-request';
 import { ParsedUrlQuery } from 'querystring';
@@ -105,7 +106,8 @@ export default function BlogPost({
                     <Chip sx={{ml: { xs: 3, md: 5 }}} size='small' label={`Oleh ${postData?.author?.callName}`} />
                     {/* <Typography sx={{pl: { xs: 3, md: 5 }}}>Oleh : {postData?.author?.callName}</Typography> */}
                     <Box sx={{ p: { xs: 3, md: 5 } }}>
-                      <Markdown children={postData.content} />
+                      <SlateEditor values={postData.content} />
+                      {/* <Markdown children={postData.content} /> */}
                     </Box>
                     <ViewStats postId={id} />
                     <Divider/>
