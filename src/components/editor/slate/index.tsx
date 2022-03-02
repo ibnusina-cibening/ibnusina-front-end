@@ -17,7 +17,7 @@ declare module 'slate' {
 }
 
 const ReadOnlyExample = ({values}: {values: any}) => {
-  console.log(values)
+  // console.log(values)
   const [value, setValue] = useState<Descendant[]>(JSON.parse(values) ?? {
     type: 'paragraph',
     children: [{ text: values }],

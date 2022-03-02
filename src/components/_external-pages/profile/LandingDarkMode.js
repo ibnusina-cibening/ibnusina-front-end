@@ -118,66 +118,66 @@ const dataKegiatan = {
     {
       title: 'Pengabdian',
       desc: 'Pengabdian merupakan salah satu program pendidikan karakter untuk para santri dalam bentuk kegiatan-kegiatan sosial dan keagamaan.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/8e164fec-7afc-410e-ab30-21cf3497b35d/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Pramuka',
       desc: 'Pembinaan pramuka merupakan salah satu kegiatan informal yang wajib diikuti oleh seluruh santri, sebagai wadah pembentukan karakterk sosial dan kepemimpinan.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/41cd480e-7cbd-40d5-bc37-5d20d3eb3dbe/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Life-Skill',
       desc: 'Setidaknya ada lima kegiatan life-skill yang diajarkan kepada para santri Ibnu Sina yang berorientasi pada pembentukan karakter kemandirian dan wirausaha.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Pembinaan Bakat',
       desc: 'Selain kegiatan-kegiatan ex-school yang bersifat rutin, para santri juga diberi kesempatan untuk menampilkan bakat-bakat mereka dalam berbagai even kegiatan bulanan.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
   ],
   program: [
     {
       title: 'Tahfizul Qur\'an',
       desc: 'Ponpes Ibnu Sina bukan pesantren tahfizh. Namun demikian, ada target minimal hafalan yang harus dicapai santri selama enam tahun, yaitu enam juz, atau satu juz per tahun.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Fiqih Amaliah',
       desc: 'Program ini adalah program penguasaan praktek-praktek ibadah dasar secara komprehensif dan bertahap, meliputi: baca tulis quran, tajwid, imla, praktek solat, doa-doa, khutbah, dzikir dll.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/c258db62-4c6e-4a23-9d90-73cc8f0397f1/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Bahasa Asing',
       desc: 'Dari tahun ke tahun, kami terus menyempurnakan program-program pembinaan bahasa asing, Arab dan Inggris, baik dalam ranah kurikulum atau pun kesiswaan.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Kepemimpinan',
       desc: 'Selain pramuka, karakter kepemimpinan santri dibentuk melalui kegiatan-kegiatan kepengurusan dan LDK (Latihan Dasar Kepemimpinan).',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/ee133b04-8a1c-4f5d-b2b9-336ff9ad74fe/-/format/jpeg/-/quality/lightest/'
     }
   ],
   event: [
     {
       title: 'Tahfizul Quran',
       desc: 'Kegiatan wisuda santri diperuntukan bagi para santri yang telah menuntaskan pendidikan pesantrennya, yaitu santri yang telah menyelsaikan jenjang SMA.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Tabligh Akbar',
       desc: 'Diselenggarakan dalam rangka memperingati milad ponpes Ibnu Sina, yang diawali dengan serangkaian kegiatan pengabdian dan perlombaan.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Festival Film Akhir Tahun',
       desc: 'Penayangan film-film dokumenter kegiatan tahunan dan film-film pendek karya kreatif anak-anak santri.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/-id-/-/format/jpeg/-/quality/lightest/'
     },
     {
       title: 'Pagelaran Seni',
       desc: 'Diselenggarkaan di permulaan tahun pelajaran. Sebuah ajang para santri menampilkan kebolehannya: paduan suara, drama, tarian daerah dll.',
-      img: '/img/santriawati.jpg'
+      img: 'https://ucarecdn.com/3dbfe265-36be-428a-9d06-146c1fe6643a/-/format/jpeg/-/quality/lightest/'
     }
   ]
 }
